@@ -2,7 +2,7 @@
 
 
 from random import randint
-
+import time
 
 
 def get_random_seq(seq_len):
@@ -25,10 +25,7 @@ def get_random_seq1(seq_len):
 
 
 
+
+
 if __name__ == '__main__':
-    i ={3 : 2 , 2: 3}
-    c = i.items()
-    print c
-    print sorted(c ,key=  lambda x : x[0] , reverse = True)
-    print c
-    print get_random_seq1(5)
+    print get_time_ms()
