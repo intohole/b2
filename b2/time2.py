@@ -8,7 +8,10 @@ def get_time_ms():
 
 
 def get_time_string():
-    return time.strftime(time.time())
+    return time.strftime('%Y-%m-%d %H:%M:%S')
+
+
+
 
 
 

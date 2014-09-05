@@ -22,6 +22,8 @@ def join_str_list(buf , join_str ):
     judge_str(join_str)
     return join_str.join(buf)
 
+#def isempty(line):
+
 
 
 
