@@ -22,6 +22,11 @@ def join_str_list(buf , join_str ):
     judge_str(join_str)
     return join_str.join(buf)
 
+def reverse(words):
+    judge_str(words)
+    return words[::-1]
+
+
 #def isempty(line):
 
 
@@ -34,3 +39,4 @@ if __name__ == '__main__':
     data[2] = 2
 
     print dict_to_string(data)
+    print reverse('123')

@@ -52,3 +52,20 @@ def judge_len(value, l):
     if value:
         if len(value) < l:
             raise ValueError, 'value length must be bigger than %s' % l
+
+
+def judge_ge_value(value , ge_value = 0):
+    '''
+    判断value是否小于
+    '''
+    if type(value) == type(ge_value) and value < ge_value:
+        raise ValueError , 'value must be greate or eaqual %s' % ge_value
+
+
+def judge_le_value(value , le_value):
+    if value > le_value:
+        raise ValueError , 'value must be less or eaqual %s' % le_value
+
+def judge_type_eq(value1, value2):
+    pass
+
