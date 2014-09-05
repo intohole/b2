@@ -16,4 +16,5 @@ def get_time_string():
 
 
 if __name__ == '__main__':
+    print get_time_ms()
     print get_time_string()

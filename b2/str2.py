@@ -37,6 +37,6 @@ if __name__ == '__main__':
     data = {}
     data[0] = 1
     data[2] = 2
-
+    print get_sign_repeat('#' , 6)
     print dict_to_string(data)
     print reverse('123')
