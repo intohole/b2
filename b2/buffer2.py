@@ -20,8 +20,12 @@ class Buffer2(object):
         '''
         字符串追加
         '''
-        judge_str(line)
-        self.__buf.extend(line)
+        if line == None:
+            raise ValueError , 'append value is None !'
+        if isinstance(line , (str , unicode , list , tuple)):
+            self.__buf.extend(line)
+            return 
+        raise TypeError , 'append function can accept value\'s is list str unicode tuple ' 
 
     def __add__(self , line):
         self.append(line)
@@ -78,6 +82,23 @@ class Buffer2(object):
         judge_str(join_str)
         return join_str.join(self.__buf)
 
+
+
+
+    def __eq__(self , val):
+        if val == None:
+            return False
+        if isinstance(val , list):
+            return self.__buf == val
+        elif isinstance(val , Buffer2):
+            return  self.__buf == val.__buf
+        return False
+
+
+    
+
+
+
 if __name__ == '__main__':
     buf = Buffer2()
     buf += '03355112'
@@ -86,3 +107,12 @@ if __name__ == '__main__':
     print buf.reverse()
     print buf.to_str('\n')
     print len(buf)
+    buf1 = Buffer2()
+    buf1 += '03355112'
+
+    print buf1 == buf
+
+    buf1+= '122'
+    print buf1
+    print buf1 == buf
+    print buf1.reverse()

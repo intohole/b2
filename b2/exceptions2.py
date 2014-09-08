@@ -66,6 +66,8 @@ def judge_le_value(value , le_value):
     if value > le_value:
         raise ValueError , 'value must be less or eaqual %s' % le_value
 
-def judge_type_eq(value1, value2):
+def judge_type_eq(value1, eq_value):
     pass
+
+
 
