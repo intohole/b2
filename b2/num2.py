@@ -17,6 +17,8 @@ def get_random_seq1(seq_len):
     rand_num = str(randint (0 , 10 ** seq_len - 1))
     return '%s%s' % (''.join(['0' for _ in range(seq_len - len(rand_num))] ), rand_num)
 
+if __name__ == '__main__':
+    print get_random_seq1(6)
 
 
 
@@ -25,6 +27,7 @@ def get_random_seq1(seq_len):
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -32,3 +35,5 @@ def get_random_seq1(seq_len):
 
 if __name__ == '__main__':
     print get_time_ms()
+=======
+>>>>>>> 7e60e7442aaf530468772b2e7e6644845654e936
