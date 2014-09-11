@@ -27,6 +27,8 @@ def reverse(words):
     return words[::-1]
 
 
+#def isempty(line):
+
 
 
 
