@@ -14,13 +14,14 @@ def dict_to_string(data):
 def get_sign_repeat(sign , n):
     judge_str(sign)
     judge_num(n)
-    return ''.join([sign for _ in range(n)])
-
+    return sign * n 
 
 def join_str_list(buf , join_str ):
     judge_list(buf)
     judge_str(join_str)
     return join_str.join(buf)
+
+
 
 def reverse(words):
     judge_str(words)

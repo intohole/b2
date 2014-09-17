@@ -37,19 +37,6 @@ class Buffer2(object):
         if len(value) > len(self.__buf):
             return -1
         return self.__buf.index(value)
-        # __buf_index = 0
-        # while __buf_index < (len(self.__buf) - len(value)):
-        #     __value_index = 0
-        #     __buf_tmp = __buf_index 
-        #     while __value_index < len(value):
-        #         if value[__value_index] != self.__buf[__buf_tmp]:
-        #             break
-        #         __value_index += 1
-        #         __buf_tmp += 1
-        #     if __value_index == (len(value) - 1):
-        #         return __buf_index
-        #     __buf_index += 1
-        # return -1
     
     def __len__(self):
         return len(self.__buf)
@@ -83,8 +70,6 @@ class Buffer2(object):
         return join_str.join(self.__buf)
 
 
-
-
     def __eq__(self , val):
         if val == None:
             return False
@@ -92,6 +77,8 @@ class Buffer2(object):
             return self.__buf == val
         elif isinstance(val , Buffer2):
             return  self.__buf == val.__buf
+        elif isinstance(val , str ) :
+            return self.to_str() == val
         return False
 
 
@@ -115,4 +102,5 @@ if __name__ == '__main__':
     buf1+= '122'
     print buf1
     print buf1 == buf
+    print buf == '03355112' 
     print buf1.reverse()
