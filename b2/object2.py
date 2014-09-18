@@ -29,6 +29,24 @@ def enum(args, start=0):
     return Enum()
 
 
+
+
+
+def is_contain_function(f, fun):
+    if f:
+        if hasattr(f, fun):
+            if callable(f.fun):
+                return True
+    return False
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
 
     class Test(Singleton):
@@ -44,6 +62,3 @@ if __name__ == '__main__':
 
     Item = Enum('a b c')
     print Item.a
-
-
-
