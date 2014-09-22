@@ -34,6 +34,16 @@ def sort_map_value(d , desc = True):
     judge_type(d , 'must be dict' , (dict))
     return sorted(d.items() , key = lambda x : x[1] , reverse = desc)
 
+def sort_list_object( l , attr = None , desc = True):
+    '''
+    对输入的list object 对象进行排序 ， 根据对象属性排序
+    '''
+    judge_null(l)
+    judge_type(l , 'type must be list' , (list))
+    judge_null(attr)
+    judge_type(attr  , 'attr type must be  str' , (str))
+    return sorted(l , lambda x : getattr(x , attr) ,  reverse = desc) 
+
 
 
 
