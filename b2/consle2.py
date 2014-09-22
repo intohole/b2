@@ -113,10 +113,6 @@ class ConsleString(object):
         call(['echo', '-e', '\33[%dC' % (line)])
 
 
-
-
-
-
 class Control(object):
 
     '''

@@ -1,6 +1,9 @@
 # coding=utf-8
 
 
+from exceptions2 import judge_str
+
+
 class Singleton(object):
 
     '''
@@ -28,7 +31,17 @@ def enum(args, start=0):
     return Enum()
 
 
+def create_obj(model_name, class_name, *arg, **kw):
+    judge_str(model_name, 1, (str))
+    judge_str(class_name, 1, (str))
+    model = __import__(model_name)
+    obj = getattr(model, class_name)
+    return obj(*arg ,**kw)
 
+
+def create_obj_by_str(model , *arg , **kw):
+    model = model.split('.')
+    return create_obj(model_name = '.'.join(model[:-1] ), class_name = model[-1] , *arg , **kw)
 
 
 def is_contain_function(f, fun):
@@ -39,25 +52,35 @@ def is_contain_function(f, fun):
     return False
 
 
+class Test(Singleton):
 
 
+    def __init__(self, *arg, **kw):
+        print kw
+        print arg
 
+class Test2(object):
 
+    """docstring for Test2"""
 
+    def __init__(self):
+        super(Test2, self).__init__()
+        self.arg = arg
 
 
 if __name__ == '__main__':
+    d = {'a' :5 , 'b':0 , 'c' : 9 ,'d' :0}
 
-    class Test(Singleton):
-        a = 1
-    t = Test()
-    t.a = 2
-
-    t1 = Test()
-    print t1.a
-
-    print id(t)
-    print id(t1)
-
-    Item = Enum('a b c')
-    print Item.a
+    print create_obj('object2', 'Test',  **d)
+    print create_obj_by_str('object2.Test')
+    def p(*arg , **kw):
+        if kw.has_key('a'):
+            print kw['a']
+        if len(arg) > 0:
+            print arg[0]
+    p(1 ,2 ,3 , a = 5 , b = 6)
+        # 5
+        # 1
+    d = {'a' : 6  , 'c' : 7}
+    p(**d)
+        # 6
