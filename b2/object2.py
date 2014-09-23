@@ -41,7 +41,7 @@ def create_obj(model_name, class_name, *arg, **kw):
 
 def create_obj_by_str(model , *arg , **kw):
     model = model.split('.')
-    return create_obj(model_name = '.'.join(model[:-1] ), class_name = model[-1] , *arg , **kw)
+    return create_obj( '.'.join(model[:-1] ),  model[-1] , *arg , **kw)
 
 
 def is_contain_function(f, fun):
@@ -83,4 +83,8 @@ if __name__ == '__main__':
         # 1
     d = {'a' : 6  , 'c' : 7}
     p(**d)
+    print '.'.join('wenkr_spider.spiders.kr36.Kr36'.split('.')[:-1])
+    print 'wenkr_spider.spiders.kr36.Kr36'.split('.')[-1]
+    a = create_obj_by_str('collections.defaultdict' , int)
+    print a
         # 6

@@ -17,6 +17,8 @@ def get_random_seq1(seq_len):
     rand_num = str(randint (0 , 10 ** seq_len - 1))
     return '%s%s' % ('0' * (seq_len - len(rand_num)) , rand_num)
 
+
+
 if __name__ == '__main__':
     print get_random_seq(6)
     print get_random_seq1(6)

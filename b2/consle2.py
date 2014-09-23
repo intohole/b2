@@ -90,7 +90,7 @@ class ConsleString(object):
 
     def __str__(self):
         if self.__strbuffer and isinstance(self.__strbuffer, list):
-            if len(self.__strbuffer) > 0 and self.__strbuffer[len(self.__strbuffer) - 1] != '\e[0m':
+            if len(self.__strbuffer) > 0 and self.__strbuffer[-1] != '\e[0m':
                 self.__strbuffer.append('\e[0m')
             return ''.join(self.__strbuffer)
         else:

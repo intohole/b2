@@ -17,5 +17,5 @@ def split_path(p):
 
 
 if __name__ == '__main__':
-    print split_path("d:\\a.txt")
+    print split_path("d:\\windows\\a.txt")
     
