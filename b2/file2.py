@@ -2,7 +2,7 @@
 
 from exceptions2 import judge_str , judge_null , judge_type
 import os
-
+from system2 import reload_utf8
 def isdir(path):
     judge_str(path , 0 , (str))
     return os.path.isdir(path)
@@ -27,7 +27,53 @@ def write(lines ,  path , overwrite = True ,join_str = '\n'):
             f.write(join_str.join([line for line in lines]))
 
 
+def walk_folder(root_path  ,fun = lambda x : True):
+    '''
+    遍历文件夹文件：
+    root_path 遍历文件夹
+    fun 判断文件是否要收录函数 ， 返回 boolean
+    '''
+    judge_str(root_path , 1 , (str))
+    files = []
+    for f in os.listdir(root_path):
+        cur_path = os.path.join(root_path , f)
+        if os.path.isfile(cur_path):
+            if fun and callable(fun) :
+                if fun(cur_path) == True:
+                    files.append(cur_path)
+            else:
+                files.append(cur_path)
+        elif os.path.isdir(cur_path):
+            files.extend(walk_folder(cur_path))
+    return files
+
+
+
+
+class Files(object):
+    '''
+    多文件读取文件 ， 生成迭代器  ， 只需要next就可以读入文件夹下的所有文件
+    '''
+
+    def __init__(self , **kw):
+         
+
+         pass
+        
+
+
+
+    def __iter__(self):
+        return self 
+
+
 
 if __name__ == '__main__':
-    mkdir_p('d:/work_space/p2')
+    # mkdir_p('d:/work_space/p2')
+    # reload_utf8()
+    print walk_folder('D:\\workspace\\b2' , lambda x :  x.endswith('py') )
+    a = lambda x : x.endswith('bb')
+    print a('aa')
+    print a('bb')
+    print 'D:\\workspace\\b2\\.git\\COMMIT_EDITMSG'.endswith('py')
 

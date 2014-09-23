@@ -27,8 +27,16 @@ class StopWords(object):
                 return True
         return False
 
-    def startwith(self , words):
-        pass
+    def startswith(self , words):
+        l = len(words)
+        for __l in self.__stop_words.keys():
+            if l > __l:
+                continue
+            if words[:__l] in self.__stop_words[__l]:
+                return True
+        return False
+
+
 
     def __eq__(self, value):
         if isinstance(value, str):

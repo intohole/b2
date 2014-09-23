@@ -9,7 +9,7 @@ def judge_str(content, l=0, types=(str, unicode)):
     3. 如果字符串长度小于 l , 抛出异常ValueError
     '''
     judge_null(content)
-    judge_type(content, 'content must be str or unicode',types)
+    judge_type(content, 'content must be str or unicode ',types)
     judge_len(content, l)
 
 
@@ -39,7 +39,7 @@ def judge_null(value):
 def judge_type(value, msg, types):
     if types:
         if not isinstance(value, types):
-            raise TypeError, msg
+            raise TypeError, msg % type(value)
 
 def judge_list(value):
     judge_type(value , 'type isn\'t list or tuple' , (list , tuple))
