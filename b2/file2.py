@@ -27,7 +27,7 @@ def write(lines ,  path , overwrite = True ,join_str = '\n'):
             f.write(join_str.join([line for line in lines]))
 
 
-def walk_folder(root_path  ,fun = lambda x : True):
+def walk_folder(root_path  ,fun = lambda x : true):
     '''
     遍历文件夹文件：
     root_path 遍历文件夹
@@ -39,15 +39,38 @@ def walk_folder(root_path  ,fun = lambda x : True):
         cur_path = os.path.join(root_path , f)
         if os.path.isfile(cur_path):
             if fun and callable(fun) :
-                if fun(cur_path) == True:
+                if fun(cur_path):
                     files.append(cur_path)
             else:
                 files.append(cur_path)
         elif os.path.isdir(cur_path):
-            files.extend(walk_folder(cur_path))
+            files.extend(walk_folder(cur_path , fun ) )
     return files
 
 
+def _create_folder_map(root_path  ,fun = lambda x : True):
+    '''
+    遍历文件夹文件：
+    root_path 遍历文件夹
+    fun 判断文件是否要收录函数 ， 返回 boolean
+    '''
+    judge_str(root_path , 1 , (str))
+    file_map = {}
+    # file_map[root_path] = dict()
+    for f in os.listdir(root_path):
+        cur_path = os.path.join(root_path , f)
+        if os.path.isfile(cur_path):
+            if fun and callable(fun) :
+                if fun(cur_path):
+                    file_map[f] = 'f'
+            else:
+                file_map[f] = 'f'
+        elif os.path.isdir(cur_path):
+            file_map[cur_path] = _create_folder_map(cur_path , fun ) 
+    return file_map
+
+def create_folder_map(root_path , fun = lambda x : true):
+    return {root_path : _create_folder_map(root_path , fun)}
 
 
 class Files(object):
@@ -71,9 +94,11 @@ class Files(object):
 if __name__ == '__main__':
     # mkdir_p('d:/work_space/p2')
     # reload_utf8()
-    print walk_folder('D:\\workspace\\b2' , lambda x :  x.endswith('py') )
-    a = lambda x : x.endswith('bb')
-    print a('aa')
-    print a('bb')
+    print walk_folder('D:\\workspace\\b2' ,  lambda x :  x.endswith('py') )
+    print create_folder_map('d:\\workspace\\b2' , lambda x :  x.endswith('py'))
+    # a = lambda x : x.endswith('bb')
+
+    # print a('aa')
+    # print a('bb')
     print 'D:\\workspace\\b2\\.git\\COMMIT_EDITMSG'.endswith('py')
 
