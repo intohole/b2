@@ -30,7 +30,7 @@ def write(lines,  path, overwrite=True, join_str='\n'):
             f.write(join_str.join([line for line in lines]))
 
 
-def walk_folder(root_path, file_filter=lambda x: true):
+def walk_folder(root_path, file_filter=lambda x: true , current_level = 0):
     '''
     遍历文件夹文件：
     root_path 遍历文件夹
@@ -47,7 +47,8 @@ def walk_folder(root_path, file_filter=lambda x: true):
             else:
                 files.append(cur_path)
         elif os.path.isdir(cur_path):
-            files.extend(walk_folder(cur_path, file_filter))
+            current_level += 1
+            files.extend(walk_folder(cur_path, file_filter , current_level))
     return files
 
 
