@@ -12,6 +12,12 @@ def get_time_string():
     return time.strftime('%Y-%m-%d %H:%M:%S')
 
 
+def get_far_from_wee():
+    __now = get_time_ms()
+    return __now %  ( 24 * 60 * 1000 )
+
+
+
 def timestr_to_time(time_str):
     judge_str(time_str)
     time_str = time_str.replace('-' , '/')
@@ -40,5 +46,6 @@ def timestr_to_time(time_str):
 
 if __name__ == '__main__':
     timestr_to_time('2013年5月16日12时58分')
+    print get_far_from_wee()
     print get_time_ms()
     print get_time_string()
