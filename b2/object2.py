@@ -17,15 +17,35 @@ class Singleton(object):
         return cls._instance
 
 
-def enum(args, start=0 , split_char = None):
+def singleton(cls, *args, **kw):
+    '''
+    将一个类转换为单例模式：
+    @singleton
+    class Test(object):
+        a = 'c'
+    c = Test()
+    b = Test()
+    b.a = 'a'
+    print b.a 
+    
+    '''
+    instances = {}
+
+    def singleton_instance():
+        if cls not in instances:
+            instances[cls] = cls(*args, **kw)
+        return instances[cls]
+    return singleton_instance
+
+
+def enum(args, start=0, split_char=None):
     '''
     enum 枚举实现　－　＞　使用方式　　enmu('ENUM1 ... Enum2 .. EnumN')
 
     '''
     class Enum(object):
-        
 
-        def __init__(self , args , start = 0 , split_char = None):
+        def __init__(self, args, start=0, split_char=None):
             key_split = args.split()
             last = 0
             for i, key in enumerate(key_split, start):
@@ -34,15 +54,14 @@ def enum(args, start=0 , split_char = None):
                     if len(key_value) >= 2:
                         last = int(key_value[1]) - 1
                     last += 1
-                    setattr(self , key_value[0] , last)
+                    setattr(self, key_value[0], last)
                 else:
                     setattr(self, key, i)
-    return Enum(args , start , split_char)
+    return Enum(args, start, split_char)
 
 
 def enum2(**enums):
     return type('Enum', (), enums)
-
 
 
 def create_obj(model_name, class_name, *arg, **kw):
@@ -50,12 +69,12 @@ def create_obj(model_name, class_name, *arg, **kw):
     judge_str(class_name, 1, (str))
     model = __import__(model_name)
     obj = getattr(model, class_name)
-    return obj(*arg ,**kw)
+    return obj(*arg, **kw)
 
 
-def create_obj_by_str  (model , *arg , **kw):
+def create_obj_by_str(model, *arg, **kw):
     model = model.split('.')
-    return create_obj( '.'.join(model[:-1] ),  model[-1] , *arg , **kw)
+    return create_obj('.'.join(model[:-1]),  model[-1], *arg, **kw)
 
 
 def is_contain_function(f, fun):
@@ -66,31 +85,21 @@ def is_contain_function(f, fun):
     return False
 
 
-class Test(Singleton):
-
-
-    def __init__(self, *arg, **kw):
-        print kw
-        print arg
-
-class Test2(object):
-
-    """docstring for Test2"""
-
-    def __init__(self):
-        super(Test2, self).__init__()
-        self.arg = arg
-
-
 if __name__ == '__main__':
-    d = {'a' :5 , 'b':0 , 'c' : 9 ,'d' :0}
-    a = enum('a:12 b:15 c' , split_char = ':')
+
+    @singleton
+    class Test(object):
+        a = 'a'
+
+    a = Test()
+    b = Test()
+    b.a = 'c'
+    print a.a
+
+    d = {'a': 5, 'b': 0, 'c': 9, 'd': 0}
+    a = enum('a:12 b:15 c', split_char=':')
     print a.c
     print a.a
-    c = Enum2()
-    c.a = 7 
-    c.a = 8
-    print c.a 
     # print create_obj('object2', 'Test',  **d)
     # print create_obj_by_str('object2.Test')
     # def p(*arg , **kw):
@@ -99,8 +108,8 @@ if __name__ == '__main__':
     #     if len(arg) > 0:
     #         print arg[0]
     # p(1 ,2 ,3 , a = 5 , b = 6)
-    #     # 5
-    #     # 1
+    # 5
+    # 1
     # d = {'a' : 6  , 'c' : 7}
     # p(**d)
     # print '.'.join('wenkr_spider.spiders.kr36.Kr36'.split('.')[:-1])
