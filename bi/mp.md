@@ -1,6 +1,9 @@
 shell 编写mapreduce
 ====================
 
+####warning  
++  **mapreduce** map输出的key/value 形式如下 : key**\t**value..... 
+
 
 :::shell  
 

@@ -1,4 +1,4 @@
-# coding=utf-8
+tr# coding=utf-8
 
 from exceptions2 import *
 from str2 import *

@@ -3,6 +3,7 @@
 from exceptions2 import judge_str, judge_null, judge_type
 import os
 from system2 import reload_utf8
+from num2 import get_random_seq1
 
 
 def isdir(path):
@@ -52,12 +53,15 @@ def walk_folder(root_path, file_filter=lambda x: true , current_level = 0):
     return files
 
 
-def _create_folder_map(root_path, file_filter=lambda x: True):
+def _create_folder_map(root_path, file_filter=lambda x: True , cur_level = 0 , limit_level = None):
     '''
     遍历文件夹文件：
     root_path 遍历文件夹
     file_filter 判断文件是否要收录函数 ， 返回 boolean
     '''
+    if  limit_level != None :
+        if cur_level >=  limit_level:
+            return 
     judge_str(root_path, 1, (str))
     file_map = {}
     # file_map[root_path] = dict()
@@ -70,12 +74,15 @@ def _create_folder_map(root_path, file_filter=lambda x: True):
             else:
                 file_map[f] = 'f'
         elif os.path.isdir(cur_path):
-            file_map[cur_path] = _create_folder_map(cur_path, file_filter)
+            cur_level = cur_level + 1
+            file_map[cur_path] = _create_folder_map(cur_path, file_filter , cur_level = cur_level)
+            # if child_file_map != None:
+            #     file_map[cur_path] = child_file_map
     return file_map
 
 
-def create_folder_map(root_path, file_filter=lambda x: True):
-    return {root_path: _create_folder_map(root_path, file_filter)}
+def create_folder_map(root_path, file_filter=lambda x: True , limit_level = None):
+    return {root_path: _create_folder_map(root_path, file_filter , limit_level = limit_level)}
 
 
 class Files(object):
@@ -136,21 +143,23 @@ class Files(object):
                         return True
             return True
         return False
-
-
     def get_current_file(self):
         return self.__cur_file_path
+
+
+
+
 
 
 if __name__ == '__main__':
     # mkdir_p('d:/work_space/p2')
     # reload_utf8()
     # print walk_folder('D:\\workspace\\b2', lambda x:  x.endswith('py'))
-    # print create_folder_map('d:\\workspace\\b2', lambda x:  x.endswith('py'))
+    print create_folder_map('d:\\workspace\\b2', lambda x:  x.endswith('py') , limit_level = 1)
     # a = lambda x : x.endswith('bb')
 
     # print a('aa')
     # print a('bb')
     # print 'D:\\workspace\\b2\\.git\\COMMIT_EDITMSG'.endswith('py')
-    for line  in Files(dirpath='D:\\workspace\\b2', file_filter=lambda x:  x.endswith('py')):
-        print line 
+    # for line  in Files(dirpath='D:\\workspace\\b2', file_filter=lambda x:  x.endswith('py')):
+    #     print line 
