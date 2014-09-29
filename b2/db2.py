@@ -20,10 +20,20 @@ def is_lock(file_path , delay = 0.0001  ):
         time.sleep(delay)
 
 
-def create_lock( file_path = '.lock_ %s'  % get_random_seq1(5)):
-    open()
+def create_lock(lock_path):
+    if is_exist_lock(path):
+
+
+def __file_filter(path  , fun):
+    if path and  os.path.isdir(path):
+        for f in os.listdir(path):
+            if  fun(f):
+                return True
+    return False
+
 
 
 def is_exist_lock(path = '' ):
+    os.listdir(path)
     line = open(path ).readline()
     

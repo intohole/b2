@@ -29,13 +29,18 @@ class DTNode(dict):
 
 class DTrie2(object):
 
-    def __init__(self, **kw):
-        has_create = True
+    '''
+    一个可以保存状态的trie树 ， 可以从文件或者字符串加载内容 ，
+    方便保存任何你想保存的内容 ， 不过只限于字符串
+    '''
+
+    def __init__(self, *arg, **kw):
+        has_create = False
         if kw.has_key('file'):
             has_create = self.__load_from_file(kw['file'])
             self.__file = kw['file']
         elif kw.has_key('json_string'):
-            has_create = self.__load_from_file(kw['json_string'])
+            has_create = self.__load_from_string(kw['json_string'])
         if has_create == False:
             self.root_node = DTNode()
 
@@ -70,16 +75,12 @@ class DTrie2(object):
                 cur_node = cur_node[item]
             else:
                 return None
-        value = cur_node[word[-1]]
-        if value == 0:
-            return None
-        else:
-            return value
+        return cur_node[word[-1]] if cur_node[word[-1]] != None else 0
 
     def __str__(self):
         return str(json.dumps(self.root_node))
 
-    def __item__(self, key):
+    def __getitem__(self, key):
         return self.search(key)
 
     def __eq__(self, key):
@@ -103,6 +104,7 @@ class DTrie2(object):
         try:
             self.root_node = json.loads(json_string)
         except Exception:
+            print 'exception'
             return False
         return True
 
@@ -129,8 +131,15 @@ if __name__ == "__main__":
     t.add('abca')
     t.add('abca')
     t.add('bcda')
-    print t.search('abca')
-    print t.search('a')
-    print t
+
+    a = DTrie2(json_string=str(t))
+    print a.search('abca')
+    print a == 'abca'
+    print a.search('a')
+    print a.search('c')
+    # print a.search('abca')
+    # print t.search('abca')
+    # print t.search('a')
+    # print t
     # print t.find("我爱天安门")
     #
