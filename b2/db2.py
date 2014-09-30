@@ -24,7 +24,7 @@ def create_lock(lock_path):
     if is_exist_lock(path):
 
 
-def __file_filter(path  , fun):
+def _file_filter(path  , fun):
     if path and  os.path.isdir(path):
         for f in os.listdir(path):
             if  fun(f):
@@ -33,7 +33,13 @@ def __file_filter(path  , fun):
 
 
 
-def is_exist_lock(path = '' ):
-    os.listdir(path)
-    line = open(path ).readline()
+def is_exist_lock(path):
+    return _file_filter(path , lambda x : os.path.split(path)[1].startswith('.lock_'))
+
+
+
+
+if __name__ == '__main__':
+    create_lock('.')
+    
     

@@ -19,7 +19,7 @@ class DTNode(dict):
     def __init__(self, key=None, value=None):
         if not key == None:
             self[key] = value
-
+        self.value = None
     def add(self, key, node):
         if self.has_key(key):
             self[key] = node
