@@ -19,8 +19,6 @@ def get_random_seq1(seq_len):
 
 
 
-
-
 if __name__ == '__main__':
     print get_random_seq(6)
     print get_random_seq1(6)

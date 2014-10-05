@@ -42,4 +42,5 @@ def is_str_empty(value):
     if is_str(value):
         return False
     return is_empty(value)
+    
 

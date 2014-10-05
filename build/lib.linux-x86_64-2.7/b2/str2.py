@@ -73,7 +73,7 @@ class Buffer2(object):
     def reverse(self):
         return str(''.join(self.__buf))[::-1]
 
-    def char_at(self , index):
+    def charat(self , index):
         judge_null(index)
         judge_type(index , (int))
         judge_ge_value(index , 0)
