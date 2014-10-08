@@ -5,6 +5,7 @@ from object2 import Singleton
 from collections import defaultdict
 
 
+
 class StopWords(object):
 
     def __init__(self, **kw):
@@ -19,6 +20,7 @@ class StopWords(object):
                         self.__words(line)
 
     def endswith(self, words):
+
         l = len(words)
         for __l in self.__stop_words.keys():
             if l > __l:

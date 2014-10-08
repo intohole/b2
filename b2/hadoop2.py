@@ -3,7 +3,7 @@
 
 import sys
 from exceptions2 import
-
+from random import randint
 
 class DefaultDict(dict):
 
@@ -44,6 +44,23 @@ class Hadoop2(object):
 
     def do(self, lineArray):
         print lineArray
+
+
+def reservoir_sample(sample_num , k = 1):
+    data = []
+    idx = 0 
+    for line in sys.stdin:
+        line = line.strip()
+        if idx < sample_num:
+            data.append(line)
+        else:
+            sample = randint( 0 , idx  )
+            if sample < sample_num:
+                data[sample] = line
+        idx += 1
+    for line in data:
+        print '\t'.join(line.split())
+    return 
 
 
 if __name__ == '__main__':

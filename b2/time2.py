@@ -18,6 +18,8 @@ def get_far_from_wee():
 
 
 
+
+
 def timestr_to_time(time_str):
     judge_str(time_str)
     time_str = time_str.replace('-' , '/')

@@ -1,27 +1,30 @@
-#coding=utf-8
+# coding=utf-8
 
 
-
-import tty
-import termios
+# import tty
+# import termios
 import sys
 from optparse import OptionParser
 from subprocess import call
 
+
 class SimpleProgressBar():
+
     def __init__(self, width=50):
         self.last_x = -1
         self.width = width
- 
+
     def update(self, x):
-        assert 0 <= x <= 100 # `x`: progress in percent ( between 0 and 100)
-        if self.last_x == int(x): return
+        assert 0 <= x <= 100  # `x`: progress in percent ( between 0 and 100)
+        if self.last_x == int(x):
+            return
         self.last_x = int(x)
         pointer = int(self.width * (x / 100.0))
-        sys.stdout.write( '\r%d%% [%s]' % (int(x), '#' * pointer + '.' * (self.width - pointer)))
+        sys.stdout.write('\r%d%% [%s]' %
+                         (int(x), '#' * pointer + '.' * (self.width - pointer)))
         sys.stdout.flush()
-        if x == 100: print ''
-
+        if x == 100:
+            print ''
 
 
 class ConsleString(object):
@@ -70,7 +73,7 @@ class ConsleString(object):
         self.__color(key, 'purple', 35, 45)
         self.__color(key, 'darkgreen', 36, 46)
         self.__color(key, 'white', 37, 47)
-        self.__color(key , 'default' , 49 , 49)
+        self.__color(key, 'default', 49, 49)
         if key == 'consle':
             self.__strbuffer.append('0m')
         if key == 'hg':
@@ -95,7 +98,6 @@ class ConsleString(object):
             return ''.join(self.__strbuffer)
         else:
             return ''
-
 
     def toshow(self):
         ConsleString.consle_show(str(self))
@@ -172,16 +174,22 @@ def get_python_version():
     '''
     获得python执行环境
     '''
-    return '%s.%s.%s.%s.%s' % ( sys.version_info.major , sys.version_info.minor , sys.version_info.micro  , sys.version_info.serial , sys.version_info.releaselevel)
+    return '%s.%s.%s.%s.%s' % (sys.version_info.major, sys.version_info.minor, sys.version_info.micro, sys.version_info.serial, sys.version_info.releaselevel)
 
 
 if __name__ == '__main__':
-    s = SimpleProgressBar()
+    # s = SimpleProgressBar()
     # for i in range(101):
     #     s.update(i)
 
-    print get_system_info()
-    print get_python_version()[:3]
-
-
-
+    # print get_system_info()
+    # print get_python_version()[:3]
+    print 'hello world!'
+    today = '奇怪'
+    
+    if today == '天晴':
+        print '我们出去溜达!'
+    elif today == '阴':
+        print '我们不出去了!'
+    else:
+        print '我们也不知道干嘛了！'
