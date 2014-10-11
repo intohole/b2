@@ -27,6 +27,12 @@ class SimpleProgressBar():
             print ''
 
 
+
+
+class Color(dict):
+
+
+
 class ConsleString(object):
 
     '''
@@ -52,6 +58,9 @@ class ConsleString(object):
             self.__append = False
             self.__strbuffer.append(value)
         return self
+
+    def __add__(self , value):
+        return self.append_string(value)
 
     def clear(self):
         if self.__strbuffer and len(self.__strbuffer) > 0:
@@ -178,9 +187,9 @@ def get_python_version():
 
 
 if __name__ == '__main__':
-    # s = SimpleProgressBar()
-    # for i in range(101):
-    #     s.update(i)
+    s = SimpleProgressBar()
+    for i in range(101):
+        s.update(i)
 
     # print get_system_info()
     # print get_python_version()[:3]

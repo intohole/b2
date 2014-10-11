@@ -43,10 +43,14 @@ class DTrie2(object):
             self.__file = kw['file']
         elif kw.has_key('json_string'):
             has_create = self.__load_from_string(kw['json_string'])
+        if kw.has_key('fun'):
+            if callable(kw['fun']):
+                self.fun = kw['fun']
         if has_create == False:
             self.root_node = DTNode()
 
-    def add(self, word):
+
+    def add(self, word , value = None ):
         '''
         添加word字符串到trie树中：
         exception :
@@ -55,13 +59,17 @@ class DTrie2(object):
         '''
         judge_str(word, 1, (str, unicode))
         cur_node = self.root_node
-        for w in word:
+        for w in self.to_element(word):
             if not cur_node.has_key(w):
                 cur_node[w] = DTNode(w, 0)
                 cur_node = cur_node[w]
             else:
                 cur_node = cur_node[w]
-        cur_node[word[-1]] += 1
+        if  value:
+            cur_node[word[-1]] = value
+        else:
+            cur_node[word[-1]] +=  self.fun(cur_node[word[-1]])
+        
 
     def search(self, word):
         '''
@@ -72,12 +80,24 @@ class DTrie2(object):
         '''
         judge_str(word, 1, (str, unicode))
         cur_node = self.root_node
-        for item in word:
+        for item in self.to_element(word):
             if cur_node.has_key(item):
                 cur_node = cur_node[item]
             else:
                 return None
         return cur_node[word[-1]] if cur_node[word[-1]] != None else 0
+
+    def get_child_num_level(self , element ):
+
+        cur_node = self.root_node
+        level = 0
+        for item in self.to_element(element):
+            if not cur_node.has_key(item):
+                break
+            level += 1    
+            cur_node = cur_node[item]
+        return (0 , 0) if cur_node == root_node else (len(cur_node) , level)
+
 
     def __str__(self):
         return str(json.dumps(self.root_node))
@@ -110,6 +130,14 @@ class DTrie2(object):
             return False
         return True
 
+    def to_element(self , element):
+        '''
+        功能： 将任何一个字符串或者不是字符串转换为list 或者string 结构 ， 方便你将任何字符串类型转换为 ，trie树的node
+        子类可以继承
+        return   [ list  , tuple , str , unicode ]  __iter__ 
+        '''
+        return element
+
     def save(self, path=None):
         save_file = None
         if self.path == None:
@@ -125,17 +153,23 @@ class DTrie2(object):
 
 
 if __name__ == "__main__":
-    t = DTrie2()
+    t = DTrie2(fun = lambda x :  0 if  x == None else x + 1 )
     # for i in map(123):
     #     print i
 
-    t.add("abcde")
+    t.add("abcde" , 1000)
     t.add('abca')
     t.add('abca')
     t.add('bcda')
 
+
+    print t
+
     a = DTrie2(json_string=str(t))
+    t.add('abca')
     print a.search('abca')
+    print a.search('abcde')
+
     print a == 'abca'
     print a.search('a')
     print a.search('c')

@@ -28,6 +28,30 @@ def reverse(words):
     return words[::-1]
 
 
+def get_same_starts(word1 , word2):
+    '''
+    功能:获得字符串相同的开头
+    返回： 如果不相同 返回 '' 否则返回 相同部分
+    exceptions:
+        如果 word1 / word2 不是字符串或者为空 ， 抛出异常
+    '''
+    judge_str(word1)
+    judge_str(word2)
+    l = min(len(word1) , len(word2))
+    for i in range(l):
+        if word1[i] != word2[i]:
+            return word[ : i]
+    return word[:l]
+
+def get_same_ends(word1 , word2):
+    judge_str(word1)
+    judge_str(word2)
+    l = min(len(word1) , len(word2))
+    for i in range(l , 0 , -1):
+        if word1[i] = 
+
+
+
 class Buffer2(object):
     '''
     编写类似java stringbuilder 工具类 ，
