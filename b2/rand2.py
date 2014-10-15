@@ -3,7 +3,7 @@ from random import randint
 from exceptions2 import judge_num
 
 
-def get_rand(min_value , max_value , limit =10000):
+def get_rand(min_value, max_value, limit=10000):
     '''
     生成一个自动产生的随机数返回生成器
     使用方法:
@@ -19,31 +19,30 @@ def get_rand(min_value , max_value , limit =10000):
     '''
     class RandInt(object):
 
-        def __init__(self , min_value , max_value  , limit ):
-            self.min_value = min_value 
+        def __init__(self, min_value, max_value, limit):
+            self.min_value = min_value
             self.max_value = max_value
             self.limit = limit
             self.__index = 0
 
-
         def __iter__(self):
-            return RandInt(self.min_value , self.max_value , self.limit)
-
+            return RandInt(self.min_value, self.max_value, self.limit)
 
         def next(self):
-            if limit and self.__index == self.limit :
-                raise StopIteration , 'iter bigger than limit! limit = %s'  % self.limit
+            if limit and self.__index == self.limit:
+                raise StopIteration, 'iter bigger than limit! limit = %s' % self.limit
             self.__index += 1
-            return randint(self.min_value , max_value)
+            return randint(self.min_value, max_value)
 
         def has_next(self):
             if self.limit and self.__index < self.limit:
                 return False
             return True
 
-    return RandInt(min_value , max_value , limit)
+    return RandInt(min_value, max_value, limit)
 
-def rand_string(l  ,lower_str = True  , higher_str = True , num_str = True ,limit =1000000):
+
+def rand_string(l, lower_str=True, higher_str=True, num_str=True, limit=1000000):
     '''
     随机生成字符串 （数字、小写字母 、 大写字母 速记组合大于一种字符串）
     参数:
@@ -64,31 +63,34 @@ def rand_string(l  ,lower_str = True  , higher_str = True , num_str = True ,limi
          for i in rand_string(10 , limit = 10)：
              print i 
     '''
-    class  RandString(object):
-        def __init__(self , string_len , limit , lower_str = True  , higher_str = True , num_str = True):
+    class RandString(object):
+
+        def __init__(self, string_len, limit, lower_str=True, higher_str=True, num_str=True):
             self.__char = []
             self.lower_str = lower_str
             self.higher_str = higher_str
             self.num_str = num_str
             if lower_str:
-                self.__char.extend([ chr(ord('a')+ i) for i in range(ord('z') - ord('a') + 1)])
+                self.__char.extend([chr(ord('a') + i)
+                                    for i in range(ord('z') - ord('a') + 1)])
             if higher_str:
-                self.__char.extend([chr(ord('A')+ i) for i in range(ord('Z') - ord('A') + 1)])
+                self.__char.extend([chr(ord('A') + i)
+                                    for i in range(ord('Z') - ord('A') + 1)])
             if num_str:
                 self.__char.extend([str(i) for i in range(10)])
             if len(self.__char) == 0:
-                raise ValueError , 'must set lower_str / higher_str /num_str more than one True'
-            self.__rand = get_rand(0 , len(self.__char) - 1  , None)
+                raise ValueError, 'must set lower_str / higher_str /num_str more than one True'
+            self.__rand = get_rand(0, len(self.__char) - 1, None)
             self.__index = 0
             self.limit = limit
             self.string_len = string_len
 
-        def  __iter__(self):
-            return RandString(self.string_len , self.limit , self.lower_str , self.higher_str , self.num_str)
+        def __iter__(self):
+            return RandString(self.string_len, self.limit, self.lower_str, self.higher_str, self.num_str)
 
         def next(self):
-            if limit and self.__index == self.limit :
-                raise StopIteration , 'iter bigger than limit! limit = %s'  % self.limit
+            if limit and self.__index == self.limit:
+                raise StopIteration, 'iter bigger than limit! limit = %s' % self.limit
             self.__index += 1
             return ''.join([self.__char[self.__rand.next()] for i in range(self.string_len)])
 
@@ -96,18 +98,34 @@ def rand_string(l  ,lower_str = True  , higher_str = True , num_str = True ,limi
             if self.limit and self.__index < self.limit:
                 return False
             return True
-    return RandString(l , limit)
-
-
+    return RandString(l, limit)
 
 
 def ReservoirSample(object):
+    '''
+    蓄水池抽样：
+
+    '''
+
+    def __init__(self, sample_num):
+        judge_num(sample)
+        self.sample_num = sample_num
+        self.data = []
+        self.__idx = 0
+
+    def sample(self, data):
+        if data:
+            if self.__idx < self.sample_num:
+                self.data.append(data)
+            else:
+                sample = randint(0 , self.__idx + 1 )
+                if sample < self.sample_num:
+                    self.data[sample] = data
+            self.__idx += 1
 
 
 
 
-    def __init__(self , sample_num ):
-        if sample_num and isinstance()
 
 def reservoir(datas, k):
     '''
@@ -115,9 +133,9 @@ def reservoir(datas, k):
     datas 待抽样数据
     k 随机抽取数据数目
     '''
-    if not (k and isinstance(k, (int)) and k > 0 ) :
+    if not (k and isinstance(k, (int)) and k > 0):
         raise TypeError, 'k must be integer and bigger than zero!'
-    if not ( datas and isinstance(datas, (list, tuple)) ) :
+    if not (datas and isinstance(datas, (list, tuple))):
         raise TypeError, 'datas must be list and not None'
     if len(datas) <= k:
         return datas
@@ -131,21 +149,16 @@ def reservoir(datas, k):
         return data
 
 
-
-
-
-
 if __name__ == '__main__':
     # datas = [ i  for i in range(100000)]
-    # # print reservoir(datas , 1000)
+    # print reservoir(datas , 1000)
     # a = iter(get_rand(1, 1000))
     # for i in a:
     #     print i
-    a = rand_string(10 , 1000)
+    a = rand_string(10, 1000)
     for i in a:
-        print i 
+        print i
     print a.next()
-
 
     # print a.next()
     # print a.next()

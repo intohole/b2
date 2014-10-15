@@ -95,11 +95,11 @@ class Files(object):
         if kw.has_key('dirpath'):
             if kw.has_key('file_filter'):
                 file_filter = lambda x:  True
-                if not (kw['file_filter'] and callable(kw['file_filter'])):
-                    raise ValueError, 'file_filter is function judge file accept!'
-                else:
+                if  kw.has_key('file_filter'):
+                    if not callable(kw['file_filter']):
+                        raise ValueError, 'file_filter is function judge file accept!'
                     file_filter = kw['file_filter']
-            self.files = walk_folder(kw['dirpath'], kw['file_filter'])
+            self.files = walk_folder(kw['dirpath'], file_filter)
         elif kw.has_key('files'):
             if self.is_readall(kw['files']):
                 self.files = kw['files']
