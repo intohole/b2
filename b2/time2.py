@@ -1,5 +1,7 @@
 #coding=utf-8
 import time
+from datetime import date
+
 
 
 from exceptions2 import judge_str
@@ -26,14 +28,31 @@ def get_far_from_wee():
     return __now %  ( 24 * 60 * 1000 )
 
 
+def get_current_month():
+    return time.localtime(time.time()).tm_mon
+
+def get_current_year():
+    return time.localtime(time.time()).tm_year
+
+
+def get_current_month_day():
+    return time.localtime(time.time()).tm_mday
+
+
+def get_current_year_day():
+    return time.localtime(time.time()).tm_yday
+
+
+def is_leap_year(year):
+    return ( ( year % 4 == 0 ) and (year % 100 != 0 ) )  or year % 400 == 0  
+
+
 
 def get_time_from_now():
     pass
 
 
 
-def is_time_string(time_str):
-    
 
 
 def timestr_to_time(time_str):
@@ -56,7 +75,4 @@ def timestr_to_time(time_str):
 
 
 if __name__ == '__main__':
-    timestr_to_time('2013年5月16日12时58分')
-    print get_far_from_wee()
-    print get_time_ms()
-    print get_time_string()
+    print get_current_month() 

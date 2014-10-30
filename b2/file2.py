@@ -64,7 +64,6 @@ def _create_folder_map(root_path, file_filter=lambda x: True , cur_level = 0 , l
             return 
     judge_str(root_path, 1, (str))
     file_map = {}
-    # file_map[root_path] = dict()
     for f in os.listdir(root_path):
         cur_path = os.path.join(root_path, f)
         if os.path.isfile(cur_path):
@@ -76,8 +75,6 @@ def _create_folder_map(root_path, file_filter=lambda x: True , cur_level = 0 , l
         elif os.path.isdir(cur_path):
             cur_level = cur_level + 1
             file_map[cur_path] = _create_folder_map(cur_path, file_filter , cur_level = cur_level)
-            # if child_file_map != None:
-            #     file_map[cur_path] = child_file_map
     return file_map
 
 
