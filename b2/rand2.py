@@ -101,52 +101,36 @@ def rand_string(l, lower_str=True, higher_str=True, num_str=True, limit=1000000)
     return RandString(l, limit)
 
 
-def ReservoirSample(object):
-    '''
-    蓄水池抽样：
-
-    '''
+class SampleData(object):
 
     def __init__(self, sample_num):
-        judge_num(sample)
         self.sample_num = sample_num
-        self.data = []
         self.__idx = 0
+        self.data = []
 
-    def sample(self, data):
-        if data:
-            if self.__idx < self.sample_num:
-                self.data.append(data)
-            else:
-                sample = randint(0 , self.__idx + 1 )
-                if sample < self.sample_num:
-                    self.data[sample] = data
-            self.__idx += 1
-
-
+    def add(self, line):
+        if self.__idx < self.sample_num:
+            self.data.append(line)
+        else:
+            sample_rand = randint(0, self.__idx + 1)
+            if sample_rand < self.sample_num:
+                self.data[sample_rand] = line
+        self.__idx += 1
 
 
-
-def reservoir(datas, k):
+def reservoir_sample(sample_num, k=0):
     '''
-    蓄水池抽样 ： 先注满水 ， 通过剩余数据
-    datas 待抽样数据
-    k 随机抽取数据数目
+    功能: 蓄水池抽样
+    参数: sample_num 抽样数据大小
+          k   对数据第几列进行抽样
     '''
-    if not (k and isinstance(k, (int)) and k > 0):
-        raise TypeError, 'k must be integer and bigger than zero!'
-    if not (datas and isinstance(datas, (list, tuple))):
-        raise TypeError, 'datas must be list and not None'
-    if len(datas) <= k:
-        return datas
-    else:
-        data_len = len(datas)
-        data = [datas[d] for d in range(0, k)]
-        for i in range(k, data_len):
-            swap = randint(0, i)
-            if swap < k:
-                data[swap] = datas[i]
-        return data
+    datas = {}
+    for line in sys.stdin:
+        line = line.strip().split()
+        if not datas.has_key(line[k]):
+            datas[line[k]] = SampleData(sample_num)
+        datas[line[k]].add(line)
+    return datas
 
 
 if __name__ == '__main__':
