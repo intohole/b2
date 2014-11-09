@@ -22,6 +22,8 @@ def is_lock(file_path , delay = 0.0001  ):
 
 def create_lock(lock_path):
     if is_exist_lock(path):
+        return ValueError , 'file lock %s exists '  % lock_path
+    
 
 
 def _file_filter(path  , fun):

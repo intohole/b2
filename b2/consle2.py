@@ -29,7 +29,7 @@ class SimpleProgressBar():
 
 
 
-class Color(dict):
+
 
 
 
