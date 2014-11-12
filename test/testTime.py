@@ -60,12 +60,11 @@ class Years(object):
         if isinstance(value , int) and value <= 100 and value > 0 :
             days = 0 
             for i in range(1 , value + 1 ):
-                
                 if Years.is_leap_year(self.years - i ):
                     days += 366
                 else:
                     days += 365
-            return 
+            return days
                  
 
 

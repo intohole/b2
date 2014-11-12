@@ -128,7 +128,7 @@ class Files(object):
             if self.__filehandle:
                 self.__filehandle.close()
             self.__cur_file_path = self.files[self.__file_index]
-            if os.path.isfile(self.__cur_file_path):
+            if not os.path.isfile(self.__cur_file_path):
                 continue
             self.change_file(self.__cur_file_path)
             self.__filehandle = open(self.__cur_file_path)
@@ -143,8 +143,8 @@ class Files(object):
             return False
         for f in files:
             if f and isinstance(f , str) and (not os.path.isfile(f)):
-                return True
-        return False
+                return False
+        return True
 
 
     def get_current_file(self):
