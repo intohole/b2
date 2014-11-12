@@ -128,18 +128,25 @@ class Files(object):
             if self.__filehandle:
                 self.__filehandle.close()
             self.__cur_file_path = self.files[self.__file_index]
-            self.__filehandle = open(self.files[self.__file_index])
+            if os.path.isfile(self.__cur_file_path):
+                continue
+            self.change_file(self.__cur_file_path)
+            self.__filehandle = open(self.__cur_file_path)
             line = self.__filehandle.readline()
         return line
 
+    def change_file(self , file_path):
+        pass
+
     def is_readall(self, files):
-        if files:
-            for f in files:
-                if f and isinstance(f, str):
-                    if not os.path.isfile(f):
-                        return True
-            return True
+        if not files:
+            return False
+        for f in files:
+            if f and isinstance(f , str) and (not os.path.isfile(f)):
+                return True
         return False
+
+
     def get_current_file(self):
         return self.__cur_file_path
 
