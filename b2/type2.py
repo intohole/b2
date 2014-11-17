@@ -42,5 +42,14 @@ def is_str_empty(value):
     if is_str(value):
         return False
     return is_empty(value)
-    
+
+
+
+
+
+
+if __name__ == '__main__':
+    print range(-5)
+
+
 
