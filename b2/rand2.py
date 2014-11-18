@@ -118,7 +118,7 @@ class SampleData(object):
         self.__idx += 1
 
 
-def reservoir_sample(sample_num, k=0):
+def reservoir_sample(sample_num, key = lambda x : x[1]):
     '''
     功能: 蓄水池抽样
     参数: sample_num 抽样数据大小
@@ -134,16 +134,7 @@ def reservoir_sample(sample_num, k=0):
 
 
 if __name__ == '__main__':
-    # datas = [ i  for i in range(100000)]
-    # print reservoir(datas , 1000)
-    # a = iter(get_rand(1, 1000))
-    # for i in a:
-    #     print i
     a = rand_string(10, 1000)
     for i in a:
         print i
     print a.next()
-
-    # print a.next()
-    # print a.next()
-    # print a.next()
