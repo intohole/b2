@@ -156,14 +156,13 @@ class Files(object):
 
 
 if __name__ == '__main__':
-    # mkdir_p('d:/work_space/p2')
-    # reload_utf8()
-    # print walk_folder('D:\\workspace\\b2', lambda x:  x.endswith('py'))
+    mkdir_p('d:/work_space/p2')
+    reload_utf8()
+    print walk_folder('D:\\workspace\\b2', lambda x:  x.endswith('py'))
     print create_folder_map('d:\\workspace\\b2', lambda x:  x.endswith('py') , limit_level = 1)
-    # a = lambda x : x.endswith('bb')
-
-    # print a('aa')
-    # print a('bb')
-    # print 'D:\\workspace\\b2\\.git\\COMMIT_EDITMSG'.endswith('py')
-    # for line  in Files(dirpath='D:\\workspace\\b2', file_filter=lambda x:  x.endswith('py')):
-    #     print line 
+    a = lambda x : x.endswith('bb')
+    print a('aa')
+    print a('bb')
+    print 'D:\\workspace\\b2\\.git\\COMMIT_EDITMSG'.endswith('py')
+    for line  in Files(dirpath='D:\\workspace\\b2', file_filter=lambda x:  x.endswith('py')):
+        print line 

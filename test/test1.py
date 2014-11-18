@@ -6,7 +6,7 @@
 class BaseColor(dict):
 
     def __init__(self, show_set, fore_color, back_color):
-        self['SET'] = show_set
+        self['SET'] = show_set if show_set else 0
         self['FORE'] = fore_color
         self['BACK'] = back_color
 
@@ -36,6 +36,9 @@ class FColor(object):
             self.__bc['BACK'] = self.back_color if self.back_color != None else self.__bc['BACK']
             self.__bc['SET'] = self.color_set if self.color_set != None else self.__bc['SET']
             return '%s%s' % (str(self.__bc), value)
+    def __radd__(self , value):
+        if value and isinstance(value , basestring):
+            return '%s%s' % ( value , str(self))
 
     def __str__(self):
         return str(self.__bc)
@@ -183,6 +186,14 @@ class Default(FColor):
 
 
 class ColorText(object):
+    '''
+    linux 终端输出有色字体 
+    使用方式 ：
+            t = ColorText()
+            print t.ForeRed + t.BackGreen + 'fore red  back green'
+            print  t.ForeRed + t.BackGreen + 'fore red  back green' + t.Default
+            print t.Default #清空输出
+    '''
 
     def __init__(self):
         self.__bc = BaseColor(0, '', '')
@@ -213,9 +224,11 @@ class ColorText(object):
         raise KeyError, 'ColorText hasn\'t attr %s' % name
 
 
+
 if __name__ == '__main__':
     t = ColorText()
     print t.ForeRed + "red"
     print t.Default + "default"
-    print t.ForeRed + t.BackGreen + "red green"
-    print t.Default + 'a'
+    print t.BlinkSet+ t.ForeRed + t.BackGreen + "red green" + t.Default
+    print 'a' + t.Default
+    print t.Default
