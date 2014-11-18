@@ -23,7 +23,7 @@ class FColor(object):
         self.__bc = base_color
 
     def __add__(self, value):
-        if value and isinstance(value, TestColor):
+        if value and isinstance(value, FColor):
             if value.fore_color != None:
                 self.__bc['FORE'] = value.fore_color
             if value.back_color != None:
@@ -32,12 +32,9 @@ class FColor(object):
                 self.__bc['BACK'] = value.color_set
             return self
         elif value and isinstance(value, (basestring)):
-            self.__bc['FORE'] = self.fore_color if self.fore_color != None else self.__bc[
-                'FORE']
-            self.__bc['BACK'] = self.back_color if self.back_color != None else self.__bc[
-                'BACK']
-            self.__bc[
-                'SET'] = self.color_set if self.color_set != None else self.__bc['SET']
+            self.__bc['FORE'] = self.fore_color if self.fore_color != None else self.__bc['FORE']
+            self.__bc['BACK'] = self.back_color if self.back_color != None else self.__bc['BACK']
+            self.__bc['SET'] = self.color_set if self.color_set != None else self.__bc['SET']
             return '%s%s' % (str(self.__bc), value)
 
     def __str__(self):
@@ -47,139 +44,139 @@ class FColor(object):
 class ForeRed(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, 31, None, bc)
+        FColor.__init__(self, None, 31, None, bc)
 
 
 class BackRed(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, None, 31, bc)
+        FColor.__init__(self, None, None, 31, bc)
 
 
 class ForeBlack(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, 30, None, bc)
+        FColor.__init__(self, None, 30, None, bc)
 
 
 class BackBlack(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, None, 30, bc)
+        FColor.__init__(self, None, None, 30, bc)
 
 
 class ForeGreen(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, 42, None, bc)
+        FColor.__init__(self, None, 42, None, bc)
 
 
 class BackGreen(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, None, 42, bc)
+        FColor.__init__(self, None, None, 42, bc)
 
 
 class ForeYellow(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, 33, None, bc)
+        FColor.__init__(self, None, 33, None, bc)
 
 
 class BackYellow(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, None, 33, bc)
+        FColor.__init__(self, None, None, 33, bc)
 
 
 class ForeBlue(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, 34, None, bc)
+        FColor.__init__(self, None, 34, None, bc)
 
 
 class BackBlue(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, None, 34, bc)
+        FColor.__init__(self, None, None, 34, bc)
 
 
 class ForeFuchsia(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, 35, None, bc)
+        FColor.__init__(self, None, 35, None, bc)
 
 
 class BackFuchsia(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, None, 35, bc)
+        FColor.__init__(self, None, None, 35, bc)
 
 
 class ForeCyan(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, 36, None, bc)
+        FColor.__init__(self, None, 36, None, bc)
 
 
 class BackCyan(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, None, 36, bc)
+        FColor.__init__(self, None, None, 36, bc)
 
 
 class ForeWhite(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, 37, None, bc)
+        FColor.__init__(self, None, 37, None, bc)
 
 
 class BackWhite(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, None, 37, None, bc)
+        FColor.__init__(self, None, 37, None, bc)
 
 
 class DefaultSet(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, 0, None, None, bc)
+        FColor.__init__(self, 0, None, None, bc)
 
 
 class HgSet(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, 1, None, None, bc)
+        FColor.__init__(self, 1, None, None, bc)
 
 
 class UnderscoreSet(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, 4, None, None, bc)
+        FColor.__init__(self, 4, None, None, bc)
 
 
 class BlinkSet(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, 5, None, None, bc)
+        FColor.__init__(self, 5, None, None, bc)
 
 
 class UnWhiteSet(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, 7, None, None, bc)
+        FColor.__init__(self, 7, None, None, bc)
 
 
 class HideSet(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, 8, None, None, bc)
+        FColor.__init__(self, 8, None, None, bc)
 
 
-class Default(TestColor):
+class Default(FColor):
 
     def __init__(self, bc):
-        TestColor.__init__(self, 0, '', '', bc)
+        FColor.__init__(self, 0, '', '', bc)
 
     def __str__(self):
         return str(BaseColor(self.color_set, self.fore_color, self.back_color))
@@ -209,9 +206,6 @@ class ColorText(object):
         self.HideSet = HideSet(self.__bc)
         self.Default = Default(self.__bc)
         self.BackGreen = BackGreen(self.__bc)
-
-
-
 
     def __getitem__(self, name):
         if name and isinstance(name, str):
