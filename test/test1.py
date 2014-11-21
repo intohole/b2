@@ -1,4 +1,4 @@
-
+#coding=utf-8
 
 #!/usr/bin/env python
 
@@ -39,6 +39,11 @@ class FColor(object):
     def __radd__(self , value):
         if value and isinstance(value , basestring):
             return '%s%s' % ( value , str(self))
+
+    # def __or__(self , value):
+    #     if value  and isinstance(value , FColor):
+
+    #         return BaseColor( if self.__bc['Set']  ,  )
 
     def __str__(self):
         return str(self.__bc)
@@ -227,8 +232,25 @@ class ColorText(object):
 
 if __name__ == '__main__':
     t = ColorText()
-    print t.ForeRed + "red"
-    print t.Default + "default"
-    print t.BlinkSet+ t.ForeRed + t.BackGreen + "red green" + t.Default
-    print 'a' + t.Default
-    print t.Default
+    a = [10 , 11 ,4 , 6 ,  21 , 15 , 77]
+    high = max(a)
+    for i in range(high):
+        buf = []
+        for j in range(len(a)):
+            if (high - i )   >= a[j]:
+                buf.append(  ' ' + t.Default )
+                continue
+            buf.append( t.ForeRed + t.BackGreen + ' ' + t.Default)
+        buf.append( ' ' + t.Default )
+        print ''.join(buf)
+    a = [1 , 11 ,4 , 6 ,  21 , 15 , 21]
+    high = max(a)
+    for i in range(high):
+        buf = []
+        for j in range(len(a)):
+            if (high - i ) > a[j]:
+                buf.append(  '  ' + t.Default )
+                continue
+            buf.append( t.ForeRed + t.BackGreen + '  ' + t.Default)
+        buf.append( '  ' + t.Default )
+        print ''.join(buf)

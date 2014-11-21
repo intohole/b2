@@ -420,9 +420,8 @@ if __name__ == '__main__':
     s = SimpleProgressBar()
     for i in range(101):
         s.update(i)
-
-    # print get_system_info()
-    # print get_python_version()[:3]
+    print get_system_info()
+    print get_python_version()[:3]
     print 'hello world!'
     today = '奇怪'
     
