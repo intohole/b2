@@ -45,3 +45,25 @@ sed
       cat file | sed 's/pattern/repleacepattern/' 
       #上述为替换每一行第一处匹配内容替换 ， 想全部替换
       sed -i 's/pattern/repleacepattern/g' file
+
+
+
+ls 文件通配符
+-------------------
+
+
+
+:::shell     
+     
+     ls abc@(.txt|.php)  #第一次出现后缀情况下  abc.txt.txt 会显示 abc.txt
+     ls abc* #
+     ls abc!(.txt|.php) #后面字符不出现匹配 
+     ls abc?(.)txt #后面字符出现与否不关系匹配
+
+特定变量说明
+-----------------
+:::shell     
+     
+     $RANDOM #一个随机变量
+     $HOME #home主目录
+     $

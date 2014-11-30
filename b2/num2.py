@@ -3,6 +3,8 @@
 
 from random import randint
 import time
+from math import log 
+from math import e 
 
 
 def get_random_seq(seq_len):
@@ -42,6 +44,15 @@ def get_word_name(num):
     num_string.reverse()
     return ''.join(num_string)
 
+
+
+def getLn(num):
+    return math.log(num , e) ;
+
+
+
+def entropy(prob):
+    return 
 
 if __name__ == '__main__':
     print get_random_seq(6)

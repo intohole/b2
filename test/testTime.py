@@ -4,10 +4,16 @@ import re
 from datetime import timedelta
 from datetime import datetime
 import time
+from b2.object2 import enum
 
+TIME_RANGE = enum('DAY:')
 
 def is_leap_year(year):
     return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+
+
+
+
 
 
 class Time2(object):
@@ -69,7 +75,8 @@ class Years(object):
 
 
 
-
+def getLastDayEnd():
+    return int ( time.time() - 
 
 
 if __name__ == '__main__':
@@ -82,3 +89,4 @@ if __name__ == '__main__':
     print Years.is_leap_year(2020)
     y = Years()
     print y - 100
+

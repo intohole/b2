@@ -12,8 +12,9 @@ class Utils(object):
 
 
     @staticmethod
-    def file_filter(filter = None , path = os.path.dirname(__file__)  ):
+    def file_filter(filter = None ,filter = None , path = os.path.dirname(__file__)  ):
         for f in os.listdir(path):
+            
 
 
 
