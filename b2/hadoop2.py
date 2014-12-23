@@ -45,6 +45,26 @@ class Hadoop2(object):
         print lineArray
 
 
+def java_string_hashcode(s):
+    h = 0
+    for c in s:
+        h = (31 * h + ord(c)) & 0xFFFFFFFF
+    return ((h + 0x80000000) & 0xFFFFFFFF) - 0x80000000
+
+def get_key_part(key , part_num ):
+    '''
+    应用场景 ：
+        mapreduce计算完毕 ， 非单独map计算方式 ；
+        reduce 根据 hash(key) % reduce_num 方式计算每条key放入的part
+    key ：
+        mapreduce reduce key
+    part_num:
+        reduce number 
+    '''
+    return java_string_hashcode(key) % part_num
+
+
+
 
 
 if __name__ == '__main__':
