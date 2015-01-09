@@ -44,6 +44,37 @@ def is_str_empty(value):
     return is_empty(value)
 
 
+def is_collection(value):
+    '''
+    判断是否collection
+    返回：
+       如果 非None and 有属性 __iter__ ,且不是字符串 ， 返回True
+       否则 ， False
+    '''
+    if value:
+        if hasattr(value , '__iter__') and not isinstance(value , basestring):
+            return True
+    return False
+
+
+def _get_default(self , data , default = 0 , *argv ):
+    '''
+    得到一个词典中
+    eg. a = {1:{2:3}}
+    _get_default(a , 0 , 1 , 2) # 3
+    _get_default(a , 'a' , 1, 2) # 0  
+    '''
+    node = data 
+    for name in argv:
+        if node.has_key(name):
+            node = data[name]
+        else:
+            return default
+    return node if node and isinstance(node , type(default)) else default
+
+
+
+
 
 
 
