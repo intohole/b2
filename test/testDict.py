@@ -25,3 +25,14 @@ t.a[1] += 1.0
 
 print t1.a
 print t.a
+
+
+
+from collections import defaultdict
+
+
+
+d = defaultdict(int)
+
+
+print type(d)
