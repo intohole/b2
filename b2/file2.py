@@ -31,6 +31,14 @@ def write(lines,  path, overwrite=True, join_str='\n'):
             f.write(join_str.join([line for line in lines]))
 
 
+
+
+
+
+
+
+
+
 def walk_folder(root_path, file_filter=lambda x: true , current_level = 0):
     '''
     遍历文件夹文件：

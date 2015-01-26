@@ -45,7 +45,6 @@ def get_default_value( data , default , * argv):
     except Exception, e  :
         return default , e 
 
-
 def get_deep_dict_value(data , default , *argv):
     node = data
     for name in argv:

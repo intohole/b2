@@ -1,6 +1,6 @@
 #coding=utf-8
 
-
+from os import walk
 
 
 def range(start , end , step = -1):
@@ -28,3 +28,9 @@ def range(start , end , step = -1):
 
         
 
+if __name__ == '__main__':
+    for (dirpath, dirnames, filenames) in walk('d:\\'):
+        print dirpath 
+        print dirnames
+        print filenames
+        
