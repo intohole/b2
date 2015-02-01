@@ -1,38 +1,17 @@
 #coding=utf-8
 
 
-from collections import defaultdict
-
-class Test(object):
-
-
-
-    def __init__(self):
-        self.a = defaultdict(float)
-        self.a[1] += 1.0
+def update_config(config , **kw):
+    for key , val in kw.items():
+        if key in config.keys():
+            config[key] = val 
+    return config 
 
 
+a = {'a' : 1 }
 
 
-from copy import copy
+update_config(a , a='2' , b ='2')
 
 
-
-t = Test()
-
-t1 = copy(t)
-t.a[1] += 1.0
-
-print t1.a
-print t.a
-
-
-
-from collections import defaultdict
-
-
-
-d = defaultdict(int)
-
-
-print type(d)
+print a 
