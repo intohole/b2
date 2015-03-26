@@ -26,6 +26,13 @@ class Command(dict):
 
 
 
+class FSCommand(Command):
+
+
+    
+
+
+
 
 
 

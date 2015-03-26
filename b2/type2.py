@@ -93,5 +93,10 @@ def update_config(d, **kw):
                 setattr(d, key, val)
 
 
+
+def is_class(obj):
+    return type(obj) in (types.InstanceType, types.ClassType)
+
+
 if __name__ == '__main__':
     print range(-5)

@@ -118,6 +118,10 @@ class SampleData(object):
         self.__idx += 1
 
 
+
+
+
+
 def reservoir_sample(sample_num, key = lambda x : x[1]):
     '''
     功能: 蓄水池抽样
