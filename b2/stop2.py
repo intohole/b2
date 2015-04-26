@@ -21,21 +21,21 @@ class StopWords(object):
 
     def endswith(self, words):
 
-        l = len(words)
-        for __l in self.__stop_words.keys():
-            if l > __l:
+        wordk_len = len(words)
+        for stop_words_len in self.__stop_words.keys():
+            if wordk_len > stop_words_len:
                 continue
-            if words[__l:] in self.__stop_words[__l]:
+            if words[stop_words_len:] in self.__stop_words[stop_words_len]:
                 return True
         return False
 
     def startswith(self, words):
         if word and isinstance(word, (str, unicode)):
-            l = len(words)
-            for __l in self.__stop_words.keys():
-                if l > __l:
+            word_len = len(words)
+            for stop_words_len in self.__stop_words.keys():
+                if word_len > stop_words_len:
                     continue
-                if words[:__l] in self.__stop_words[__l]:
+                if words[:stop_words_len] in self.__stop_words[stop_words_len]:
                     return True
         return False
 

@@ -2,7 +2,7 @@
 
 
 from exceptions2 import judge_str
-
+import inspect
 
 class Singleton(object):
 
@@ -68,8 +68,11 @@ def create_obj(model_name, class_name, *arg, **kw):
     judge_str(model_name, 1, (str))
     judge_str(class_name, 1, (str))
     model = __import__(model_name)
-    obj = getattr(model, class_name)
-    return obj(*arg, **kw)
+    obj =  getattr(model , class_name , None )
+    if obj is not None  \
+        and inspect.isclass(obj)
+        return obj(*arg , **kw)
+    return None 
 
 
 def create_obj_by_str(model, *arg, **kw):

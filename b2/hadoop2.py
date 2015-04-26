@@ -231,8 +231,6 @@ class HadoopRun:
 
             for each in self.input:
                 if each.startswith('hdfs://'):
-                    #if not hadoop_debug and popen('${HADOOP_HOME}/bin/hadoop fs -ls %s' % pipes.quote(each[6:]), wait=True) != 0:
-                        #raise Exception('input path %s not exists!' % each)
                     opt.append('-input %s' % pipes.quote(each[6:]))
                 else:
                     if not hadoop_debug and popen('ls %s' % each, wait=True) != 0:
