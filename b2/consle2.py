@@ -176,7 +176,6 @@ class Control(object):
 
 
 
-#!/usr/bin/env python
 
 
 class BaseColor(dict):

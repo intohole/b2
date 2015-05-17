@@ -48,9 +48,6 @@ def is_leap_year(year):
 
 
 
-def get_time_from_now():
-    pass
-
 
 
 
@@ -66,6 +63,7 @@ def timestr_to_time(time_str):
     time_str = time_str.replace('分' , ':')
     time_str = time_str.replace('秒' , '')
     print time_str.split('[\\/:]')
+
 
 
 

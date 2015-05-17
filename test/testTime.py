@@ -3,90 +3,58 @@
 import re
 from datetime import timedelta
 from datetime import datetime
-import time
-from b2.object2 import enum
-
-TIME_RANGE = enum('DAY:')
-
-def is_leap_year(year):
-    return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+from collections import defaultdict
 
 
+class Date2(object):
 
-
-
-
-class Time2(object):
-    __num_pattern = re.compile('^\d+$').match
-
-    def __init__(self):
-        pass
+    _time_names = [
+        'years', 'months', 'days', 'hours', 'minutes', 'seconds', 'weeks']
 
     def __sub__(self, value):
-        if value is None:
-            raise ValueError, 'value is nothing!'
-        if isinstance(value, (str, unicode)):
-            params = value.strip().split()
-            if len(params) == 0:
-                raise ValueError, 'sub value is can\'t split  , split char [whitespace ' ', table \\t]'
-            index = 0
-            params_len = len(params)
-            while index < params_len:
-                if self.__num_pattern(params[index]):
-                    if (index + 1) < params_len:
-                        if params[index + 1] == 'years':
-                            pass
-                        if params[index + 1] == 'days':
-                            pass
-                        if params[index + 1] == 'months':
-                            pass
-                        if params[index + 1] == 's':
-                            pass
-                        if params[index + 1] == 'hours':
-                            pass
-                        if params[index + 1] == 'mintues':
-                            pass
+        if isinstance(value, (str, datetime)):
+            now_time = datetime.now()
+            if isinstance(value, str):
+                time_items = self.parser(value, now_time)
+                return now_time - timedelta(**time_items)
+            else:
+                return now_time - value
+        else:
+            raise TypeError
 
-
-class Years(object):
-
-    def __init__(self, years=time.localtime(time.time()).tm_year):
-        self.months = time.localtime(time.time()).tm_month
-        self.years = time.localtime(time.time()).tm_year
-
+    def parser(self, value, base_date):
+        items = value.strip().split()
+        time_items = defaultdict(int)
+        base_date_timetuple = base_date.timetuple()
+        for i in range(0, len(items), 2):
+            if items[i + 1] not in self._time_names:
+                raise ValueError
+            time_items[items[i + 1].lower()] = int(items[i])
+        for name in self._time_names:
+            if name == 'years' and name in time_items.keys():
+                base_year = base_date_timetuple.tm_year
+                for i in range(time_items['years']):
+                    if base_date_timetuple.tm_mon > 2:
+                        if Date2.is_leap_year(base_year):
+                            base_year -= 1
+                            time_items['days']+= 366 
+                            continue
+                    else:
+                        if Date2.is_leap_year(base_year - 1): 
+                            base_year -= 1
+                            time_items['days'] +=366
+                            continue
+                    time_items['days'] += 365
+                del time_items[name]
+            if name == 'months' and name in time_items.keys():
+                pass
+        return time_items
 
     @staticmethod
     def is_leap_year(year):
-        return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
-
-
-    def __sub__(self , value):
-        if not value:
-           raise ValueError 
-        if isinstance(value , int) and value <= 100 and value > 0 :
-            days = 0 
-            for i in range(1 , value + 1 ):
-                if Years.is_leap_year(self.years - i ):
-                    days += 366
-                else:
-                    days += 365
-            return days
-                 
-
-
-
-def getLastDayEnd():
-    return int ( time.time() - 
+        return ((year % 4 == 0) and (year % 100 != 0)) or year % 400 == 0
 
 
 if __name__ == '__main__':
-    t = Time2()
-    # print t - '1 years 10 days'
-
-    date_now = datetime.now()
-    print date_now
-    print date_now - timedelta(152)
-    print Years.is_leap_year(2020)
-    y = Years()
-    print y - 100
-
+    d2 = Date2()
+    print(d2 - '1 years 1 days 2 hours').timetuple()
