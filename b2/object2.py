@@ -70,7 +70,7 @@ def create_obj(model_name, class_name, *arg, **kw):
     model = __import__(model_name)
     obj =  getattr(model , class_name , None )
     if obj is not None  \
-        and inspect.isclass(obj)
+        and inspect.isclass(obj):
         return obj(*arg , **kw)
     return None 
 
