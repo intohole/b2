@@ -1,4 +1,4 @@
-#coding
+# coding
 
 import sys
 import os
@@ -7,26 +7,27 @@ import platform
 import sys
 
 
-def reload_utf8(code = 'utf-8'):
+def reload_utf8(code='utf-8'):
     reload(sys)
     sys.setdefaultencoding(code)
 
 
 def split_path(p):
-    if p and len(p) > 0 and isinstance( p ,  str):
+    if p and len(p) > 0 and isinstance(p,  str):
         return os.path.split(p)
-
 
 
 def get_sysinfo():
     return {
-            'pid': get_pid(),
-            'mem': get_memory(),
-            'gcobj': get_biggest_gc_objects(),
-            }
+        'pid': get_pid(),
+        'mem': get_memory(),
+        'gcobj': get_biggest_gc_objects(),
+    }
+
 
 def get_pid():
     return os.getpid()
+
 
 def get_memory(pid=None):
     vsz, rss = 0, 0
@@ -39,6 +40,7 @@ def get_memory(pid=None):
                 rss = int(line.split()[1])
         f.close()
     return vsz, rss
+
 
 def get_login(pid=None):
     '''get login name when can not get USER or LOGNAME from os.environ'''
@@ -61,6 +63,7 @@ def get_login(pid=None):
                 pass
     return login_name
 
+
 def get_biggest_gc_objects(count=20):
     objects = gc.get_objects()
     lists = []
@@ -75,10 +78,7 @@ def get_biggest_gc_objects(count=20):
     return lists[:count], dicts[:count]
 
 
-
-
 if __name__ == '__main__':
     print split_path("d:\\windows\\a.txt")
     print get_memory()
     print get_login()
-    

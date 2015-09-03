@@ -7,19 +7,6 @@ from math import log
 from math import e
 
 
-def get_random_seq(seq_len):
-    rand_num = str(randint(0, 10 ** (seq_len) - 1))
-    seq_str = ['0' for _ in range(seq_len)]
-    for i in range(len(rand_num)):
-        seq_str[seq_len - i - 1] = rand_num[i]
-    return ''.join(seq_str)
-
-
-def get_random_seq1(seq_len):
-    rand_num = str(randint(0, 10 ** seq_len - 1))
-    return '%s%s' % ('0' * (seq_len - len(rand_num)), rand_num)
-
-
 _num_word = {9: '亿', 8: '千', 7: '百', 6: '十',
              5: '万', 4: '千', 3: '百', 2: '十', 1: ''}
 _zh_num = ['', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖', '拾']
@@ -57,9 +44,3 @@ def isdigit(num):
     if isinstance(num, str) and (num.isdigit() or num.startswith('0.') and num[2:].isdigit()):
         return True
     return False
-
-if __name__ == '__main__':
-    print isdigit('12.45')
-    print get_random_seq(6)
-    print get_random_seq1(6)
-    print get_word_name(122404444)

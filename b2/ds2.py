@@ -61,7 +61,7 @@ class DTrie2(object):
             if value:
                 cur_node[elements[-1]] = value
             else:
-                cur_node[elements[-1]] = self.fun(cur_node , elements[-1])
+                cur_node[elements[-1]] = self.fun(cur_node, elements[-1])
 
     def search(self, word):
         '''
@@ -78,7 +78,7 @@ class DTrie2(object):
                 cur_node = cur_node[item]
             else:
                 return None
-        return cur_node[elements[-1]] if  cur_node.has_key(elements[-1]) and cur_node[elements[-1]] else None
+        return cur_node[elements[-1]] if cur_node.has_key(elements[-1]) and cur_node[elements[-1]] else None
 
     def get_child_num_level(self, element):
         cur_node = self.root_node
@@ -144,7 +144,7 @@ class DTrie2(object):
 
 
 if __name__ == "__main__":
-    t = DTrie2(fun=lambda x,y:  1 if not x.has_key(y) else x[y] + 1)
+    t = DTrie2(fun=lambda x, y:  1 if not x.has_key(y) else x[y] + 1)
     # for i in map(123):
     #     print i
 
@@ -154,7 +154,7 @@ if __name__ == "__main__":
             line = line.strip().split()
             t.add(line[0].strip().decode('utf-8'))
     t.add("夸夸其谈".decode('utf-8'), 1000)
-    t.add('阿西西'.decode('utf-8') )
+    t.add('阿西西'.decode('utf-8'))
     t.add('阿西西得'.decode('utf-8'))
     t.add('阿西西得从'.decode('utf-8'))
     t.add('光光荣荣'.decode('utf-8'))

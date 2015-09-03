@@ -12,25 +12,33 @@ class Singleton(object):
 
     """python单例实现方式
     """
+    @classmethod
     def __new__(cls, *args, **kw):
         if not hasattr(cls, '_instance'):
             mutex = threading.Lock()
             mutex.acquire()
             if not hasattr(cls, '_instance'):
-                orig = super(Singleton, cls)
-                cls._instance = orig.__new__(cls, *args, **kw)
+                print 'create'
+                cls._instance = super(Singleton, cls).__new__(cls, *args, **kw)
             mutex.release()
         return cls._instance
+    
+
+
 
 
 
 def singleton(cls, *args, **kw):
     instances = {}
-    def singleton_instance():
+    def _singleton(*args,**kw):
         if cls not in instances:
-            instances[cls] = cls(*args, **kw)
+            mutex = threading.Lock()
+            mutex.acquire()
+            if cls not in instances:
+                instances[cls] = cls(*args, **kw)
+            mutex.release()
         return instances[cls]
-    return singleton_instance
+    return _singleton
 
 
 def enum(args, start=0, split_char=None):
@@ -74,5 +82,18 @@ def create_obj_by_str(model, *arg, **kw):
     model = model.split('.')
     return create_obj('.'.join(model[:-1]),  model[-1], *arg, **kw)
 
+
+if __name__ == '__main__':
+    
+    class Test(Singleton):
+        """docstring for Test"""
+        def __init__(self, *arg):
+            super(Test, self).__init__()
+            print 'init'
+            self.arg = arg
+            
+    t = Test('a')
+    t2 = Test('a')
+    print t.arg
 
 

@@ -27,12 +27,6 @@ class SimpleProgressBar():
             print ''
 
 
-
-
-
-
-
-
 class ConsleString(object):
 
     '''
@@ -59,7 +53,7 @@ class ConsleString(object):
             self.__strbuffer.append(value)
         return self
 
-    def __add__(self , value):
+    def __add__(self, value):
         return self.append_string(value)
 
     def clear(self):
@@ -175,9 +169,6 @@ class Control(object):
         return self.__key_map.get(self.__key_aliases.get(k, k))
 
 
-
-
-
 class BaseColor(dict):
 
     def __init__(self, show_set, fore_color, back_color):
@@ -207,13 +198,17 @@ class FColor(object):
                 self.__bc['BACK'] = value.color_set
             return self
         elif value and isinstance(value, (basestring)):
-            self.__bc['FORE'] = self.fore_color if self.fore_color != None else self.__bc['FORE']
-            self.__bc['BACK'] = self.back_color if self.back_color != None else self.__bc['BACK']
-            self.__bc['SET'] = self.color_set if self.color_set != None else self.__bc['SET']
+            self.__bc['FORE'] = self.fore_color if self.fore_color != None else self.__bc[
+                'FORE']
+            self.__bc['BACK'] = self.back_color if self.back_color != None else self.__bc[
+                'BACK']
+            self.__bc[
+                'SET'] = self.color_set if self.color_set != None else self.__bc['SET']
             return '%s%s' % (str(self.__bc), value)
-    def __radd__(self , value):
-        if value and isinstance(value , basestring):
-            return '%s%s' % ( value , str(self))
+
+    def __radd__(self, value):
+        if value and isinstance(value, basestring):
+            return '%s%s' % (value, str(self))
 
     def __str__(self):
         return str(self.__bc)
@@ -361,6 +356,7 @@ class Default(FColor):
 
 
 class ColorText(object):
+
     '''
     linux 终端输出有色字体 
     使用方式 ：
@@ -399,11 +395,6 @@ class ColorText(object):
         raise KeyError, 'ColorText hasn\'t attr %s' % name
 
 
-
-    
-
-
-
 def get_system_info():
     return sys.platform
 
@@ -413,26 +404,3 @@ def get_python_version():
     获得python执行环境
     '''
     return '%s.%s.%s.%s.%s' % (sys.version_info.major, sys.version_info.minor, sys.version_info.micro, sys.version_info.serial, sys.version_info.releaselevel)
-
-
-if __name__ == '__main__':
-    s = SimpleProgressBar()
-    for i in range(101):
-        s.update(i)
-    print get_system_info()
-    print get_python_version()[:3]
-    print 'hello world!'
-    today = '奇怪'
-    
-    if today == '天晴':
-        print '我们出去溜达!'
-    elif today == '阴':
-        print '我们不出去了!'
-    else:
-        print '我们也不知道干嘛了！'
-    t = ColorText()
-    print t.ForeRed + "red"
-    print t.Default + "default"
-    print t.BlinkSet+ t.ForeRed + t.BackGreen + "red green" + t.Default
-    print 'a' + t.Default
-    print t.Default

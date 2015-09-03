@@ -38,10 +38,3 @@ def _file_filter(path  , fun):
 def is_exist_lock(path):
     return _file_filter(path , lambda x : os.path.split(path)[1].startswith('.lock_'))
 
-
-
-
-if __name__ == '__main__':
-    create_lock('.')
-    
-    

@@ -101,11 +101,14 @@ def rand_string(l, lower_str=True, higher_str=True, num_str=True, limit=1000000)
     return RandString(l, limit)
 
 
+def rand_int_range(range_num=1):
+    range_num = 10 ** (range_num - 1)
+    return randint(range_num, range_num * 10 - 1)
 
 
+def get_random_seq(seq_len):
+    rand_num = str(randint(0, 10 ** seq_len - 1))
+    return '%s%s' % ('0' * (seq_len - len(rand_num)), rand_num)
 
 if __name__ == '__main__':
-    a = rand_string(10, 1000)
-    for i in a:
-        print i
-    print a.next()
+    print rand_int_range(3)
