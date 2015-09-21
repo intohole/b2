@@ -47,7 +47,7 @@ def get_word_name(num):
     return ''.join(num_string)
 
 
-def getLn(num):
+def ln(num):
     return math.log(num, e)
 
 
@@ -58,8 +58,3 @@ def isdigit(num):
         return True
     return False
 
-if __name__ == '__main__':
-    print isdigit('12.45')
-    print get_random_seq(6)
-    print get_random_seq1(6)
-    print get_word_name(122404444)

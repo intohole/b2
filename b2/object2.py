@@ -3,17 +3,22 @@
 
 from exceptions2 import judge_str
 import inspect
+import threading
+
 
 class Singleton(object):
 
-    '''
-    设计模式单例 
+    '''单例模式
     '''
 
     def __new__(cls, *args, **kw):
         if not hasattr(cls, '_instance'):
-            orig = super(Singleton, cls)
-            cls._instance = orig.__new__(cls, *args, **kw)
+            mutex = threading.Lock()
+            mutex.acquire()
+            if not hasattr(cls, '_instance'):
+                orig = super(Singleton, cls)
+                cls._instance = orig.__new__(cls, *args, **kw)
+            mutex.release()
         return cls._instance
 
 
@@ -27,7 +32,7 @@ def singleton(cls, *args, **kw):
     b = Test()
     b.a = 'a'
     print b.a 
-    
+
     '''
     instances = {}
 
@@ -68,11 +73,11 @@ def create_obj(model_name, class_name, *arg, **kw):
     judge_str(model_name, 1, (str))
     judge_str(class_name, 1, (str))
     model = __import__(model_name)
-    obj =  getattr(model , class_name , None )
+    obj = getattr(model, class_name, None)
     if obj is not None  \
         and inspect.isclass(obj)
-        return obj(*arg , **kw)
-    return None 
+        return obj(*arg, **kw)
+    return None
 
 
 def create_obj_by_str(model, *arg, **kw):
@@ -80,38 +85,61 @@ def create_obj_by_str(model, *arg, **kw):
     return create_obj('.'.join(model[:-1]),  model[-1], *arg, **kw)
 
 
+class AutoID(object):
 
+    """程序自增id
+    """
 
+    def __init__(self, *argv, **kw):
+        start_id = 0
+        if "start_id" in kw:
+            start_id = kw["start_id"]
+        self.__start_id = start_id
+        self.__id = self.__start_id
+        self.__map_id = {}
+        self.__mutex = threading.Lock()
 
-if __name__ == '__main__':
+    def __getitem__(self, key):
+        if key is not None:
+            if key in self.__map_id:
+                return self.__map_id[key]
+            else:
+                self.__mutex.acquire()
+                self.__map_id[key] = self.__id
+                self.__id += 1
+                ret_id = self.__map_id[key]
+                self.__mutex.release()
+                return ret_id
+        else:
+            raise ValueError, "key is none ! please check"
 
-    @singleton
-    class Test(object):
-        a = 'a'
+    def clear(self):
+        self.__mutex.acquire()
+        self.__map_id.clear()
+        self.__id = self.__start_id
+        self.__mutex.release()
+        return True
 
-    a = Test()
-    b = Test()
-    b.a = 'c'
-    print a.a
+    def items(self):
+        return self.__map_id.items()
 
-    d = {'a': 5, 'b': 0, 'c': 9, 'd': 0}
-    a = enum('a:12 b:15 c', split_char=':')
-    print a.c
-    print a.a
-    # print create_obj('object2', 'Test',  **d)
-    # print create_obj_by_str('object2.Test')
-    # def p(*arg , **kw):
-    #     if kw.has_key('a'):
-    #         print kw['a']
-    #     if len(arg) > 0:
-    #         print arg[0]
-    # p(1 ,2 ,3 , a = 5 , b = 6)
-    # 5
-    # 1
-    # d = {'a' : 6  , 'c' : 7}
-    # p(**d)
-    # print '.'.join('wenkr_spider.spiders.kr36.Kr36'.split('.')[:-1])
-    # print 'wenkr_spider.spiders.kr36.Kr36'.split('.')[-1]
-    # a = create_obj_by_str('collections.defaultdict' , int)
-    # print a
-        # 6
+    def __str__(self):
+        str_buf = ["start_id\t%s" % (self.__start_id)]
+        for name, _id in self.__map_id.items():
+            str_buf.append("%s\t%s\n" % (name, _id))
+        return '\n'.join(str_buf)
+
+    def save_id_map(self, file_path, output="text"):
+        if output in ["text", "json"]:
+            if output == "text":
+                with open(file_path, 'w') as f:
+                    f.write(str(self))
+            elif output == "json":
+                with open(file_path, "w") as f:
+                    f.write(
+                        json.dumps(self.__map_id, ensure_assic=False) + "\n")
+        else:
+            raise ValueError, "[error]\toutput can only chooese [text , json]"
+
+    def get(self, name):
+        return self.__getitem__(name)

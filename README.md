@@ -12,22 +12,26 @@ b2　
 
 ```python  
      
-    from b2 import md2
-    if __name__ == '__main__':
-        md2 = MD2()
-        print md2.get_title('xxx00')
-        print md2.child_title('child')
-        print md2.get_link_str('test' , 'www.baidu.com')
+    mkdir_p('d:/work_space/p2')
+    reload_utf8()
+    print walk_folder('D:\\workspace\\b2', lambda x:  x.endswith('py'))
+    print create_folder_map('d:\\workspace\\b2', lambda x:  x.endswith('py') , limit_level = 1)
+    a = lambda x : x.endswith('bb')
+    print a('aa')
+    print a('bb')
+    print 'D:\\workspace\\b2\\.git\\COMMIT_EDITMSG'.endswith('py')
+    for line  in Files(dirpath='D:\\workspace\\b2', file_filter=lambda x:  x.endswith('py')):
+        print line 
 ```
 
 
 
 ```python   
-
-     from b2.str2 import *
-     print get_sign_repeat('#' , 6)
-     print dict_to_string(data)
-     print reverse('123')    
+from b2.stop2 import StopWords
+    s = StopWords(path='d:\\a.txt')
+    print s.endswith('a')
+    print s.startswith('a')
+    print s.is_stop('aaaa')
 ```
 
 ```python   

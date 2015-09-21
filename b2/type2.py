@@ -91,12 +91,10 @@ def update_config(d, **kw):
         for key, val in kw.items():
             if hasattr(key):
                 setattr(d, key, val)
+    return True
+
 
 
 
 def is_class(obj):
     return type(obj) in (types.InstanceType, types.ClassType)
-
-
-if __name__ == '__main__':
-    print range(-5)

@@ -11,9 +11,38 @@ def isdir(path):
     return os.path.isdir(path)
 
 
-def mkdir_p(path, path_pattern='/'):
-    paths = path_pattern.split(path_pattern)
-    print paths
+import os
+
+
+def mkdir_m(path):
+    if path:
+        if os.path.exists(path):
+            if os.path.isdir(path):
+                return True
+            else:
+                raise ValueError, "path [%s] has been create , but isn't dir !" % path
+        else:
+            return os.mkdir(path)
+    raise ValueError, "path is empty , please check !"
+
+
+def mkdir_p(path):
+    if path:
+        _paths = os.path.split(path)
+        if len(_paths) == 0:
+            return True
+        mkdir_path = _paths[0]
+        for _path in _paths[1:]:
+            mkdir_m(mkdir_path)
+            mkdir_path = os.path.join(mkdir_path, _path)
+        mkdir_m(mkdir_path)
+        return True
+    else:
+        raise ValueError, "path is none or empty , please check !"
+
+
+def mkdir_p_child(path, child_path):
+    return mkdir_p(os.path.join(path, child_path))
 
 
 def write(lines,  path, overwrite=True, join_str='\n'):
@@ -31,15 +60,7 @@ def write(lines,  path, overwrite=True, join_str='\n'):
             f.write(join_str.join([line for line in lines]))
 
 
-
-
-
-
-
-
-
-
-def walk_folder(root_path, file_filter=lambda x: true , current_level = 0):
+def walk_folder(root_path, file_filter=lambda x: true, current_level=0):
     '''
     遍历文件夹文件：
     root_path 遍历文件夹
@@ -57,19 +78,19 @@ def walk_folder(root_path, file_filter=lambda x: true , current_level = 0):
                 files.append(cur_path)
         elif os.path.isdir(cur_path):
             current_level += 1
-            files.extend(walk_folder(cur_path, file_filter , current_level))
+            files.extend(walk_folder(cur_path, file_filter, current_level))
     return files
 
 
-def _create_folder_map(root_path, file_filter=lambda x: True , cur_level = 0 , limit_level = None):
+def _create_folder_map(root_path, file_filter=lambda x: True, cur_level=0, limit_level=None):
     '''
     遍历文件夹文件：
     root_path 遍历文件夹
     file_filter 判断文件是否要收录函数 ， 返回 boolean
     '''
-    if  limit_level != None :
-        if cur_level >=  limit_level:
-            return 
+    if limit_level != None:
+        if cur_level >= limit_level:
+            return
     judge_str(root_path, 1, (str))
     file_map = {}
     for f in os.listdir(root_path):
@@ -82,12 +103,13 @@ def _create_folder_map(root_path, file_filter=lambda x: True , cur_level = 0 , l
                 file_map[f] = 'f'
         elif os.path.isdir(cur_path):
             cur_level = cur_level + 1
-            file_map[cur_path] = _create_folder_map(cur_path, file_filter , cur_level = cur_level)
+            file_map[cur_path] = _create_folder_map(
+                cur_path, file_filter, cur_level=cur_level)
     return file_map
 
 
-def create_folder_map(root_path, file_filter=lambda x: True , limit_level = None):
-    return {root_path: _create_folder_map(root_path, file_filter , limit_level = limit_level)}
+def create_folder_map(root_path, file_filter=lambda x: True, limit_level=None):
+    return {root_path: _create_folder_map(root_path, file_filter, limit_level=limit_level)}
 
 
 class Files(object):
@@ -100,7 +122,7 @@ class Files(object):
         if kw.has_key('dirpath'):
             if kw.has_key('file_filter'):
                 file_filter = lambda x:  True
-                if  kw.has_key('file_filter'):
+                if kw.has_key('file_filter'):
                     if not callable(kw['file_filter']):
                         raise ValueError, 'file_filter is function judge file accept!'
                     file_filter = kw['file_filter']
@@ -143,34 +165,16 @@ class Files(object):
             line = self.__filehandle.readline()
         return line
 
-    def change_file(self , file_path):
+    def change_file(self, file_path):
         pass
 
     def is_readall(self, files):
         if not files:
             return False
         for f in files:
-            if f and isinstance(f , str) and (not os.path.isfile(f)):
+            if f and isinstance(f, str) and (not os.path.isfile(f)):
                 return False
         return True
 
-
     def get_current_file(self):
         return self.__cur_file_path
-
-
-
-
-
-
-if __name__ == '__main__':
-    mkdir_p('d:/work_space/p2')
-    reload_utf8()
-    print walk_folder('D:\\workspace\\b2', lambda x:  x.endswith('py'))
-    print create_folder_map('d:\\workspace\\b2', lambda x:  x.endswith('py') , limit_level = 1)
-    a = lambda x : x.endswith('bb')
-    print a('aa')
-    print a('bb')
-    print 'D:\\workspace\\b2\\.git\\COMMIT_EDITMSG'.endswith('py')
-    for line  in Files(dirpath='D:\\workspace\\b2', file_filter=lambda x:  x.endswith('py')):
-        print line 

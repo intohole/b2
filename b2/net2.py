@@ -66,12 +66,3 @@ def set_urllib_proxy(protocol  , proxy_string):
 
 def set_time_out(delay):
     urllib2.socket.setdefaulttimeout(delay)
-
-
-
-    
-
-    
-
-if __name__ == '__main__':
-    print get_html_string('http://news.baidu.com')

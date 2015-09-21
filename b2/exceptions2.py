@@ -62,6 +62,12 @@ def judge_ge_value(value , ge_value = 0):
         raise ValueError , 'value must be greate or eaqual %s' % ge_value
 
 
+def judge_callable(value):
+    judge_null(value)
+    if not callable(value):
+        raise ValueError , 'value must be callable'
+
+
 def judge_le_value(value , le_value):
     if value > le_value:
         raise ValueError , 'value must be less or eaqual %s' % le_value

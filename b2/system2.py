@@ -73,12 +73,3 @@ def get_biggest_gc_objects(count=20):
     lists.sort(cmp=lambda x, y: cmp(len(x), len(y)), reverse=True)
     dicts.sort(cmp=lambda x, y: cmp(len(x), len(y)), reverse=True)
     return lists[:count], dicts[:count]
-
-
-
-
-if __name__ == '__main__':
-    print split_path("d:\\windows\\a.txt")
-    print get_memory()
-    print get_login()
-    

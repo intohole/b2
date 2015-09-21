@@ -414,26 +414,3 @@ def get_python_version():
     获得python执行环境
     '''
     return '%s.%s.%s.%s.%s' % (sys.version_info.major, sys.version_info.minor, sys.version_info.micro, sys.version_info.serial, sys.version_info.releaselevel)
-
-
-if __name__ == '__main__':
-    s = SimpleProgressBar()
-    for i in range(101):
-        s.update(i)
-    print get_system_info()
-    print get_python_version()[:3]
-    print 'hello world!'
-    today = '奇怪'
-    
-    if today == '天晴':
-        print '我们出去溜达!'
-    elif today == '阴':
-        print '我们不出去了!'
-    else:
-        print '我们也不知道干嘛了！'
-    t = ColorText()
-    print t.ForeRed + "red"
-    print t.Default + "default"
-    print t.BlinkSet+ t.ForeRed + t.BackGreen + "red green" + t.Default
-    print 'a' + t.Default
-    print t.Default
