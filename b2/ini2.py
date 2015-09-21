@@ -187,6 +187,3 @@ class PyIni(object):
         if not line or line.strip() == '':
             return True
         return False
-if __name__ == "__main__":
-    ini = PyIni('/home/lixuze/config.ini')
-    print ini._config.get_string_value(9,'avc')

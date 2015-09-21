@@ -124,9 +124,12 @@ class Buffer2(object):
         elif isinstance(val, str):
             return self.to_str() == val
         return False
+<<<<<<< HEAD
 
 
 def upper_char(words, upper_len):
     if len(words) < upper_len:
         upper_len = len(words)
     return ''.join([chr(ord(words[i]) - 32) if i < upper_len and ord(words[i]) <= 122 and ord(words[i]) >= 97 else words[i] for i in range(len(words))])
+=======
+>>>>>>> cb824139036a2c1a25884d5a10934b0fd13c2eda

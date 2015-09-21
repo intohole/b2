@@ -3,26 +3,48 @@
 
 from exceptions2 import judge_str
 import inspect
+<<<<<<< HEAD
 import threading
+
+=======
+import threading 
+>>>>>>> cb824139036a2c1a25884d5a10934b0fd13c2eda
+
+
+<<<<<<< HEAD
+    '''单例模式
+    '''
+=======
+>>>>>>> cb824139036a2c1a25884d5a10934b0fd13c2eda
 
 
 class Singleton(object):
 
-    '''单例模式
-    '''
-
+    """python单例实现方式
+    """
+    @classmethod
     def __new__(cls, *args, **kw):
         if not hasattr(cls, '_instance'):
             mutex = threading.Lock()
             mutex.acquire()
             if not hasattr(cls, '_instance'):
+<<<<<<< HEAD
                 orig = super(Singleton, cls)
                 cls._instance = orig.__new__(cls, *args, **kw)
+=======
+                print 'create'
+                cls._instance = super(Singleton, cls).__new__(cls, *args, **kw)
+>>>>>>> cb824139036a2c1a25884d5a10934b0fd13c2eda
             mutex.release()
         return cls._instance
+    
+
+
+
 
 
 def singleton(cls, *args, **kw):
+<<<<<<< HEAD
     '''
     将一个类转换为单例模式：
     @singleton
@@ -34,13 +56,18 @@ def singleton(cls, *args, **kw):
     print b.a 
 
     '''
+=======
+>>>>>>> cb824139036a2c1a25884d5a10934b0fd13c2eda
     instances = {}
-
-    def singleton_instance():
+    def _singleton(*args,**kw):
         if cls not in instances:
-            instances[cls] = cls(*args, **kw)
+            mutex = threading.Lock()
+            mutex.acquire()
+            if cls not in instances:
+                instances[cls] = cls(*args, **kw)
+            mutex.release()
         return instances[cls]
-    return singleton_instance
+    return _singleton
 
 
 def enum(args, start=0, split_char=None):
@@ -75,14 +102,21 @@ def create_obj(model_name, class_name, *arg, **kw):
     model = __import__(model_name)
     obj = getattr(model, class_name, None)
     if obj is not None  \
+<<<<<<< HEAD
         and inspect.isclass(obj)
         return obj(*arg, **kw)
     return None
+=======
+        and inspect.isclass(obj):
+        return obj(*arg , **kw)
+    return None 
+>>>>>>> cb824139036a2c1a25884d5a10934b0fd13c2eda
 
 
 def create_obj_by_str(model, *arg, **kw):
     model = model.split('.')
     return create_obj('.'.join(model[:-1]),  model[-1], *arg, **kw)
+
 
 
 class AutoID(object):

@@ -61,7 +61,7 @@ class DTrie2(object):
             if value:
                 cur_node[elements[-1]] = value
             else:
-                cur_node[elements[-1]] = self.fun(cur_node , elements[-1])
+                cur_node[elements[-1]] = self.fun(cur_node, elements[-1])
 
     def search(self, word):
         '''
@@ -78,7 +78,7 @@ class DTrie2(object):
                 cur_node = cur_node[item]
             else:
                 return None
-        return cur_node[elements[-1]] if  cur_node.has_key(elements[-1]) and cur_node[elements[-1]] else None
+        return cur_node[elements[-1]] if cur_node.has_key(elements[-1]) and cur_node[elements[-1]] else None
 
     def get_child_num_level(self, element):
         cur_node = self.root_node

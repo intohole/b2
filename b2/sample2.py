@@ -21,8 +21,7 @@ class SampleDatas(object):
         self.add(line)
         return self
 
-
-    def add(self , line ):
+    def add(self, line):
         if len(self.data) < self.__sample:
             self.data.append(line)
         else:
@@ -30,7 +29,6 @@ class SampleDatas(object):
             if _sample < self.__sample:
                 self.data[_sample] = line
         self.__idx += 1
-
 
 
 class Reservoir(object):
@@ -119,7 +117,7 @@ class Reservoir(object):
         '''
         for key, datas in self.datas.items():
             for line in datas.data:
-                yield key , line 
+                yield key, line
 
 
 class ReservoirKey(object):
@@ -145,7 +143,7 @@ class ReservoirKey(object):
     def add_line(self, line):
         items = self._split(line)
         if len(items) != 0:
-            key = self._make_key(items , self.__keys)
+            key = self._make_key(items, self.__keys)
             if not self.datas.has_key(key):
                 self.datas[key] = SampleDatas(self.__sample)
             self.datas[key] += items

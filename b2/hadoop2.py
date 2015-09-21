@@ -1,8 +1,4 @@
-#!/usr/bin/env python
-# encoding: utf8
-# vim: set et sw=4 ts=4 sts=4 ff=unix fenc=utf8:
-# Author: huangkuan<huangkuan@baidu.com>
-# Created on 2013-06-06 13:58:46
+#coding=utf-8
 
 import os
 import re
