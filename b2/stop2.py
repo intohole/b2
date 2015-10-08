@@ -10,7 +10,6 @@ class StopWords(object):
     def __init__(self, **kw):
         self.stop_words = defaultdict(set)
         if kw.has_key('path'):
-<<<<<<< HEAD
             self.load(kw['path'])
 
     def load(self, path):
@@ -30,24 +29,6 @@ class StopWords(object):
             if wordk_len > stop_words_len:
                 continue
             if words[stop_words_len:] in self.__stop_words[stop_words_len]:
-=======
-            with open(kw['path']) as f:
-                for line in f.readlines():
-                    line = line.strip()
-                    if len(line) > 0:
-                        self.stop_words[len(line)].add(line)
-        else:
-            raise ValueError
-        self.word_len_keys = sorted(self.stop_words.keys())
-
-    def endswith(self, words):
-        word_len = len(words)
-        word_len_index = bisect.bisect(self.word_len_keys, word_len)
-        if word_len_index == len(self.word_len_keys):
-            return False
-        for stop_words_len in self.word_len_keys[:word_len_index]:
-            if words[-stop_words_len:] in self.stop_words[stop_words_len]:
->>>>>>> cb824139036a2c1a25884d5a10934b0fd13c2eda
                 return True
         return False
 

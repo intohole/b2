@@ -11,7 +11,6 @@ def isdir(path):
     return os.path.isdir(path)
 
 
-<<<<<<< HEAD
 import os
 
 
@@ -44,10 +43,6 @@ def mkdir_p(path):
 
 def mkdir_p_child(path, child_path):
     return mkdir_p(os.path.join(path, child_path))
-=======
-def mkdir_p(path, path_pattern='/'):
-    paths = path_pattern.split(path_pattern)
->>>>>>> cb824139036a2c1a25884d5a10934b0fd13c2eda
 
 
 def write(lines,  path, overwrite=True, join_str='\n'):
