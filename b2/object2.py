@@ -156,3 +156,39 @@ class AutoID(object):
 
     def get(self, name):
         return self.__getitem__(name)
+
+
+
+class Byte2(object):
+
+    def __init__(self , datas):
+        self.byte_objects = {}
+        self.byte_len = None
+        if isinstance(datas , (list , tuple)):
+            self.byte_objects = { i : (datas[i] , 1 << i) for i in range(len(datas))}
+            self.reverse_byte_objects = {datas[i] : (i , 1<<i) for i in range(len(datas))}
+            self.byte_len = len(datas)
+        elif isinstance(datas , dict):
+            self.byte_objects = { i : (name , 1 << i) for i , name in datas.items()}
+            self.reverse_byte_objects = { name : (i , 1<<i) for i , name in datas.items()}
+            self.byte_len =  max( int(key) for key in datas.keys())
+        else:
+            raise TypeError
+
+    def __and__(self , val):
+        if val is None:
+            raise TypeError
+        if isinstance(val  , int):
+            _means = []
+            for i in range(self.byte_len):
+                if val & self.byte_objects[i][1]:
+                    _means.append(self.byte_objects[i][0])
+            return ' '.join(_means)
+        elif isinstance(val , (list , tuple)):
+            _val = 0
+            for i in range(len(val)):
+                if val[i] in self.reverse_byte_objects:
+                    _val |= self.reverse_byte_objects[val[i]][1]
+                else:
+                    raise ValueError , "%s not right params " % val[i]
+            return  _val
