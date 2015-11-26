@@ -58,18 +58,3 @@ def get_sign( input_file, main_data, sec_data ):
 def log( msg):
     sys.stderr.write(msg)
     sys.stderr.flush()
-
-
-
-
-if __name__ == '__main__':
-    print get_sign('hdfs://nj01-nanling-hdfs.dmop.baidu.com:54310/app/ps/spider/spi-sched/goblin-tech/data-statistic-wise/linkbase-bailing-wise/d_stat.00000' , 'hdfs://nj01-nanling-hdfs.dmop.baidu.com:54310/app/ps/spider/spi-sched-offline/lixuze/merge_model/1419319491/' , 'hdfs://nj01-nanling-hdfs.dmop.baidu.com:54310/app/ps/spider/spi-sched/goblin-tech/data-statistic-wise/linkbase-bailing-wise/d_stat.* ')
-    # print len(get_max_common_prefix(
-    #     get_hdfs_path('hdfs://nj01-nanling-hdfs.dmop.baidu.com:54310/app/ps/spider/spi-sched-offline/lixuze/merge_model/url_label_merge/part-00000'),
-    #     get_hdfs_path('hdfs://nj01-nanling-hdfs.dmop.baidu.com:54310/app/ps/spider/spi-sched-offline/lixuze/merge_model/url_label_merge')
-    # ))
-    # print len(get_max_common_prefix(
-    #     get_hdfs_path('hdfs://nj01-nanling-hdfs.dmop.baidu.com:54310/app/ps/spider/spi-sched-offline/lixuze/merge_model/url_label_merge/part-00000'),
-    #     get_hdfs_path('hdfs://nj01-nanling-hdfs.dmop.baidu.com:54310/app/ps/spider/spi-sched-offline/lixuze/merge_model/url_label_merge_excute')
-    # ))
-    
