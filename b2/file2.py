@@ -1,17 +1,16 @@
 # coding=utf-8
 
-from exceptions2 import judge_str, judge_null, judge_type
+
+
+
 import os
+from exceptions2 import judge_str, judge_null, judge_type
 from system2 import reload_utf8
-from num2 import get_random_seq1
 
 
 def isdir(path):
     judge_str(path, 0, (str))
     return os.path.isdir(path)
-
-
-import os
 
 
 def mkdir_m(path):
@@ -120,12 +119,11 @@ class Files(object):
 
     def __init__(self, **kw):
         if kw.has_key('dirpath'):
-            if kw.has_key('file_filter'):
-                file_filter = lambda x:  True
-                if kw.has_key('file_filter'):
-                    if not callable(kw['file_filter']):
-                        raise ValueError, 'file_filter is function judge file accept!'
-                    file_filter = kw['file_filter']
+            file_filter = lambda x:  True
+            if file_filter in kw:
+                file_filter = kw['file_filter']
+                if not callable(file_filter):
+                    raise ValueError, 'file_filter is function judge file accept!'
             self.files = walk_folder(kw['dirpath'], file_filter)
         elif kw.has_key('files'):
             if self.is_readall(kw['files']):
