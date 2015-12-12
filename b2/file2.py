@@ -111,7 +111,7 @@ def create_folder_map(root_path, file_filter=lambda x: True, limit_level=None):
     return {root_path: _create_folder_map(root_path, file_filter, limit_level=limit_level)}
 
 
-class Files(object):
+class FilesRead(object):
 
     '''
     多文件读取文件 ， 生成迭代器  ， 只需要next就可以读入文件夹下的所有文件
@@ -176,3 +176,55 @@ class Files(object):
 
     def get_current_file(self):
         return self.__cur_file_path
+
+
+class FilesWrite(object):
+    """多文件写操作 ，因为很多时候 ，需要拼接多个临时文件，根据一定key的方式
+        使用方式：
+            fileswirte = FilesWrite("./data" , file_prefix = "tmp_" , file_count = 1000)
+            fileswrite.write(key , line )
+    """
+
+    def __init__(self , save_path ,file_prefix = "tmp_", file_count = 5000 ):
+        self.file_count = file_count 
+        self.file_handles = {}
+        self.save_path = save_path 
+        self.file_prefix = file_prefix 
+
+    
+    def get_file_id(self , key ):
+        if key is None:
+            raise Exception , "key error is must be not None"
+        return hash(key) % self.file_count 
+    
+    def get_file_handle(self , part_id ):
+        if part_id in self.file_handles:
+            return self.file_handles[part_id]
+        else:
+            if part_id > self.file_count:
+                part_id = part_id % self.file_count 
+            self.file_handles[part_id] = open(os.path.join(self.save_path ,"%s%s"% ( self.file_prefix , str(part_id))) , "w") 
+            return self.file_handles[part_id]
+                
+    def write(self , key , line):
+        """写方法 
+            params: 
+                key 写文件的key
+                line 文件内容 ， 现在为string ， 没有进行判断
+            return:
+                None
+            raise 
+                None
+        """
+        part_id = self.get_file_id(key)
+        self.get_file_handle(part_id).write("%s\n" % line ) 
+     
+
+    def close(self):
+        """关闭文件写方法;这个方法不安全，但是现在work
+        """
+        for part_id in self.file_handles.keys():
+            self.file_handles[part_id].close()
+    
+    def __len__(self):
+        return len(self.file_handles)

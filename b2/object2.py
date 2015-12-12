@@ -197,7 +197,8 @@ class Byte2(object):
 
 
 class LList(object):
-    """统计list 使用
+    """统计list 使用 
+        
     """    
     def __init__(self , names):
         if isinstance(names , basestring):
@@ -243,36 +244,3 @@ class LList(object):
     def __len__(self):
         return len(self.names)
 
-
-class WriteUtils(object):
-
-
-    def __init__(self , save_path ,file_prefix = "tmp_", file_count = 5000 ):
-        self.file_count = file_count 
-        self.file_handles = {}
-        self.save_path = save_path 
-        self.file_prefix = file_prefix 
-
-    
-    def get_file_id(self , key ):
-        if key is None:
-            raise Exception , "key error is must be not None"
-        return hash(key) % self.file_count 
-    
-    def get_file_handle(self , part_id ):
-        if part_id in self.file_handles:
-            return self.file_handles[part_id]
-        else:
-            if part_id > self.file_count:
-                part_id = part_id % self.file_count 
-            self.file_handles[part_id] = open(os.path.join(self.save_path ,"%s%s"% ( self.file_prefix , str(part_id))) , "w") 
-            return self.file_handles[part_id]
-                
-    def write(self , key , line):
-        part_id = self.get_file_id(key)
-        self.get_file_handle(part_id).write("%s\n" % line ) 
-     
-
-    def close(self):
-        for part_id in self.file_handles.keys():
-            self.file_handles[part_id].close()
