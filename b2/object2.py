@@ -192,3 +192,87 @@ class Byte2(object):
                 else:
                     raise ValueError , "%s not right params " % val[i]
             return  _val
+
+
+
+
+class LList(object):
+    """统计list 使用
+    """    
+    def __init__(self , names):
+        if isinstance(names , basestring):
+            names = names.replace("," , " ").split()
+        elif isinstance(names , (list , tuple)) is False:
+           raise TypeError
+        self.names = names 
+        self._name_list = {} # 名称对应词典
+        if len(names) > len(set(names)):
+            raise ValueError , "duplicate key exist , please check"
+        for index , name in enumerate(self.names):
+            if name in ["clear" , "incr"]:
+                raise ValueError , "key must not in [clear , incr]!"
+            self._name_list[name] = index
+            setattr(self , name , 0)
+    
+    def clear(self):
+        for name in self.names:
+            setattr(self , name , 0)
+    
+    def incr(self , name , value = 1):
+        if name in self.names:
+            count = getattr(self , name)
+            setattr(self , name , count + value)
+        else:
+            return None
+    def incrs(self , values):
+        if len(self.names) == len(values):
+            for index , name in enumerate(self.names):
+                self.incr(name , values[index])
+            return True
+        return False  
+    
+    def get_index(self , name ):
+        if name in self._name_list:
+            return self._name_list[name]
+        else:
+            raise ValueError , "%s not in namelist" % (name)
+                 
+    def __str__(self):
+        return "\t".join(str(getattr(self , name)) for name in self.names)
+    
+    def __len__(self):
+        return len(self.names)
+
+
+class WriteUtils(object):
+
+
+    def __init__(self , save_path ,file_prefix = "tmp_", file_count = 5000 ):
+        self.file_count = file_count 
+        self.file_handles = {}
+        self.save_path = save_path 
+        self.file_prefix = file_prefix 
+
+    
+    def get_file_id(self , key ):
+        if key is None:
+            raise Exception , "key error is must be not None"
+        return hash(key) % self.file_count 
+    
+    def get_file_handle(self , part_id ):
+        if part_id in self.file_handles:
+            return self.file_handles[part_id]
+        else:
+            if part_id > self.file_count:
+                part_id = part_id % self.file_count 
+            self.file_handles[part_id] = open(os.path.join(self.save_path ,"%s%s"% ( self.file_prefix , str(part_id))) , "w") 
+            return self.file_handles[part_id]
+                
+    def write(self , key , line):
+        part_id = self.get_file_id(key)
+        self.get_file_handle(part_id).write("%s\n" % line ) 
+     
+
+    def close(self):
+        for part_id in self.file_handles.keys():
+            self.file_handles[part_id].close()
