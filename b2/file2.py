@@ -136,7 +136,7 @@ class FilesRead(object):
         self.__cur_file_path = None
 
     def __iter__(self):
-        return Files(files=self.files)
+        return FilesRead(files=self.files)
 
     def next(self):
         line = self.get_line()
@@ -150,6 +150,14 @@ class FilesRead(object):
         return None
 
     def get_line(self):
+        """从输入文件夹或者文件中读入一行数据
+            params:
+                None
+            return
+                None 如果没有文件可以读取时候
+            raise 
+                None 
+        """
         line = self.__get_cur_line()
         while not line and self.__file_index < (len(self.files) - 1):
             self.__file_index += 1
@@ -167,6 +175,8 @@ class FilesRead(object):
         pass
 
     def is_readall(self, files):
+        """判读files参数 ， 是否都可读状态
+        """
         if not files:
             return False
         for f in files:
