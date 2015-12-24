@@ -6,8 +6,6 @@ import inspect
 import threading 
 
 
-    '''单例模式
-    '''
 
 
 class Singleton(object):
@@ -31,18 +29,16 @@ class Singleton(object):
 
 
 def singleton(cls, *args, **kw):
-    '''
-    将一个类转换为单例模式：
-    @singleton
-    class Test(object):
-        a = 'c'
-    c = Test()
-    b = Test()
-    b.a = 'a'
-    print b.a 
-
-    '''
-
+    """单例修饰符
+        params:
+            cls             类
+            args            类初始化序列话参数
+            kw              类初始化使用的词典参数
+        return 
+            object          类的实例
+        raise 
+            None 
+    """
     instances = {}
     def _singleton(*args,**kw):
         if cls not in instances:
@@ -56,12 +52,26 @@ def singleton(cls, *args, **kw):
 
 
 def enum(args, start=0, split_char=None):
-    '''
-    enum 枚举实现　－　＞　使用方式　　enmu('ENUM1 ... Enum2 .. EnumN')
-
-    '''
+    """python版本自实现枚举功能
+        params
+            args                枚举名称
+            start               枚举类型初始值，后续不断累加1
+            split_char          为了更好的使用枚举类型，出现需要设定为新值时的功能
+        return
+            Enum                枚举实体类
+        raise 
+            None
+        eg:
+            DEFINE=enum("a b c")
+            DEFINE.a = 0 
+            DEFINE.b = 1 
+            DEFINE.c = 2 
+            DEFINE1 = enum("a b#3 c" , split_char="#")
+            DEFINE1.a = 0
+            DEFINE1.b = 3
+            DEFINE1.c = 4
+    """
     class Enum(object):
-
         def __init__(self, args, start=0, split_char=None):
             key_split = args.split()
             last = 0
@@ -87,7 +97,7 @@ def create_obj(model_name, class_name, *arg, **kw):
     model = __import__(model_name)
     obj = getattr(model, class_name, None)
     if obj is not None  \
-        and inspect.isclass(obj)
+            and inspect.isclass(obj):
         return obj(*arg, **kw)
     return None
 
@@ -100,7 +110,7 @@ def create_obj_by_str(model, *arg, **kw):
 
 class AutoID(object):
 
-    """程序自增id
+    """实现自增长id
     """
 
     def __init__(self, *argv, **kw):
@@ -193,8 +203,8 @@ class Byte2(object):
                     raise ValueError , "%s not right params " % val[i]
             return  _val
 
-
-
+        
+    
 
 class LList(object):
     """统计list 使用 

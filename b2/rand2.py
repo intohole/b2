@@ -108,5 +108,15 @@ def rand_int_range(range_num=1):
 
 
 def get_random_seq(seq_len):
+    """得到指定长度的数字字符串，左位用0补全
+        params
+            seq_len                 需要得到数字位数
+        return
+            value                   随机数字组合特定位数的字符串
+        raise 
+            TypeError               如果seq_len不为整数数字则抛出异常
+            ValueError              如果seq_len小于1抛出异常 
+    """
+    judge_num(seq_len)
     rand_num = str(randint(0, 10 ** seq_len - 1))
     return '%s%s' % ('0' * (seq_len - len(rand_num)), rand_num)

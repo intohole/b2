@@ -2,22 +2,33 @@
 
 
 def judge_str(content, l=0, types=(str, unicode)):
-    '''
-    判断字符串
+    """判断字符串
     1. 如果字符串为None ， 抛出异常 ValueError
     2. 如果字符串类型不为(str , unicode) , 抛出TypeError
     3. 如果字符串长度小于 l , 抛出异常ValueError
-    '''
+    """
     judge_null(content)
     judge_type(content, 'content must be str or unicode ',types)
     judge_len(content, l)
 
 
 def judge_num(num, min_num = None, max_num = None):
-    '''
-    判断数字
-    '''
+    """判断num是否为数字
+        params:
+            num                 需要判断的数字
+            min_num             判断数字最小值
+            max_num             判断数字最大区间
+        return 
+            None
+        exception:
+            TypeError           如果不是整数类型，抛出异常
+
+    """
     judge_null(num)
+    if max_num:
+        judge_min(num ,"" , num_min )
+    if min_num:
+        judge_bigger(num , "" , num_max)
     judge_type(num, 'value type isn\'t  int or long', (int, long))
 
 
@@ -71,9 +82,3 @@ def judge_callable(value):
 def judge_le_value(value , le_value):
     if value > le_value:
         raise ValueError , 'value must be less or eaqual %s' % le_value
-
-def judge_type_eq(value1, eq_value):
-    pass
-
-
-
