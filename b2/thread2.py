@@ -28,8 +28,9 @@ class Worker(threading.Thread):
         self.tasks = queue 
         self.daemon = True
         self.status = "stop"
+        self.running_flag = True
     def run(self):
-        while True:
+        while self.running_flag:
             task = self.tasks.get()
             self.status = "running"
             if isinstance(task.func , basestring) and task.func.lower() == "kill":
@@ -39,6 +40,10 @@ class Worker(threading.Thread):
             except Exception,e:
                 print e
         self.status = "finish"
+    
+    def stop(self):
+        self.running_flag = False
+
 
 class ThreadPool(object):
 
@@ -57,6 +62,14 @@ class ThreadPool(object):
         self.pool_size = pool_size
 
     def start(self):
+        """线程池中所有线程启动
+            params:
+                None
+            return 
+                None
+            raise 
+                None
+        """
         for thread in self.threads:
             thread.start()
     

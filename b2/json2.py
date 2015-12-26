@@ -17,5 +17,5 @@ class JsonXPath(object):
     
 
 
-    def parse_query(self , query):
+    def _parse_query(self , query):
         pass
