@@ -11,6 +11,12 @@ import threading
 class Singleton(object):
 
     """python单例实现方式
+        test:
+            >>> class A(Singleton): 
+            >>>     a = 4
+            >>> b = A();b.a = 5
+            >>> a = A() 
+            >>> print a.a
     """
     @classmethod
     def __new__(cls, *args, **kw):
@@ -61,15 +67,18 @@ def enum(args, start=0, split_char=None):
             Enum                枚举实体类
         raise 
             None
-        eg:
-            DEFINE=enum("a b c")
-            DEFINE.a = 0 
-            DEFINE.b = 1 
-            DEFINE.c = 2 
-            DEFINE1 = enum("a b#3 c" , split_char="#")
-            DEFINE1.a = 0
-            DEFINE1.b = 3
-            DEFINE1.c = 4
+        test: 
+            >>> DEFINE=enum("a b c")
+            >>> DEFINE.a == 0 
+            >>> DEFINE.b == 1 
+            >>> DEFINE.c == 2 
+            >>> DEFINE.c = 3 
+            >>> DEFINE.c == 3
+            >>> print DEFINE.c
+            >>> DEFINE1 = enum("a b#3 c" , split_char="#")
+            >>> DEFINE1.a = 0
+            >>> DEFINE1.b = 3
+            >>> DEFINE1.c = 4
     """
     class Enum(object):
         def __init__(self, args, start=0, split_char=None):
@@ -84,6 +93,11 @@ def enum(args, start=0, split_char=None):
                     setattr(self, key_value[0], last)
                 else:
                     setattr(self, key, i)
+        
+        def __setattr__(self , key , value):
+            if hasattr(self , key):
+                return 
+            super(Enum , self).__setattr__(key , value)
     return Enum(args, start, split_char)
 
 
@@ -208,7 +222,7 @@ class Byte2(object):
 
 class LList(object):
     """统计list 使用 
-        
+                
     """    
     def __init__(self , names):
         if isinstance(names , basestring):

@@ -122,11 +122,6 @@ class DTrie2(object):
         return True
 
     def to_element(self, element):
-        '''
-        功能： 将任何一个字符串或者不是字符串转换为list 或者string 结构 ， 方便你将任何字符串类型转换为 ，trie树的node
-        子类可以继承
-        return   [ list  , tuple , str , unicode ]  __iter__ 
-        '''
         return element
 
     def save(self, path=None):
