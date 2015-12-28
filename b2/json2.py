@@ -48,12 +48,11 @@ class JsonXpath(object):
                     self._finds_name(query.tag , obj ,container)
                     tmpobjs.extend(container)
                 objs = tmpobjs
-            sys.stderr.write("%s\n" % objs)
             if len(objs) != 0 and query.operator and query.sub_tag and query.value:
                 objs = [ obj  for obj in objs if self._has_attr(query.sub_tag , obj , query.value , query.operator) ]
             if len(objs) == 0:
                 return []
-        return obj 
+        return objs 
                     
     def _parse_query(self , query):
         query_list = [] 
@@ -147,4 +146,4 @@ if __name__ == "__main__":
     container = []
     import sys
     x = JsonXpath(obj)
-    print x.extract("//a[@c=1]")
+    print x.extract("/a[@c=1]")
