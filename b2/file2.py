@@ -6,12 +6,20 @@
 import os
 from exceptions2 import judge_str, judge_null, judge_type
 from system2 import reload_utf8
+import os
 
+__ALL__ = ["isdir" , "touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
 
 def isdir(path):
     judge_str(path, 0, (str))
     return os.path.isdir(path)
 
+def touch(path):
+    if path and isinstance(path , basestring):
+        with open(path , "a") as f:
+            os.utime(path , None)
+        return True
+    return False
 
 def mkdir_m(path):
     if path:
