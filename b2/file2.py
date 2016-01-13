@@ -1,19 +1,27 @@
 # coding=utf-8
 
-
-
-
 import os
 from exceptions2 import judge_str, judge_null, judge_type
 from system2 import reload_utf8
 import os
+import time
 
-__ALL__ = ["isdir" , "touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
+__ALL__ = ["isdir" , "waite_running_flag","touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
 
 def isdir(path):
     judge_str(path, 0, (str))
     return os.path.isdir(path)
 
+def waite_running_flag(running_flag , wait_time = 0.1):
+    if running_flag is not None \
+            or isinstance(running_flag ,basestring) is False \
+            or os.path.exists(running_flag) \
+            or isinstance(waite_time , (float , double , int, long)) is False \
+            or wait_time <= 0:
+                return False
+    while running_flag is None and os.path.exists(running_flag):
+        time.sleep(wait_time)
+    return True
 def touch(path):
     if path and isinstance(path , basestring):
         with open(path , "a") as f:
@@ -246,3 +254,4 @@ class FilesWrite(object):
     
     def __len__(self):
         return len(self.file_handles)
+
