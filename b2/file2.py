@@ -12,15 +12,29 @@ def isdir(path):
     judge_str(path, 0, (str))
     return os.path.isdir(path)
 
-def waite_running_flag(running_flag , wait_time = 0.1):
+def wait_running_flag(running_flag , wait_time = 0.1 , call_back = None ):
+    """等待一个文件删除功能
+        params:
+            running_flag                    需要等待运行的文件
+            wait_time                       为了防止死循环，设置一个循环值
+        return:
+            True                            函数成功运行
+            False                           参数有错误
+        raise
+            None 
+        test:
+            >>> wait_running_flag("") 
+    """
     if running_flag is not None \
             or isinstance(running_flag ,basestring) is False \
             or os.path.exists(running_flag) \
             or isinstance(waite_time , (float , double , int, long)) is False \
-            or wait_time <= 0:
+            or wait_time <= 0 or (call_back is not None and callable(call_back) is False):
                 return False
     while running_flag is None and os.path.exists(running_flag):
         time.sleep(wait_time)
+    if call_back is not None:
+        call_back(running_flag)
     return True
 def touch(path):
     if path and isinstance(path , basestring):
