@@ -4,6 +4,7 @@
 import json
 import re
 
+__ALL__ = ["QueryItem" , "JPath"]
 
 class QueryItem(object):
 
@@ -16,9 +17,9 @@ class QueryItem(object):
     
     def __str__(self):
         return "root_path={root_path} tag={tag} sub_tag={sub_tag} operator={operator} value={value}".format(tag = self.tag , sub_tag=self.sub_tag , operator = self.operator , value = self.value , root_path = self.root_path )
-class JsonXpath(object):
+class JPath(object):
     _parser_regx = re.compile(ur"""^(
-            [\w\d\.\*\+\\]+
+            [\w\d\.\*\+_]+
             )(
                 \[
                 @([\w\d]+)
@@ -27,15 +28,21 @@ class JsonXpath(object):
             )?""" ,re.VERBOSE)
 
 
-    def __init__(self , obj ):
-        if obj and isinstance(obj , basestring):
-            obj = json.loads(obj)
-        if obj is None or isinstance(obj , dict) is False:
-            raise TypeError
-        self.obj = obj 
+    def __init__(self ):
         self.split_char = "/"
     
-    def extract(self , query ):
+    def _obj_2_json(self , obj):
+        if obj is None:
+            raise ValueError
+        if isinstance(obj , basestring):
+            return json.loads(obj )
+        elif isinstance(obj , dict):
+            return obj 
+        else:
+            raise TypeError
+
+    def extract(self ,obj ,  query ):
+        obj = self._obj_2_json(obj)
         querys = self._parse_query(query)
         objs = [self.obj]
         for query in querys:
@@ -48,7 +55,6 @@ class JsonXpath(object):
                     self._finds_name(query.tag , obj ,container)
                     tmpobjs.extend(container)
                 objs = tmpobjs
-            sys.stderr.write("%s\n" % objs)
             if len(objs) != 0 and query.operator and query.sub_tag and query.value:
                 objs = [ obj  for obj in objs if self._has_attr(query.sub_tag , obj , query.value , query.operator) ]
             if len(objs) == 0:
@@ -147,4 +153,4 @@ if __name__ == "__main__":
     container = []
     import sys
     x = JsonXpath(obj)
-    print x.extract("/a[@b>1]")
+    print x.extract("/a[@c=1]/c")

@@ -41,11 +41,9 @@ class JsonXpath(object):
         for query in querys:
             print query
             if query.root_path == True :
-                print query.tag , obj 
                 obj = self._find_name(query.tag , obj)
-                print obj
                 if query.operator and query.sub_tag and query.value:
-                    if self._has_attr(query.sub_tag , obj , query.value) is False:
+                    if self._has_attr(query.sub_tag , obj , query.value , query.operator ) is False:
                         return None 
         return obj 
                     
@@ -112,7 +110,7 @@ class JsonXpath(object):
                     return obj[tag] > value 
                 elif operator == "=":
                     type(obj[tag])(value)
-                    return obj[tag] == value 
+                    return (obj[tag] == value )
                 elif operator == "<":
                     type(obj[tag])(value)
                     return obj[tag] < value 
@@ -135,45 +133,9 @@ class JsonXpath(object):
 
 if __name__ == "__main__":
 
-    obj = json.loads('''{
-    "store": {
-        "book": [
-            {
-                "category": "reference",
-                "author": "Nigel Rees",
-                "title": "Sayings of the Century",
-                "price": 8.95
-            },
-            {
-                "category": "fiction",
-                "author": "Evelyn Waugh",
-                "title": "Sword of Honour",
-                "price": 12.99
-            },
-            {
-                "category": "fiction",
-                "author": "Herman Melville",
-                "title": "Moby Dick",
-                "isbn": "0-553-21311-3",
-                "price": 8.99
-            },
-            {
-                "category": "fiction",
-                "author": "J. R. R. Tolkien",
-                "title": "The Lord of the Rings",
-                "isbn": "0-395-19395-8",
-                "price": 22.99
-            }
-        ],
-        "bicycle": {
-            "color": "red",
-            "price": 19.95
-        }
-        },
-    "expensive": 10
-    }''')
+    obj = json.loads('{"a":{"b":1 , "c":0} , "d":[{"a":5}]}')
     container = []
     import sys
     print json.dumps(obj , indent = 2 , ensure_ascii = False ) 
     x = JsonXpath(obj)
-    print x.extract("/store/expensive")
+    print x.extract("/a[@c=0]")
