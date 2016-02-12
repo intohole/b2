@@ -11,11 +11,9 @@ import os
 
 class DTNode(dict):
 
-    '''
-    trie树Node ，继承词典类别
-
-    '''
-    pass
+    def __init__(self , *argv , **kw):
+        super(DTNode , self).__init__(*argv , **kw)
+        self.weight = None 
 
 
 class DTrie2(object):
@@ -42,43 +40,33 @@ class DTrie2(object):
             self.path = kw['path']
 
     def add(self, word, value=None):
-        '''
-        添加word字符串到trie树中：
-        exception :
-               word == None || len(word) < 1 || type(word ) not in [str , unicode]
-        如果没有报异常 ， 则添加成功 ， 否则失败
-        '''
+        """添加word到词典树中
+            params:
+                word                添加字符串
+                value               添加的数值
+            return
+        """
         judge_str(word, 1, (str, unicode))
         cur_node = self.root_node
         elements = self.to_element(word)
         for w in elements:
-            if not cur_node.has_key(w):
+            if w not in cur_node:
                 cur_node[w] = DTNode()
                 cur_node = cur_node[w]
             else:
                 cur_node = cur_node[w]
-        if len(elements) > 0 and cur_node != self.root_node:
-            if value:
-                cur_node[elements[-1]] = value
-            else:
-                cur_node[elements[-1]] = self.fun(cur_node, elements[-1])
+        cur_node.value = value 
+        return value 
 
     def search(self, word):
-        '''
-        查找字符串是否存在word字符串
-        exceptions :
-                  word == None || len(word) == 0 || type(word) not in [str , unicode]
-        如果tree树含有word ， 则返回一个非零值 ， 否则返回false ， 非零值 ， 代表add（word） 次数
-        '''
         judge_str(word, 1, (str, unicode))
         cur_node = self.root_node
         elements = self.to_element(word)
         for item in elements:
-            if cur_node.has_key(item):
-                cur_node = cur_node[item]
-            else:
+            if item not in  cur_node:
                 return None
-        return cur_node[elements[-1]] if cur_node.has_key(elements[-1]) and cur_node[elements[-1]] else None
+            cur_node = cur_node[item]
+        return cur_node 
 
     def get_child_num_level(self, element):
         cur_node = self.root_node
@@ -117,7 +105,6 @@ class DTrie2(object):
         try:
             self.root_node = json.loads(json_string)
         except Exception:
-            print 'exception'
             return False
         return True
 
