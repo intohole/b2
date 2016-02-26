@@ -8,6 +8,7 @@ from exceptions2 import judge_str
 import json
 import os
 
+__ALL__ = ["DTrie2"]
 
 class DTNode(dict):
 

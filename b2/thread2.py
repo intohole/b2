@@ -26,9 +26,10 @@ class Worker(threading.Thread):
     def __init__(self , queue , sleep = None):
         super(Worker, self).__init__()
         self.tasks = queue 
-        self.daemon = True
+        self.setDaemon(True)
         self.status = "stop"
         self.running_flag = True
+
     def run(self):
         while self.running_flag:
             task = self.tasks.get()
@@ -79,6 +80,9 @@ class ThreadPool(object):
 
     def add_command(self , func , *argv , **kw):
         self.queue.put(Command(func , *argv , **kw))
+    
+    def insert(self , command):
+        self.queue.put(command)
 
     def add_worker(self , sleep = None):
         self.add_worker(self.queue , sleep)
@@ -113,4 +117,4 @@ if __name__ == "__main__":
     for i in range(10):
         threads.add_command("kill" , *[] , **{"n" : i})
     threads.start()
-    threads.wait()
+    print "good"

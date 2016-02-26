@@ -6,7 +6,7 @@ from system2 import reload_utf8
 import os
 import time
 
-__ALL__ = ["isdir" , "waite_running_flag","touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
+__ALL__ = ["read_config_json" ,"isdir" , "waite_running_flag","touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
 
 def isdir(path):
     judge_str(path, 0, (str))
@@ -36,7 +36,17 @@ def wait_running_flag(running_flag , wait_time = 0.1 , call_back = None ):
     if call_back is not None:
         call_back(running_flag)
     return True
+
 def touch(path):
+    """根据path创建文件
+        params:
+            path                    需要创建文件类型
+        return 
+            True
+            False
+        raise 
+            None 
+    """
     if path and isinstance(path , basestring):
         with open(path , "a") as f:
             os.utime(path , None)
@@ -88,6 +98,15 @@ def write(lines,  path, overwrite=True, join_str='\n'):
         else:
             f.write(join_str.join([line for line in lines]))
 
+def read_config_json(file_path):
+    """从文件内部读取json转换成词典
+    """
+    content = None 
+    import json 
+    with open(file_path) as f:
+        contents = "".join(f.readlines())
+        return json.loads(contents)
+        
 
 def walk_folder(root_path, file_filter=lambda x: true, current_level=0):
     '''
@@ -142,10 +161,8 @@ def create_folder_map(root_path, file_filter=lambda x: True, limit_level=None):
 
 
 class FilesRead(object):
-
-    '''
-    多文件读取文件 ， 生成迭代器  ， 只需要next就可以读入文件夹下的所有文件
-    '''
+    """多文件读取文件 ， 生成迭代器  ， 只需要next就可以读入文件夹下的所有文件
+    """
 
     def __init__(self, **kw):
         if kw.has_key('dirpath'):

@@ -1,5 +1,13 @@
 # coding=utf-8
 
+class MsgException(Exception):
+
+
+    def __init__(self , msg):
+        self._msg = msg 
+
+    def __str__(self):
+        return msg 
 
 def judge_str(content, l=0, types=(str, unicode)):
     """判断字符串
