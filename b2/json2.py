@@ -18,6 +18,7 @@ class QueryItem(object):
     def __str__(self):
         return "root_path={root_path} tag={tag} sub_tag={sub_tag} operator={operator} value={value}".format(tag = self.tag , sub_tag=self.sub_tag , operator = self.operator , value = self.value , root_path = self.root_path )
 class JPath(object):
+
     _parser_regx = re.compile(ur"""^(
             [\w\d\.\*\+_]+
             )(
@@ -40,11 +41,23 @@ class JPath(object):
             return obj 
         else:
             raise TypeError
+    def _extract_query_item(self , query):
+        if query is None:
+            raise ValueError 
+        if isinstance(query , basestring):
+            return self._parse_query(query)
+        elif isinstance(query ,list):
+            for _obj in query:
+                if isinstance(_obj , QueryItem) is False:
+                    raise TypeError("query is QueryItem list , but contain the item isn't QueryItem!")
+            return query     
+        else:
+            raise TypeError("query type is error , query type in [basestring , QueryItem]!")
 
     def extract(self ,obj ,  query ):
         obj = self._obj_2_json(obj)
-        querys = self._parse_query(query)
-        objs = [self.obj]
+        querys = self._extract_query_item(query)
+        objs = [obj]
         for query in querys:
             if query.root_path == True :
                 objs = [self._find_name(query.tag , obj) for obj in objs]
@@ -62,6 +75,14 @@ class JPath(object):
         return objs 
                     
     def _parse_query(self , query):
+        """将xpath解析成为程序所需要的query结构体
+            params:
+                query                   查询结构字符串
+            return 
+                query_list              [QueryItem]
+            raise:
+                None 
+        """
         query_list = [] 
         query_paths = query.split(self.split_char)
         root_path = True 
@@ -152,5 +173,5 @@ if __name__ == "__main__":
     obj = json.loads('{"a":{"b":1 , "c":1} , "d":[{"a":5}]}')
     container = []
     import sys
-    x = JsonXpath(obj)
-    print x.extract("/a[@c=1]/c")
+    x = JPath()
+    print x.extract(obj , "/a[@c=1]/c")

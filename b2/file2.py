@@ -6,7 +6,7 @@ from system2 import reload_utf8
 import os
 import time
 
-__ALL__ = ["read_config_json" ,"isdir" , "waite_running_flag","touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
+__ALL__ = ["read_config_json"  , "read_dict_format_line" ,"isdir" , "waite_running_flag","touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
 
 def isdir(path):
     judge_str(path, 0, (str))
@@ -107,6 +107,25 @@ def read_config_json(file_path):
         contents = "".join(f.readlines())
         return json.loads(contents)
         
+
+def read_dict_format_line(file_path  , *argv , **kw ):
+    """从那件读入
+    """
+    split_fun = kw.get("split_fun" , lambda x : x.split())
+    for attr in argv:
+        if isinstance(attr , basestring) is False:
+            raise TypeError
+
+    from collections import namedtuple
+    from collections import OrderedDict
+    _Line = namedtuple("_Line" , " ".join(argv))
+    d = OrderedDict() 
+    with open(file_path) as f:
+        for line in f:
+            values = split_fun(line.rstrip()) 
+            d[values[0]] = _Line._make(values[1:]) 
+    print d
+    return d
 
 def walk_folder(root_path, file_filter=lambda x: true, current_level=0):
     '''
@@ -285,4 +304,3 @@ class FilesWrite(object):
     
     def __len__(self):
         return len(self.file_handles)
-
