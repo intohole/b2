@@ -37,6 +37,8 @@ def wait_running_flag(running_flag , wait_time = 0.1 , call_back = None ):
         call_back(running_flag)
     return True
 
+
+
 def touch(path):
     """根据path创建文件
         params:

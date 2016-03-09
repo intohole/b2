@@ -1,8 +1,6 @@
 # coding=utf-8
 import time
 from datetime import date
-
-
 from exceptions2 import judge_str
 from object2 import enum
 
