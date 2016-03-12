@@ -56,6 +56,18 @@ def singleton(cls, *args, **kw):
         return instances[cls]
     return _singleton
 
+class StaticDict(dict):
+
+
+
+    def __init__(self , *argv , **kw):
+        super(StaticDict , self).__init__(*argv , **kw)
+    
+    def __setitem__(self , key , value):
+        if key in self:
+            raise ValueError("{key} has exist in dict !".format(key = key))
+        super(StaticDict , self).__setitem__(key , value) 
+    
 
 def enum(args, start=0, split_char=None):
     """python版本自实现枚举功能
@@ -98,6 +110,15 @@ def enum(args, start=0, split_char=None):
             if hasattr(self , key):
                 return 
             super(Enum , self).__setattr__(key , value)
+        
+        def __getitem__(self , key):
+            if hasattr(self , key):
+                return getattr(self , key)
+            return None 
+
+        def __setitem__(self , key , value):
+            self.__setattr__(key , value)
+
     return Enum(args, start, split_char)
 
 

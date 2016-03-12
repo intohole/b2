@@ -40,12 +40,13 @@ def judge_null(value):
     if hasattr(value , "__len__"):
         _judge_le_value(len(value) , 0)
 
+
 def judge_str(content, l=0, types=(basestring)):
     """判断content为字符串类型 ，长度
     """
     judge_null(content)
     judge_type(content , types)
-    judge_len(content, l)
+    judge_min_len(content, l)
 
 
 def judge_num(num, min_num = None, max_num = None):
