@@ -35,6 +35,14 @@ def _judge_ge_value(value , ge_value = 0):
 
 
 def judge_null(value):
+    """判断value是否为None或者长度为0;
+        params: 
+            value             需要判断的value 
+        return:
+            None 
+        raise:
+            ValueError        value为None或者长度为空时，抛出异常 
+    """
     if value is None:
         raise ValueError, 'value is null!'
     if hasattr(value , "__len__"):

@@ -7,7 +7,7 @@ import platform
 import sys
 
 
-def reload_utf8(code='utf-8'):
+def set_default_encoding(code='utf-8'):
     reload(sys)
     sys.setdefaultencoding(code)
 

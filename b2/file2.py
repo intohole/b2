@@ -6,7 +6,7 @@ from system2 import reload_utf8
 import os
 import time
 
-__ALL__ = ["read_config_json"  , "read_dict_format_line" ,"isdir" , "waite_running_flag","touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
+__ALL__ = ["read_config_json"  , "read_dict_format_line" ,"isdir" , "wait_running_flag","touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
 
 def isdir(path):
     judge_str(path, 0, (str))
@@ -81,6 +81,10 @@ def mkdir_p(path):
     else:
         raise ValueError, "path is none or empty , please check !"
 
+def split_path(p):
+    if p and len(p) > 0 and isinstance(p,  str):
+        return os.path.split(p)
+        
 
 def mkdir_p_child(path, child_path):
     return mkdir_p(os.path.join(path, child_path))
@@ -126,7 +130,6 @@ def read_dict_format_line(file_path  , *argv , **kw ):
         for line in f:
             values = split_fun(line.rstrip()) 
             d[values[0]] = _Line._make(values[1:]) 
-    print d
     return d
 
 def walk_folder(root_path, file_filter=lambda x: true, current_level=0):

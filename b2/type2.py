@@ -1,6 +1,10 @@
 # coding=utf-8
 
 
+
+
+from exceptions2 import judge_null 
+
 def is_none(value):
     if value == None:
         return True
@@ -69,18 +73,7 @@ def _get_default(self, data, default=0, *argv):
 
 
 def update_config(d, **kw):
-    '''
-    更新词典或者类内部属性
-    参数:
-        d 
-            需要更新的数据项
-        kw  
-            需要更新数据项的{名称 : val }
-    异常：
-        如果为none ， 抛出异常
-    返回：
-        return None 
-    '''
+    judge_null(d)
     if d is None:
         raise ValueError, 'd is none !'
     if isinstance(d, dict):
