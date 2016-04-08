@@ -75,3 +75,23 @@ from b2.stop2 import StopWords
 ---------
 -  实现一些工具　，　方便工作使用　　
 -  实现网络　，　将buffer2工具具体细化功能　，　方便自己　，　也方便使用它的人
+
+
+json2.py[json xpath语法实现]
+-----------
+
+:::code 
+        
+        obj = json.loads('{"a":{"b":1 , "c":1} , "d":[{"a":5}]}')
+        container = []
+        import sys
+        x = JPath()
+        print x.extract(obj , "/a[@c=1]/c")
+
+
+consle2.py
+-----------
++ SimpleProgressBar()
+    + update(x)
+
++ 

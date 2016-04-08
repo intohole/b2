@@ -12,6 +12,9 @@ def isdir(path):
     judge_str(path, 0, (str))
     return os.path.isdir(path)
 
+
+def get_abs_file():
+    import 
 def wait_running_flag(running_flag , wait_time = 0.1 , call_back = None ):
     """等待一个文件删除功能
         params:
@@ -82,6 +85,7 @@ def mkdir_p(path):
         raise ValueError, "path is none or empty , please check !"
 
 
+
 def mkdir_p_child(path, child_path):
     return mkdir_p(os.path.join(path, child_path))
 
@@ -126,7 +130,6 @@ def read_dict_format_line(file_path  , *argv , **kw ):
         for line in f:
             values = split_fun(line.rstrip()) 
             d[values[0]] = _Line._make(values[1:]) 
-    print d
     return d
 
 def walk_folder(root_path, file_filter=lambda x: true, current_level=0):
@@ -137,6 +140,11 @@ def walk_folder(root_path, file_filter=lambda x: true, current_level=0):
     '''
     judge_str(root_path, 1, (str))
     files = []
+    if os.path.isfile(root_path):
+        if file_filter and callable(file_filter):
+            if file_filter(root_path):
+                files.append(root_path)
+        return files 
     for f in os.listdir(root_path):
         cur_path = os.path.join(root_path, f)
         if os.path.isfile(cur_path):

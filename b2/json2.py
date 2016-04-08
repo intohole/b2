@@ -23,7 +23,7 @@ class JPath(object):
             [\w\d\.\*\+_]+
             )(
                 \[
-                @([\w\d]+)
+                @([\w_\d]+)
                 (=|>=|<=|>|<|~){1}
                 ([\d\w]+)\]
             )?""" ,re.VERBOSE)
@@ -41,9 +41,10 @@ class JPath(object):
             return obj 
         else:
             raise TypeError
+
     def _extract_query_item(self , query):
         if query is None:
-            raise ValueError 
+            raise ValueError("query must be not None !") 
         if isinstance(query , basestring):
             return self._parse_query(query)
         elif isinstance(query ,list):
@@ -55,6 +56,8 @@ class JPath(object):
             raise TypeError("query type is error , query type in [basestring , QueryItem]!")
 
     def extract(self ,obj ,  query ):
+        """根据
+        """
         obj = self._obj_2_json(obj)
         querys = self._extract_query_item(query)
         objs = [obj]

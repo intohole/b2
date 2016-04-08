@@ -64,9 +64,9 @@ def judge_num(num, min_num = None, max_num = None):
     judge_null(num)
     judge_type(num , (int, long))
     if max_num:
-        _judge_min(num ,"" , num_min )
+        _judge_min(num ,"" , min_num )
     if min_num:
-        _judge_bigger(num , "" , num_max)
+        _judge_bigger(num , "" , max_num )
 
 
 

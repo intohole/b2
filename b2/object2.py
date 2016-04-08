@@ -64,10 +64,9 @@ class StaticDict(dict):
         super(StaticDict , self).__init__(*argv , **kw)
     
     def __setitem__(self , key , value):
-        if key in self:
+        if key in self and value != self[key]:
             raise ValueError("{key} has exist in dict !".format(key = key))
         super(StaticDict , self).__setitem__(key , value) 
-    
 
 def enum(args, start=0, split_char=None):
     """python版本自实现枚举功能
@@ -155,6 +154,7 @@ class AutoID(object):
         self.__start_id = start_id
         self.__id = self.__start_id
         self.__map_id = {}
+        self.__map_id_reverse = {}
         self.__mutex = threading.Lock()
 
     def __getitem__(self, key):
@@ -164,6 +164,7 @@ class AutoID(object):
             else:
                 self.__mutex.acquire()
                 self.__map_id[key] = self.__id
+                self.__map_id_reverse[self.__id] = key
                 self.__id += 1
                 ret_id = self.__map_id[key]
                 self.__mutex.release()
@@ -201,8 +202,12 @@ class AutoID(object):
 
     def get(self, name):
         return self.__getitem__(name)
+    
+    def get_by_id(self , id):
+        return self.__map_id_reverse.get(id , None) 
 
-
+    def __len__(self):
+        return len(self.__map_id)
 
 class Byte2(object):
 
