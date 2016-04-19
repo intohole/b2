@@ -15,4 +15,6 @@ def entropy(props):
     elif isinstance(prop , (float , long , int ,double)):
         return -props * log(props)
     raise Exception 
-
+    
+def ln(num):
+    return math.log(num, math.e)

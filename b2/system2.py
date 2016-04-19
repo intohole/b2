@@ -7,10 +7,12 @@ import platform
 import sys
 
 
-def reload_utf8(code='utf-8'):
+def set_default_encoding(code='utf-8'):
     reload(sys)
     sys.setdefaultencoding(code)
 
+def reload_utf8():
+    set_default_encoding("utf-8")
 
 def split_path(p):
     if p and len(p) > 0 and isinstance(p,  str):

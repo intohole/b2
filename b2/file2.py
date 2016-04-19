@@ -1,4 +1,4 @@
-# coding=utf-8
+#coding=utf-8
 
 import os
 from exceptions2 import judge_str, judge_null, judge_type
@@ -6,15 +6,37 @@ from system2 import reload_utf8
 import os
 import time
 
-__ALL__ = ["read_config_json"  , "read_dict_format_line" ,"isdir" , "waite_running_flag","touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
+__ALL__ = ["read_config_json"  , "read_dict_format_line" ,"isdir" , "wait_running_flag","touch" , "mkdir_m" , "mkdir_p" , "mkdir_p_child" , "write" , "FilesRead" ,"FilesWrite"]
 
 def isdir(path):
     judge_str(path, 0, (str))
     return os.path.isdir(path)
 
 
-def get_abs_file():
-    import 
+def get_caller_file():
+    """获得调用者文件绝对路径
+        param:
+        return:调用者文件绝对路径
+        raise None 
+        test:
+            >>> get_caller_file() == os.path.abspath(__file__)
+    """
+    import inspect
+    caller_file = inspect.stack()[1][1]
+    return os.path.abspath(caller_file)
+
+def get_caller_dir():
+    """获得调用者文件绝对目录路径
+        param:
+        return:调用者文件绝对目录路径
+        raise None 
+        test:
+            >>> get_caller_dir() == os.path.abspath(os.path.dirname(__file__))
+    """
+    import inspect
+    caller_file = inspect.stack()[1][1]
+    return os.path.abspath(os.path.dirname(caller_file))
+
 def wait_running_flag(running_flag , wait_time = 0.1 , call_back = None ):
     """等待一个文件删除功能
         params:
@@ -84,6 +106,10 @@ def mkdir_p(path):
     else:
         raise ValueError, "path is none or empty , please check !"
 
+def split_path(p):
+    if p and len(p) > 0 and isinstance(p,  str):
+        return os.path.split(p)
+        
 
 
 def mkdir_p_child(path, child_path):
