@@ -1,8 +1,6 @@
 # coding=utf-8
 
 
-# import tty
-# import termios
 import sys
 from optparse import OptionParser
 from subprocess import call
@@ -117,13 +115,13 @@ class ConsleString(object):
     def consle_move(line):
         call(['echo', '-e', '\33[%dC' % (line)])
 
-
+import tty
+import termios
+ 
 class Control(object):
-
-    '''
-    这个是网络上抄的　，　摘自https://github.com/bfontaine/term2048/blob/master/term2048/keypress.py
-    但是其它部分都是原创　，　打小抄了　．．．
-    '''
+    """linux终端下，上下左右键信息类
+        摘自https://github.com/bfontaine/term2048/blob/master/term2048/keypress.py
+    """
     UP, DOWN, RIGHT, LEFT = 65, 66, 67, 68
 
     # Vim keys
