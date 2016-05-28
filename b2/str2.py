@@ -3,12 +3,17 @@
 
 from exceptions2 import *
 
+__ALL__ = ["replace_all"]
 
 def dict_to_string(data):
     if data and len(data) > 0 and isinstance(data, dict):
         return ' '.join(["%s:%s" % (__key, __val) for __key, __val in data.items()])
     return ''
 
+def is_empty(words):
+    if words is None or ( hasattr(words , '__len__') and len(words) ==0):
+        return True
+    return False
 
 def get_sign_repeat(sign, n):
     judge_str(sign)
@@ -26,6 +31,14 @@ def reverse(words):
     judge_str(words)
     return words[::-1]
 
+def replace_all( word , patterns):
+    if isinstance(patterns , basestring):
+        return word.replace(patterns)
+    if isinstance(patterns , (dict)):
+        for pattern in patterns.items():
+            word = word.replace(pattern[0],pattern[1])
+        return word
+    raise TypeError
 
 def get_same_starts(word1, word2):
     '''
