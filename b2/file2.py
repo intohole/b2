@@ -17,7 +17,7 @@ def get_caller_file():
     """获得调用者文件绝对路径
         param:
         return:调用者文件绝对路径
-        raise None 
+        raise None
         test:
             >>> get_caller_file() == os.path.abspath(__file__)
     """
@@ -29,7 +29,7 @@ def get_caller_dir():
     """获得调用者文件绝对目录路径
         param:
         return:调用者文件绝对目录路径
-        raise None 
+        raise None
         test:
             >>> get_caller_dir() == os.path.abspath(os.path.dirname(__file__))
     """
@@ -46,9 +46,9 @@ def wait_running_flag(running_flag , wait_time = 0.1 , call_back = None ):
             True                            函数成功运行
             False                           参数有错误
         raise
-            None 
+            None
         test:
-            >>> wait_running_flag("") 
+            >>> wait_running_flag("")
     """
     if running_flag is not None \
             or isinstance(running_flag ,basestring) is False \
@@ -68,11 +68,11 @@ def touch(path):
     """根据path创建文件
         params:
             path                    需要创建文件类型
-        return 
+        return
             True
             False
-        raise 
-            None 
+        raise
+            None
     """
     if path and isinstance(path , basestring):
         with open(path , "a") as f:
@@ -109,7 +109,7 @@ def mkdir_p(path):
 def split_path(p):
     if p and len(p) > 0 and isinstance(p,  str):
         return os.path.split(p)
-        
+
 
 
 def mkdir_p_child(path, child_path):
@@ -133,12 +133,12 @@ def write(lines,  path, overwrite=True, join_str='\n'):
 def read_config_json(file_path):
     """从文件内部读取json转换成词典
     """
-    content = None 
-    import json 
+    content = None
+    import json
     with open(file_path) as f:
         contents = "".join(f.readlines())
         return json.loads(contents)
-        
+
 
 def read_dict_format_line(file_path  , *argv , **kw ):
     """从那件读入
@@ -151,11 +151,11 @@ def read_dict_format_line(file_path  , *argv , **kw ):
     from collections import namedtuple
     from collections import OrderedDict
     _Line = namedtuple("_Line" , " ".join(argv))
-    d = OrderedDict() 
+    d = OrderedDict()
     with open(file_path) as f:
         for line in f:
-            values = split_fun(line.rstrip()) 
-            d[values[0]] = _Line._make(values[1:]) 
+            values = split_fun(line.rstrip())
+            d[values[0]] = _Line._make(values[1:])
     return d
 
 def walk_folder(root_path, file_filter=lambda x: true, current_level=0):
@@ -170,7 +170,7 @@ def walk_folder(root_path, file_filter=lambda x: true, current_level=0):
         if file_filter and callable(file_filter):
             if file_filter(root_path):
                 files.append(root_path)
-        return files 
+        return files
     for f in os.listdir(root_path):
         cur_path = os.path.join(root_path, f)
         if os.path.isfile(cur_path):
@@ -257,8 +257,8 @@ class FilesRead(object):
                 None
             return
                 None 如果没有文件可以读取时候
-            raise 
-                None 
+            raise
+                None
         """
         line = self.__get_cur_line()
         while not line and self.__file_index < (len(self.files) - 1):
@@ -298,45 +298,46 @@ class FilesWrite(object):
     """
 
     def __init__(self , save_path ,file_prefix = "tmp_", file_count = 5000 ):
-        self.file_count = file_count 
+        self.file_count = file_count
         self.file_handles = {}
-        self.save_path = save_path 
-        self.file_prefix = file_prefix 
+        mkdir_p(save_path)
+        self.save_path = save_path
+        self.file_prefix = file_prefix
 
-    
+
     def get_file_id(self , key ):
         if key is None:
             raise Exception , "key error is must be not None"
-        return hash(key) % self.file_count 
-    
+        return hash(key) % self.file_count
+
     def get_file_handle(self , part_id ):
         if part_id in self.file_handles:
             return self.file_handles[part_id]
         else:
             if part_id > self.file_count:
-                part_id = part_id % self.file_count 
-            self.file_handles[part_id] = open(os.path.join(self.save_path ,"%s%s"% ( self.file_prefix , str(part_id))) , "w") 
+                part_id = part_id % self.file_count
+            self.file_handles[part_id] = open(os.path.join(self.save_path ,"%s%s"% ( self.file_prefix , str(part_id))) , "w")
             return self.file_handles[part_id]
-                
+
     def write(self , key , line):
-        """写方法 
-            params: 
+        """写方法
+            params:
                 key 写文件的key
                 line 文件内容 ， 现在为string ， 没有进行判断
             return:
                 None
-            raise 
+            raise
                 None
         """
         part_id = self.get_file_id(key)
-        self.get_file_handle(part_id).write("%s\n" % line ) 
-     
+        self.get_file_handle(part_id).write("%s\n" % line )
+
 
     def close(self):
         """关闭文件写方法;这个方法不安全，但是现在work
         """
         for part_id in self.file_handles.keys():
             self.file_handles[part_id].close()
-    
+
     def __len__(self):
         return len(self.file_handles)
