@@ -3,6 +3,7 @@
 from Queue import Queue
 import threading
 from datetime import datetime
+import time
 
 class RateHourQueue(Queue):
 
