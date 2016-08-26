@@ -3,3 +3,4 @@
 build/
 .idea*
 \.idea/*
+b2/.ropeproject/
