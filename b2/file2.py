@@ -297,12 +297,13 @@ class FilesWrite(object):
             fileswrite.write(key , line )
     """
 
-    def __init__(self , save_path ,file_prefix = "tmp_", file_count = 5000 ):
+    def __init__(self , save_path ,file_prefix = "tmp_", file_count = 5000 , write_mode = "w"):
         self.file_count = file_count
         self.file_handles = {}
         mkdir_p(save_path)
         self.save_path = save_path
         self.file_prefix = file_prefix
+        self.write_mode = write_mode
 
 
     def get_file_id(self , key ):
@@ -316,7 +317,7 @@ class FilesWrite(object):
         else:
             if part_id > self.file_count:
                 part_id = part_id % self.file_count
-            self.file_handles[part_id] = open(os.path.join(self.save_path ,"%s%s"% ( self.file_prefix , str(part_id))) , "w")
+            self.file_handles[part_id] = open(os.path.join(self.save_path ,"%s%s"% ( self.file_prefix , str(part_id))) , self.write_mode)
             return self.file_handles[part_id]
 
     def write(self , key , line):
