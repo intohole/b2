@@ -330,7 +330,7 @@ class FilesWrite(object):
                 None
         """
         part_id = self.get_file_id(key)
-        self.get_file_handle(part_id).write("%s\n" % line )
+        self.get_file_handle(part_id).write(line)
 
 
     def close(self):
@@ -341,3 +341,7 @@ class FilesWrite(object):
 
     def __len__(self):
         return len(self.file_handles)
+
+    def flush(self):
+        for file_handler in  self.file_handles.values():
+            file_handler.flush()

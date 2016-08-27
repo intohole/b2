@@ -23,6 +23,7 @@ class RateHourQueue(Queue):
             while True:
                 cur_time = self.get_current_hour()
                 if self.__time != cur_time:
+                    self.__time = cur_time
                     self.__count = 1
                     return Queue.get(self)
                 if self.__count >= self.limit:
