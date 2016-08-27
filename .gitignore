@@ -4,3 +4,4 @@ build/
 .idea*
 \.idea/*
 b2/.ropeproject/
+b2/.cache_dir/
