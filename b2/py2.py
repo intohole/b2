@@ -50,6 +50,8 @@ class FileCacheQueue(Queue):
         self.__write_index = 0
         self.__write_file_count = 0
         self.__write_file_handle = None
+        self.__write_count = 0
+        self.__read_count = 0
 
     def _write_to_file(self , obj):
         if self.__write_file_handle is None or self.__write_file_count == self.__cache_size:
@@ -60,12 +62,17 @@ class FileCacheQueue(Queue):
             self.__write_file_count = 0
         self.__write_file_handle.write("%s\n" % obj)
         self.__write_file_count += 1
+        self.__write_count += 1
 
 
     def _load_file_cache(self):
+        if self.__read_index > self.__write_index:
+            return # no file cache , so return
         cache_file = "%s.%s" % (self.__cache_file_prefix,self.__read_index)
         cache_path = os.path.join(self.__cache_dir , cache_file)
         if os.path.exists(cache_path):
+            # if write file not over cache size , close write file hadnle , and
+            # set file handle None
             if self.__write_file_count < self.__cache_size or self.__read_index == self.__write_index:
                 if self.__write_file_handle is not None:
                     self.__write_file_handle.close()
@@ -74,6 +81,7 @@ class FileCacheQueue(Queue):
             with open(cache_path) as f:
                 for line in f:
                     Queue.put(self , line.rstrip())
+                    self.__read_count += 1
             self.__read_index += 1
 
     def get(self):
@@ -84,13 +92,24 @@ class FileCacheQueue(Queue):
             return Queue.get(self , block = 0)
 
     def put(self,obj):
-        print obj
         with self.lock:
-            print "x"
             if self.qsize() >= self.__cache_size:
                 self._write_to_file(obj)
             else:
                 Queue.put(self ,obj)
+
+
+
+    def empty(self):
+        with self.lock:
+            if Queue.empty(self)  is True:
+                if self.__read_count < self.__write_count:
+                    return False
+                return True
+            return False
+
+
+
 
 class RateHourFileCacheQueue(FileCacheQueue):
 
