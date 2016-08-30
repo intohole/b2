@@ -1,55 +1,30 @@
 # coding=utf-8
 import time
-from datetime import date
-from exceptions2 import judge_str
-from object2 import enum
+from datetime import datetime
+import object2
 
-
-TIME_ENUM = enum(
+TIME_ENUM = object2.enum(
     'MS:1 S:1000 MINUTE:60000 HOUR:360000 DAY:86400000', split_char=":")
 
+TIME_PATTERN = object2.enum2(
+    TIME_PATTERN = "%Y-%m-%d %H:%M:%S" ,
+    TIME_PATTERN_SHORT = "%d/%m/%y %H:%M",
+    DATE_FMT_0 = "%Y%m%d",
+    DATE_FMT_1 = "%Y/%m/%d",
+    DATE_FMT_2 = "%Y/%m/%d %H:%M:%S",
+    DATE_FMT_3 = "%Y-%m-%d"
+)
 
-def get_time_ms():
-    return long(time.time() * 1000)
+def get_timestamp_by_string(time_string , time_pattern):
+    return time.mktime(time.strptime(time_string, time_pattern))
 
+def timestamp_2_string(time_stamp , time_pattern):
+    return time.strftime(time_pattern,time.localtime(time_stamp))
 
-def get_time_string():
-    return time.strftime('%Y-%m-%d %H:%M:%S')
-
-
-def get_far_from_wee():
-    __now = get_time_ms()
-    return __now % (24 * 60 * 1000)
-
-
-def get_current_month():
-    return time.localtime(time.time()).tm_mon
-
-
-def get_current_year():
-    return time.localtime(time.time()).tm_year
+def get_timestamp():
+    return time.time()
 
 
-def get_current_month_day():
-    return time.localtime(time.time()).tm_mday
-
-
-def get_current_year_day():
-    return time.localtime(time.time()).tm_yday
-
-
-def is_leap_year(year):
-    return ((year % 4 == 0) and (year % 100 != 0)) or year % 400 == 0
-
-
-def timestr_to_time(time_str):
-    judge_str(time_str)
-    time_str = time_str.replace('-', '/')
-    time_str = time_str.replace('年', '/')
-    time_str = time_str.replace('月', '/')
-    time_str = time_str.replace('日', ' ')
-    time_str = time_str.replace('小时', ':')
-    time_str = time_str.replace('时', ':')
-    time_str = time_str.replace('分', ':')
-    time_str = time_str.replace('秒', '')
-    return time_str
+if __name__ == "__main__":
+    print get_timestamp_by_string("20160830",TIME_PATTERN.DATE_FMT_0)
+    print timestamp_2_string(time.time() , TIME_PATTERN.DATE_FMT_0)

@@ -3,7 +3,7 @@
 
 from exceptions2 import judge_str
 import inspect
-import threading 
+import threading
 
 
 
@@ -12,10 +12,10 @@ class Singleton(object):
 
     """python单例实现方式
         test:
-            >>> class A(Singleton): 
+            >>> class A(Singleton):
             >>>     a = 4
             >>> b = A();b.a = 5
-            >>> a = A() 
+            >>> a = A()
             >>> print a.a
     """
     @classmethod
@@ -28,7 +28,7 @@ class Singleton(object):
                 cls._instance = orig.__new__(cls, *args, **kw)
             mutex.release()
         return cls._instance
-    
+
 
 
 
@@ -40,10 +40,10 @@ def singleton(cls, *args, **kw):
             cls             类
             args            类初始化序列话参数
             kw              类初始化使用的词典参数
-        return 
+        return
             object          类的实例
-        raise 
-            None 
+        raise
+            None
     """
     instances = {}
     def _singleton(*args,**kw):
@@ -62,11 +62,11 @@ class StaticDict(dict):
 
     def __init__(self , *argv , **kw):
         super(StaticDict , self).__init__(*argv , **kw)
-    
+
     def __setitem__(self , key , value):
         if key in self and value != self[key]:
             raise ValueError("{key} has exist in dict !".format(key = key))
-        super(StaticDict , self).__setitem__(key , value) 
+        super(StaticDict , self).__setitem__(key , value)
 
 def enum(args, start=0, split_char=None):
     """python版本自实现枚举功能
@@ -76,14 +76,14 @@ def enum(args, start=0, split_char=None):
             split_char          为了更好的使用枚举类型，出现需要设定为新值时的功能
         return
             Enum                枚举实体类
-        raise 
+        raise
             None
-        test: 
+        test:
             >>> DEFINE=enum("a b c")
-            >>> DEFINE.a == 0 
-            >>> DEFINE.b == 1 
-            >>> DEFINE.c == 2 
-            >>> DEFINE.c = 3 
+            >>> DEFINE.a == 0
+            >>> DEFINE.b == 1
+            >>> DEFINE.c == 2
+            >>> DEFINE.c = 3
             >>> DEFINE.c == 3
             >>> print DEFINE.c
             >>> DEFINE1 = enum("a b#3 c" , split_char="#")
@@ -104,16 +104,16 @@ def enum(args, start=0, split_char=None):
                     setattr(self, key_value[0], last)
                 else:
                     setattr(self, key, i)
-        
+
         def __setattr__(self , key , value):
             if hasattr(self , key):
-                return 
+                return
             super(Enum , self).__setattr__(key , value)
-        
+
         def __getitem__(self , key):
             if hasattr(self , key):
                 return getattr(self , key)
-            return None 
+            return None
 
         def __setitem__(self , key , value):
             self.__setattr__(key , value)
@@ -143,11 +143,13 @@ def create_obj_by_str(model, *arg, **kw):
 
 
 class AutoID(object):
-
-    """实现自增长id
+    """AutoID for get string sequence , give input with order id
     """
-
     def __init__(self, *argv, **kw):
+        """init AutoId
+            params:start_id:default 0
+            return:None
+        """
         start_id = 0
         if "start_id" in kw:
             start_id = kw["start_id"]
@@ -171,6 +173,9 @@ class AutoID(object):
                 return ret_id
         else:
             raise ValueError, "key is none ! please check"
+
+    def add(self,key):
+        self.__getitem__(key)
 
     def clear(self):
         self.__mutex.acquire()
@@ -202,9 +207,9 @@ class AutoID(object):
 
     def get(self, name):
         return self.__getitem__(name)
-    
+
     def get_by_id(self , id):
-        return self.__map_id_reverse.get(id , None) 
+        return self.__map_id_reverse.get(id , None)
 
     def __len__(self):
         return len(self.__map_id)
@@ -243,19 +248,19 @@ class Byte2(object):
                     raise ValueError , "%s not right params " % val[i]
             return  _val
 
-        
-    
+
+
 
 class LList(object):
-    """统计list 使用 
-                
-    """    
+    """统计list 使用
+
+    """
     def __init__(self , names):
         if isinstance(names , basestring):
             names = names.replace("," , " ").split()
         elif isinstance(names , (list , tuple)) is False:
            raise TypeError
-        self.names = names 
+        self.names = names
         self._name_list = {} # 名称对应词典
         if len(names) > len(set(names)):
             raise ValueError , "duplicate key exist , please check"
@@ -264,11 +269,11 @@ class LList(object):
                 raise ValueError , "key must not in [clear , incr]!"
             self._name_list[name] = index
             setattr(self , name , 0)
-    
+
     def clear(self):
         for name in self.names:
             setattr(self , name , 0)
-    
+
     def incr(self , name , value = 1):
         if name in self.names:
             count = getattr(self , name)
@@ -280,17 +285,17 @@ class LList(object):
             for index , name in enumerate(self.names):
                 self.incr(name , values[index])
             return True
-        return False  
-    
+        return False
+
     def get_index(self , name ):
         if name in self._name_list:
             return self._name_list[name]
         else:
             raise ValueError , "%s not in namelist" % (name)
-                 
+
     def __str__(self):
         return "\t".join(str(getattr(self , name)) for name in self.names)
-    
+
     def __len__(self):
         return len(self.names)
 
