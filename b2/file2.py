@@ -219,19 +219,27 @@ class FilesRead(object):
     """多文件读取文件 ， 生成迭代器  ， 只需要next就可以读入文件夹下的所有文件
     """
 
-    def __init__(self, **kw):
-        if kw.has_key('dirpath'):
-            file_filter = lambda x:  True
-            if file_filter in kw:
-                file_filter = kw['file_filter']
-                if not callable(file_filter):
-                    raise ValueError, 'file_filter is function judge file accept!'
-            self.files = walk_folder(kw['dirpath'], file_filter)
-        elif kw.has_key('files'):
-            if self.is_readall(kw['files']):
-                self.files = kw['files']
-            else:
-                raise ValueError, 'files is list and all is file path which exists!'
+    def __init__(self,files,**kw):
+        if files is None:
+            raise ValueError("files is string array!contain file|folder path")
+        self.file_filter = kw.get("file_filter" , lambda root , dir , f:  True )
+        if self.file_filter is None or callable(self.file_filter) is False:
+            raise ValueError("filter is callable!")
+        self.files = []
+        files_set = set()
+        for file_path in files:
+            if os.path.isdir(file_path):
+                for root,dirs,file_list in os.walk(file_path):
+                    for f in file_list:
+                        if self.file_filter(root , dirs , f):
+                            path = os.path.join(root,f)
+                            if path in files_set:
+                                continue
+                            self.files.append(path)
+                            files_set.add(path)
+            elif os.path.isfile(file_path) and self.file_filter(None , None , file_path):
+                self.files.append(file_path)
+                files_set.add(file_path)
         self.__filehandle = None
         self.__file_index = -1
         self.__line_cache = []
