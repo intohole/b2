@@ -4,7 +4,7 @@
 from exceptions2 import judge_str
 import inspect
 import threading
-
+import json
 
 
 
@@ -201,7 +201,7 @@ class AutoID(object):
             elif output == "json":
                 with open(file_path, "w") as f:
                     f.write(
-                        json.dumps(self.__map_id, ensure_assic=False) + "\n")
+                        json.dumps(self.__map_id) + "\n")
         else:
             raise ValueError, "[error]\toutput can only chooese [text , json]"
 
