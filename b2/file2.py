@@ -12,7 +12,20 @@ def isdir(path):
     judge_str(path, 0, (str))
     return os.path.isdir(path)
 
-
+def rm(file_path , exception = False):
+    if file_path is None or os.path.exists(file_path) is False:
+        if exception is True:
+            raise TypeError
+        else:
+            return False
+    if os.path.isfile(file_path):
+        return os.remove(file_path)
+    elif os.path.isdir(file_path) and not os.listdir(file_path):
+        return os.rmdir(file_path)
+    if exception is True:
+        raise TypeError("%s is not empty dir" % file_path)
+    else:
+        return False
 def get_caller_file():
     """获得调用者文件绝对路径
         param:
@@ -50,13 +63,13 @@ def wait_running_flag(running_flag , wait_time = 0.1 , call_back = None ):
         test:
             >>> wait_running_flag("")
     """
-    if running_flag is not None \
+    if running_flag is None \
             or isinstance(running_flag ,basestring) is False \
             or os.path.exists(running_flag) \
-            or isinstance(waite_time , (float , double , int, long)) is False \
+            or isinstance(wait_time , (float  , int, long)) is False \
             or wait_time <= 0 or (call_back is not None and callable(call_back) is False):
-                return False
-    while running_flag is None and os.path.exists(running_flag):
+               raise TypeError
+    while os.path.exists(running_flag) is False:
         time.sleep(wait_time)
     if call_back is not None:
         call_back(running_flag)
