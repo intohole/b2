@@ -5,3 +5,5 @@ build/
 \.idea/*
 b2/.ropeproject/
 b2/.cache_dir/
+*/.repeproject
+*.ropeproject/

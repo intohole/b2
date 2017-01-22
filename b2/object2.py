@@ -9,24 +9,24 @@ import json
 
 
 class Singleton(object):
-
     """python单例实现方式
         test:
             >>> class A(Singleton):
             >>>     a = 4
-            >>> b = A();b.a = 5
+            >>> b = A();
+            >>> b.a = 5
             >>> a = A()
-            >>> print a.a
+            >>> a == 5
+            True
     """
+
+    _lock = threading.Lock()
     @classmethod
     def __new__(cls, *args, **kw):
-        if not hasattr(cls, '_instance'):
-            mutex = threading.Lock()
-            mutex.acquire()
+        with cls._lock:
             if not hasattr(cls, '_instance'):
                 orig = super(Singleton, cls)
                 cls._instance = orig.__new__(cls, *args, **kw)
-            mutex.release()
         return cls._instance
 
 
@@ -298,4 +298,16 @@ class LList(object):
 
     def __len__(self):
         return len(self.names)
+
+
+if __name__ == "__main__":
+    class A(Singleton):
+
+        def __init__(self):
+            print "init"
+            self.a = 4
+    a = A()
+    b = A()
+    b.a = 6
+    print a.a
 

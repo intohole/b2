@@ -144,3 +144,8 @@ def upper_char(words, upper_len):
     if len(words) < upper_len:
         upper_len = len(words)
     return ''.join([chr(ord(words[i]) - 32) if i < upper_len and ord(words[i]) <= 122 and ord(words[i]) >= 97 else words[i] for i in range(len(words))])
+
+def iconvft(content , code1 = "gbk",code2 = "utf-8",ignore = False):
+    if content is None:
+        return content
+    return content.decode(code1).encode(code2) if ignore is False else content.decode(code1,"ignore").encode(code2)

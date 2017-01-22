@@ -35,8 +35,8 @@ class ConsleString(object):
     ConsleString.consle_show(cmd)
     但是每写一行要清空字符串的ｂｕｆｆｅｒ
     cmd.clear()
-    ConsleString.consle_clear() #清除终端 clear 
-    原理 : echo -e 
+    ConsleString.consle_clear() #清除终端 clear
+    原理 : echo -e
     特殊字符的颜色字体
     '''
     __strbuffer = []  # 字符串储存　
@@ -117,7 +117,7 @@ class ConsleString(object):
 
 import tty
 import termios
- 
+
 class Control(object):
     """linux终端下，上下左右键信息类
         摘自https://github.com/bfontaine/term2048/blob/master/term2048/keypress.py
@@ -177,7 +177,7 @@ class BaseColor(dict):
     def __str__(self):
         return '\033[%(SET)s;%(FORE)s;%(BACK)sm' % self if self['BACK'] else '\033[%(SET)s;%(FORE)sm' % self if self['FORE'] else '\033[%(SET)sm' % self
 
-
+DEFAULT = Default()
 class FColor(object):
 
     def __init__(self, color_set,  fore_color, back_color, base_color):
@@ -188,11 +188,11 @@ class FColor(object):
 
     def __add__(self, value):
         if value and isinstance(value, FColor):
-            if value.fore_color != None:
+            if value.fore_color is not None:
                 self.__bc['FORE'] = value.fore_color
-            if value.back_color != None:
+            if value.back_color is not None:
                 self.__bc['BACK'] = value.back_color
-            if value.color_set != None:
+            if value.color_set is not None:
                 self.__bc['BACK'] = value.color_set
             return self
         elif value and isinstance(value, (basestring)):
@@ -202,7 +202,7 @@ class FColor(object):
                 'BACK']
             self.__bc[
                 'SET'] = self.color_set if self.color_set != None else self.__bc['SET']
-            return '%s%s' % (str(self.__bc), value)
+            return '%s%s%s' % (str(self.__bc), value,str(DEFAULT))
 
     def __radd__(self, value):
         if value and isinstance(value, basestring):
@@ -356,7 +356,7 @@ class Default(FColor):
 class ColorText(object):
 
     '''
-    linux 终端输出有色字体 
+    linux 终端输出有色字体
     使用方式 ：
             t = ColorText()
             print t.ForeRed + t.BackGreen + 'fore red  back green'
