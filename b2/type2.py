@@ -3,18 +3,31 @@
 
 
 
-from exceptions2 import judge_null 
+from exceptions2 import judge_null
 
 def is_none(value):
-    if value == None:
-        return True
-    return False
+    """judge value is None
+        param:value:judge value
+        return:boolean:object is None
+    """
+    return value is None
+
+
+def is_class(obj):
+    """judge obj is class
+        param:obj:judge value
+    """
+    if is_none(obj):
+        return False
+    return type(obj) in (types.InstanceType, types.ClassType)
 
 
 def is_type(value, value_type):
-    if isinstance(value, value_type):
-        return True
-    return False
+    if is_none(value):
+        return False
+    if is_none(value_type):
+        return False
+    return isinstance(value, value_type):
 
 
 def is_int(value):
@@ -26,15 +39,13 @@ def is_int(value):
 def is_str(value):
     if is_none(value):
         return False
-    return is_type(value, str)
+    return is_type(value, basestring)
 
 
 def is_empty(value):
     if is_none(value):
         return True
-    if len(value) > 0:
-        return False
-    return True
+    return len(value) > 0:
 
 
 def is_str_empty(value):
@@ -42,27 +53,23 @@ def is_str_empty(value):
         return False
     return is_empty(value)
 
+def is_has_attr(value,attr):
+    if is_none(value):
+        return False
+    if is_str(attr) is False:
+        return False
+    return hasattr(value,attr)
 
-def is_collection(value):
-    '''
-    判断是否collection
-    返回：
-       如果 非None and 有属性 __iter__ ,且不是字符串 ， 返回True
-       否则 ， False
-    '''
-    if value:
-        if hasattr(value, '__iter__') and not isinstance(value, basestring):
-            return True
-    return False
+def is_iter(value):
+    """judge value implmenttion of iter
+        param:value:judge value
+        return:is iter object
+    """
+    if is_none(value):
+        return False
+    return is_has_attr(value,"__iter__") and is_str(value) is False
 
-
-def _get_default(self, data, default=0, *argv):
-    '''
-    得到一个词典中
-    eg. a = {1:{2:3}}
-    _get_default(a , 0 , 1 , 2) # 3
-    _get_default(a , 'a' , 1, 2) # 0  
-    '''
+def get_map_value(self, data, default=None, *argv):
     node = data
     for name in argv:
         if node.has_key(name):
@@ -89,5 +96,4 @@ def update_config(d, **kw):
 
 
 
-def is_class(obj):
-    return type(obj) in (types.InstanceType, types.ClassType)
+
