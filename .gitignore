@@ -7,3 +7,13 @@ b2/.ropeproject/
 b2/.cache_dir/
 */.repeproject
 *.ropeproject/
+
+.project
+.pydevproject
+.ropeproject
+.settings
+build
+function.md
+setup.py
+test
+test.py
