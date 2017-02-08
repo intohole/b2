@@ -8,7 +8,7 @@ cd `dirname $0`
 CWD=`pwd`
 for function_file in `ls ${CWD}/b2/*.py`;do
     echo "+ `basename ${function_file}`" >>function.md
-    cat ${function_file} | grep -En "(^class|def )" | grep -v "__" | sed  's/class /    + /' | sed 's/def /    + /' | sed 's/:$//' | sed 's/\]/\\]/g' | awk -F ":" '{
+    cat ${function_file} | grep -En "(^class|def )" | grep -v "__" | sed  's/class /    + /' | sed 's/def /    + /' | sed 's/:$//' | sed 's/\]/\\]/g' | sed 's/\[/\\[/g' | awk -F ":" '{
     line_number = $1;
     function_name  = ""
     for(i = 2 ;i <=NF ;i++){

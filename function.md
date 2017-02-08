@@ -109,7 +109,7 @@
         + [popen(cmd, stdin=None, stdout=None, wait=False)](https://github.com/intohole/b2/blob/master/b2/hadoop2.py#L44)
     + [HadoopRun](https://github.com/intohole/b2/blob/master/b2/hadoop2.py#L105)
         + [check_config(self)](https://github.com/intohole/b2/blob/master/b2/hadoop2.py#L161)
-        + [run(self, command=(len(sys.argv)>1 and sys.argv[1\] or None),](https://github.com/intohole/b2/blob/master/b2/hadoop2.py#L165)
+        + [run(self, command=(len(sys.argv)>1 and sys.argv\[1\] or None),](https://github.com/intohole/b2/blob/master/b2/hadoop2.py#L165)
         + [_run(self, func, input, output, wait=True)](https://github.com/intohole/b2/blob/master/b2/hadoop2.py#L382)
         + [run_cmd(self, func, input, output, wait=True)](https://github.com/intohole/b2/blob/master/b2/hadoop2.py#L397)
         + [run_func(self, func, input, output, wait=True)](https://github.com/intohole/b2/blob/master/b2/hadoop2.py#L400)
@@ -153,7 +153,7 @@
         + [_has_attr(self , tag , obj , value , operator )](https://github.com/intohole/b2/blob/master/b2/json2.py#L131)
         + [_find_name(self , tag , obj )](https://github.com/intohole/b2/blob/master/b2/json2.py#L168)
 + log2.py
-    + [get_stream_logger(  log_level , log_name = None , format = "[%(levelname)s\] [%(asctime)s\] [%(filename)s\] [line : %(lineno)d\] [function:%(funcName)s\] %(message)s" , date_format = "%Y-%m-%d %H:%M:%S"  )](https://github.com/intohole/b2/blob/master/b2/log2.py#L6)
+    + [get_stream_logger(  log_level , log_name = None , format = "\[%(levelname)s\] \[%(asctime)s\] \[%(filename)s\] \[line : %(lineno)d\] \[function:%(funcName)s\] %(message)s" , date_format = "%Y-%m-%d %H:%M:%S"  )](https://github.com/intohole/b2/blob/master/b2/log2.py#L6)
 + mail2.py
     + [mail( user , pass_wd  ,title , content , tos , server = None,port = 25, files = None , html = False ,encoding = None)](https://github.com/intohole/b2/blob/master/b2/mail2.py#L18)
 + math2.py
@@ -255,8 +255,8 @@
         + [_split(self, line)](https://github.com/intohole/b2/blob/master/b2/sample2.py#L154)
         + [output(self)](https://github.com/intohole/b2/blob/master/b2/sample2.py#L170)
 + sort2.py
-    + [sort_map_key(d , get_key_fn = lambda x :x[0\] ,desc = False)](https://github.com/intohole/b2/blob/master/b2/sort2.py#L12)
-    + [sort_map_value(d , get_key_fn = lambda x :x[1\] ,desc = False)](https://github.com/intohole/b2/blob/master/b2/sort2.py#L20)
+    + [sort_map_key(d , get_key_fn = lambda x :x\[0\] ,desc = False)](https://github.com/intohole/b2/blob/master/b2/sort2.py#L12)
+    + [sort_map_value(d , get_key_fn = lambda x :x\[1\] ,desc = False)](https://github.com/intohole/b2/blob/master/b2/sort2.py#L20)
     + [sort_list_object( l , attr = None , desc = True)](https://github.com/intohole/b2/blob/master/b2/sort2.py#L26)
 + stop2.py
     + [StopWords(object)](https://github.com/intohole/b2/blob/master/b2/stop2.py#L9)
