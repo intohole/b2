@@ -27,7 +27,7 @@ def is_type(value, value_type):
         return False
     if is_none(value_type):
         return False
-    return isinstance(value, value_type):
+    return isinstance(value, value_type)
 
 
 def is_int(value):
@@ -45,7 +45,7 @@ def is_str(value):
 def is_empty(value):
     if is_none(value):
         return True
-    return len(value) > 0:
+    return len(value) > 0
 
 
 def is_str_empty(value):
@@ -92,8 +92,3 @@ def update_config(d, **kw):
             if hasattr(key):
                 setattr(d, key, val)
     return True
-
-
-
-
-
