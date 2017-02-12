@@ -18,6 +18,6 @@ for function_file in `ls ${CWD}/b2/*.py`;do
             function_name =$i 
         }
     }
-    print function_name"](https://github.com/intohole/b2/blob/master/b2/'`basename ${function_file}`'#L"line_number")" 
+    print function_name"](b2/'`basename ${function_file}`'#L"line_number")" 
 }' | sed 's/+ /+ [/'>> function.md 
 done

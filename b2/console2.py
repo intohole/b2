@@ -25,7 +25,7 @@ class SimpleProgressBar():
             print ''
 
 
-class ConsleString(object):
+class ConsoleString(object):
 
     '''
     终端颜色字体输出
