@@ -177,7 +177,6 @@ class BaseColor(dict):
     def __str__(self):
         return '\033[%(SET)s;%(FORE)s;%(BACK)sm' % self if self['BACK'] else '\033[%(SET)s;%(FORE)sm' % self if self['FORE'] else '\033[%(SET)sm' % self
 
-DEFAULT = Default()
 class FColor(object):
 
     def __init__(self, color_set,  fore_color, back_color, base_color):
