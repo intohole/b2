@@ -101,12 +101,11 @@ class FileCacheQueue(Queue):
 
 
     def empty(self):
-        with self.lock:
-            if Queue.empty(self)  is True:
-                if self.__read_count < self.__write_count:
-                    return False
-                return True
-            return False
+        if Queue.empty(self)  is True:
+            if self.__read_count < self.__write_count:
+                return False
+            return True
+        return False
 
 
 
