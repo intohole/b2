@@ -2,7 +2,7 @@ from distutils.core import setup
 
 
 kw = dict(name='b2',
-          version='0.0.4',
+          version='0.0.5',
           py_modules=['b2'],
           author="intoblack",
           author_email="intoblack86@gmail.com",

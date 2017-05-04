@@ -194,13 +194,12 @@ class FifoDiskQueue(object):
         if not isinstance(array,(list,tuple)):
             raise TypeError('Unsupported type: {}'.format(type(array).__name__))
         for item in array:
-            if not isinstance(string ,bytes):
-                raise TypeError('Array item unsupported type: {}'.format(type(string).__name__))
+            if not isinstance(item ,bytes):
+                raise TypeError('Array item unsupported type: {}'.format(type(item).__name__))
         hnum, hpos = self.info['head']
-        write_pos = hpos
         write_array = []
         write_array.append([])
-        array_begin_size = min(len(array), self.chunksize - write_pos) 
+        array_begin_size = min(len(array), self.chunksize - hpos) 
         for item in array[:array_begin_size]:
             write_array[0].append(item) 
         write_array.extend(
