@@ -200,10 +200,12 @@ class FifoDiskQueue(object):
         write_pos = hpos
         write_array = []
         write_array.append([])
-        array_begin_size = min(write_pos + len(array), self.chunksize - write_pos) 
+        array_begin_size = min(len(array), self.chunksize - write_pos) 
         for item in array[:array_begin_size]:
             write_array[0].append(item) 
-        write_array.extend(split_array(array[array_begin_size:],self.chunksize))
+        write_array.extend(
+            split_array(array[array_begin_size:],self.chunksize)
+        )
         
         for index , sub_array in enumerate(write_array):
             content = "".join(["%s%s" % 
