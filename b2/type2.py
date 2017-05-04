@@ -92,3 +92,28 @@ def update_config(d, **kw):
             if hasattr(key):
                 setattr(d, key, val)
     return True
+
+
+
+def split_array(array,sub_len):
+    """切割一个array-> array[0][]
+        param:array:list:需要切割的数组
+        param:sub_len:int:需要切割的大小
+        return:[[]]:list:返回双维数组
+        test:
+            >>> split_array([0,1,2,3,4,5,6,7,8,9],3)
+            [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
+            >>> split_array("abcddd",3)
+            [['a', 'b', 'c'], ['d', 'd', 'd']]
+    """
+    if is_type(array,(list,tuple,basestring)) is False:
+        raise TypeError("Unsupported type: {}".format(type(array).__name__))
+    if is_int(sub_len) is False:
+        raise TypeError("Unsupported type: {}".format(type(sub_len).__name__))
+    items = []
+    iter_count = len(array) / sub_len +( 0 if len(array) % sub_len == 0 else 1) 
+    for i in range(iter_count):
+        items.append([])
+        for item in array[i*sub_len:(i+1)*sub_len]: 
+           items[i].append(item)
+    return items
