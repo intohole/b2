@@ -199,27 +199,26 @@ class FifoDiskQueue(object):
         hnum, hpos = self.info['head']
         write_pos = hpos
         write_array = []
-         
-        for chunk in range(round(len(array/self.chunksize))):
-            write_array.append([]) 
-            for item in array[:self.chunksize - write_pos]:
-                szhdr = struct.pack(self.szhdr_format, len(string))
-                write_array[0].append(szhdr + item)
-            if (write_pos + len(array)) > self.chunksize:
-                for item in array[self.chunksize - write_pos:]
-                    write_array.append(item)
-        os.write(self.headf.fileno(),"".join(write_array)) 
-            
-        hpos += 1
-        szhdr = struct.pack(self.szhdr_format, len(string))
-        os.write(self.headf.fileno(), szhdr + string)
-        if hpos == self.chunksize:
-            hpos = 0
-            hnum += 1
-            self.headf.close()
-            self.headf = self._openchunk(hnum, 'ab+')
-        self.info['size'] += 1
-        self.info['head'] = [hnum, hpos]
+        write_array.append([])
+        array_begin_size = min(write_pos + len(array), self.chunksize - write_pos) 
+        for item in array[:array_begin_size]:
+            write_array[0].append(item) 
+        write_array.extend(split_array(array[array_begin_size:],self.chunksize))
+        
+        for index , sub_array in enumerate(write_array):
+            content = "".join(["%s%s" % 
+                (struct.pack(self.szhdr_format, len(string)), string)     
+                for string in sub_array    
+            ])
+            os.write(self.headf.fileno(),content) 
+            hpos += len(sub_array)
+            if hpos == self.chunksize:
+                hpos = 0
+                hnum += 1    
+                self.headf.close()
+                self.headf = self._openchunk(hnum, 'ab+')
+            self.info['size'] += len(sub_array) 
+            self.info['head'] = [hnum, hpos]
 
        
          
