@@ -99,3 +99,8 @@ def judge_min_len(value , l):
     judge_num(l , 0)
     _judge_attr(value , "__len__")
     judge_num(len(value) , min_num = l)
+
+
+
+def raiseTypeError(self,value):
+    raise TypeError("Unsupport type {}".format(type(value).__name__))
