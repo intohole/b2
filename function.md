@@ -1,5 +1,5 @@
 
-moodstyle机器学习脚本库
+b2你的python工具集合
 =======================
 
 
@@ -68,6 +68,7 @@ moodstyle机器学习脚本库
     + [judge_list(value)](b2/exceptions2.py#L87)
     + [judge_callable(value)](b2/exceptions2.py#L92)
     + [judge_min_len(value , l)](b2/exceptions2.py#L97)
+    + [raiseTypeError(self,value)](b2/exceptions2.py#L105)
 + file2.py
     + [isdir(path)](b2/file2.py#L11)
     + [rm(file_path , exception = False)](b2/file2.py#L15)

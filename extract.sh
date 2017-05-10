@@ -7,7 +7,7 @@ PROJECT_NAME="b2"
 
 
 echo > ${FUNCTION_FILE}
-echo "moodstyle机器学习脚本库" >> ${FUNCTION_FILE}
+echo "b2你的python工具集合" >> ${FUNCTION_FILE}
 echo "=======================" >> ${FUNCTION_FILE}
 echo "" >> ${FUNCTION_FILE}
 echo "" >> ${FUNCTION_FILE}
