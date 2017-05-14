@@ -1,5 +1,10 @@
 # coding=utf-8
 
+
+
+
+__all__ = ["raiseTypeError","judge_type"]
+
 class MsgException(Exception):
 
 
@@ -102,5 +107,5 @@ def judge_min_len(value , l):
 
 
 
-def raiseTypeError(self,value):
+def raiseTypeError(value):
     raise TypeError("Unsupport type {}".format(type(value).__name__))

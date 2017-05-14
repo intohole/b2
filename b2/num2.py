@@ -5,24 +5,24 @@ from random import randint
 import time
 from math import log
 from math import e
+import exceptions2
 
-
-_num_word = {9: '亿', 8: '千', 7: '百', 6: '十',
-             5: '万', 4: '千', 3: '百', 2: '十', 1: ''}
+_num_word = {10:'拾',9: '亿', 8: '仟', 7: '百', 6: '拾',
+             5: '万', 4: '仟', 3: '百', 2: '拾', 1: ''}
 _zh_num = ['', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖', '拾']
 
+__all__ = ["num_2_chinese","ln","isdigit"]
 
-def get_word_name(num):
-    '''
-    功能：将数字转换成汉字
-    异常：
-        如果num ， 不是数字和字符串 ， 则抛出异常
-    eg.
-       622848
-       壹亿贰千贰百肆十万肆千肆百肆十肆
-    '''
+def num_2_chinese(num):
+    """将数字转换为汉字
+        param:num:(int|basestring):需要转换的数字
+        return:numstring:basestring:转换后的大写汉字
+        exception:TypeError:抛出参数num类型异常
+        Test:
+            >>> print num_2_chinese(1234567890)
+    """
     if not isinstance(num, (int, str)):
-        raise TypeError
+        exceptions2.raiseTypeError(num)
     num = str(int(num))
     l = len(num)
     num_string = []

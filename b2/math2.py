@@ -2,7 +2,7 @@
 
 import math
 
-
+__all__ = ["log2","entropy","ln"]
 
 def log2(num):
     return math.log(num , 2)
