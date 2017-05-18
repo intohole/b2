@@ -17,7 +17,7 @@ def isEmpty(words):
     exceptions2.raiseTypeError(words)        
 
 def isBlank(words):
-    return True if isEmpty(words) else len(words.strip())
+    return True if isEmpty(words) else len(words.strip()) == 0
 
 def repeats(sign, n):
     judge_str(sign)
