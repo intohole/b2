@@ -142,7 +142,7 @@ b2你的python工具集合
 + json2.py
     + [QueryItem(object)](b2/json2.py#L9)
     + [JPath(object)](b2/json2.py#L20)
-        + [extract(self ,obj ,  query )](b2/json2.py#L58)
+        + [extract(self ,obj ,  query = None)](b2/json2.py#L60)
 + log2.py
     + [get_stream_logger(  log_level , log_name = None , format = "\[%(levelname)s\] \[%(asctime)s\] \[%(filename)s\] \[line : %(lineno)d\] \[function:%(funcName)s\] %(message)s" , date_format = "%Y-%m-%d %H:%M:%S"  )](b2/log2.py#L9)
 + mail2.py
@@ -269,14 +269,14 @@ b2你的python工具集合
     + [reverse(words)](b2/str2.py#L27)
     + [upper(words, upper_len)](b2/str2.py#L31)
     + [splits(words,split_chars,escape=True)](b2/str2.py#L36)
-    + [iconvft(content , code1 = "gbk",code2 = "utf-8",ignore = False)](b2/str2.py#L56)
-    + [Buffer2(object)](b2/str2.py#L61)
-        + [append(self, line)](b2/str2.py#L73)
-        + [find_first(self, value)](b2/str2.py#L88)
-        + [sort(self)](b2/str2.py#L97)
-        + [reverse(self)](b2/str2.py#L100)
-        + [char_at(self, index)](b2/str2.py#L103)
-        + [to_str(self, join_str='')](b2/str2.py#L120)
+    + [iconvft(content , code1 = "gbk",code2 = "utf-8",ignore = False)](b2/str2.py#L57)
+    + [Buffer2(object)](b2/str2.py#L62)
+        + [append(self, line)](b2/str2.py#L74)
+        + [find_first(self, value)](b2/str2.py#L89)
+        + [sort(self)](b2/str2.py#L98)
+        + [reverse(self)](b2/str2.py#L101)
+        + [char_at(self, index)](b2/str2.py#L104)
+        + [to_str(self, join_str='')](b2/str2.py#L121)
 + system2.py
     + [set_default_encoding(code='utf-8')](b2/system2.py#L10)
     + [reload_utf8()](b2/system2.py#L14)

@@ -29,8 +29,10 @@ class JPath(object):
             )?""" ,re.VERBOSE)
 
 
-    def __init__(self ):
+    def __init__(self,query = None):
         self.split_char = "/"
+        self.query = query 
+        self.query_objs = self._extract_query_item(query) if query else None
     
     def _obj_2_json(self , obj):
         if obj is None:
@@ -55,11 +57,22 @@ class JPath(object):
         else:
             raise TypeError("query type is error , query type in [basestring , QueryItem]!")
 
-    def extract(self ,obj ,  query ):
-        """根据
+    def extract(self ,obj ,  query = None):
+        """extract dict value like xpath
+            param:obj:dict:extract json object
+            param:query:basestring:xpath query string
+            return:objs:list:match value 
+            Test:
+               >>> obj = json.loads('{"a":{"b":1 , "c":1} , "d":[{"a":5}]}')
+               >>> container = []
+               >>> x = JPath()
+               >>> x.extract(obj , "//a")
+               [{u'c': 1, u'b': 1}, 5]
         """
         obj = self._obj_2_json(obj)
-        querys = self._extract_query_item(query)
+        if query is None and self.query_objs is None:
+            raise ValueError("set right query")
+        querys = self._extract_query_item(query) else self.query_objs
         objs = [obj]
         for query in querys:
             if query.root_path == True :
@@ -78,13 +91,9 @@ class JPath(object):
         return objs 
                     
     def _parse_query(self , query):
-        """将xpath解析成为程序所需要的query结构体
-            params:
-                query                   查询结构字符串
-            return 
-                query_list              [QueryItem]
-            raise:
-                None 
+        """parse query string to query item list
+            param:query:basestring:json xpath query
+            return:query_list:list:parse query object item list
         """
         query_list = [] 
         query_paths = query.split(self.split_char)
@@ -99,15 +108,11 @@ class JPath(object):
         return query_list
 
     def _finds_name(self , tag , obj , container ):
-        """根据查询obj下所有节点的方法
-            params
-                tag                     需要查询的tag名称，字符串
-                obj                     需要查询的json结构体，词典类型
-                container               将查询到的json子结构体加在此处
-            return 
-                None 
-            raise 
-                None 
+        """find all object which key is equal to tag
+            param:tag:basetring:extract json key
+            param:obj:dict:match object
+            param:container:list:match value container
+            return:None:None:return nothing
         """
         if isinstance(obj , list):
             for _obj in obj:
@@ -119,49 +124,51 @@ class JPath(object):
         return 
 
     def _regx_find_dict(self , tag , obj , container):
-        """根据tag正则，当前obj所有key命中tagname
+        """_has_attr use this function implement ~ , like this
+            param:tag:basestring:json dict key
+            param:obj:dict:
+            param:container:mathch value container
+            return:None:None:return Nothing
         """
         tag_pattern = re.compile(tag)
         for name , value in obj.items(): 
             match = tag_pattern.match(name)
             if match:
                 container.append(value)
-        return 
     
     def _has_attr(self , tag , obj , value , operator ):
-        """主要是实现语法中对属性进行判断时候使用，实现[@name=="abc"] 等
-            params:
-                tag                     需要判断的属性value
-                obj                     需要判断的结构体
-                value                   tag作为key vlaue
-                operator                逻辑判断的标识符o
-            return 
-                True                    有符合规则的属性
-                False                   没有匹配上
-            raise 
-                Exception 
+        """parse attr select functino , like this [@name=="abc"]
+            param:tag:basesetring:
+            param:obj:dict:
+            param:value:object:attr feature value 
+            param:operator:basestring:extract value match function operator
+            return:match:blooean:if tag value match you want,return True else return False
         """
-        if obj and isinstance(obj , dict):
-            if tag in obj:
-                if operator == ">":
+        if obj and tag in obj:
+            extract_value = None
+            if isinstance(obj,dict):
+                extract_value = obj[tag] 
+            elif hasattr(obj,"__getattr__"):
+                extract_value = getattr(obj,tag)
+            if operator == ">":
                     value = type(obj[tag])(value)
                     return obj[tag] > value 
-                elif operator == "=":
-                    _value = (type(obj[tag])(value))
-                    return (obj[tag] == _value )
-                elif operator == "<":
-                    value = type(obj[tag])(value)
-                    return obj[tag] < value 
-                elif operator == ">=":
-                    value = type(obj[tag])(value)
-                    return obj[tag] >= value 
-                elif operator == "<=":
-                    value = type(obj[tag])(value)
-                    return obj[tag] <= value 
-                elif operator == "~":
-                    match = re.compile(value).match(str(obj[tag]))
-                    if match:
-                        return True
+            elif operator == "=":
+                _value = (type(obj[tag])(value))
+                return (obj[tag] == _value )
+            elif operator == "<":
+                value = type(obj[tag])(value)
+                return obj[tag] < value 
+            elif operator == ">=":
+                value = type(obj[tag])(value)
+                return obj[tag] >= value 
+            elif operator == "<=":
+                value = type(obj[tag])(value)
+                return obj[tag] <= value 
+            elif operator == "~":
+                match = re.compile(value).match(str(obj[tag]))
+                if match:
+                    return True
         else:
             return False
 
@@ -170,11 +177,3 @@ class JPath(object):
             if tag in obj:
                 return obj[tag]
         return None 
-
-if __name__ == "__main__":
-
-    obj = json.loads('{"a":{"b":1 , "c":1} , "d":[{"a":5}]}')
-    container = []
-    import sys
-    x = JPath()
-    print x.extract(obj , "/a[@c=1]/c")
