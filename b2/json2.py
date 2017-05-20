@@ -72,7 +72,7 @@ class JPath(object):
         obj = self._obj_2_json(obj)
         if query is None and self.query_objs is None:
             raise ValueError("set right query")
-        querys = self._extract_query_item(query) else self.query_objs
+        querys = self._extract_query_item(query) if query else self.query_objs
         objs = [obj]
         for query in querys:
             if query.root_path == True :
