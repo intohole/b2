@@ -5,6 +5,7 @@
 import exceptions2
 import json
 import os
+import str2
 
 __ALL__ = ["DTrie"]
 
@@ -24,6 +25,8 @@ class DTrie(object):
             >>> tree = DTrie()
             >>> tree.add("abcdd")
             1
+            >>> tree.add("abeca")
+            1
             >>> tree.contain("abcdd")
             True
             >>> tree.contain("abc")
@@ -36,6 +39,8 @@ class DTrie(object):
             False
             >>> tree["ab"]
             (False, 0, None, '')
+            >>> tree.getChildNum("ab")
+            2
     """
     def __init__(self, *arg, **kw):
         self.root_node = DTNode()
@@ -47,7 +52,9 @@ class DTrie(object):
             param:value::value dict tree node save 
             return:(boolean,msg):if add success return true ,otherway return fasel,msg is error msg
         """
-        if word and isinstance(word,basestring):
+        if str2.isBlank(word):
+            return -1 
+        if isinstance(word,basestring):
             tmp_node = self.root_node 
             for w in self.to_element(word):
                 if w not in tmp_node:
@@ -56,10 +63,11 @@ class DTrie(object):
             tmp_node.value = value 
             tmp_node.count += 1
             return tmp_node.count
-        exceptions2.raiseTypeError(word)
     
     def get(self,word):
-        if word and isinstance(word,basestring):
+        if str2.isBlank(word):
+            return (False,None,None,"empty string or unsupport type , please check")
+        if isinstance(word,basestring):
             tmp_node = self.root_node
             for item in self.to_element(word):
                 if item not in tmp_node:
@@ -70,14 +78,27 @@ class DTrie(object):
             
          
     def contain(self, word):
-        if word and isinstance(word,basestring):
+        if str2.isBlank(word):
+            return False
+        if isinstance(word,basestring):
             tmp_node = self.root_node
             for item in self.to_element(word):
                 if item not in tmp_node:
                     return False
                 tmp_node = tmp_node[item]
             return tmp_node.count != 0
-    
+   
+    def getChildNum(self,word):
+        if str2.isBlank(word):
+            return False 
+        if isinstance(word,basestring):
+            tmp_node = self.root_node
+            for item in self.to_element(word):
+                if item not in tmp_node:
+                    break 
+                tmp_node = tmp_node[item]
+            return 0. if tmp_node == self.root_node else len(tmp_node) 
+        
     def __setitem__(self,word,value):
         return self.add(word,value)
     

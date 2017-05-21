@@ -3,10 +3,19 @@
 
 import exceptions2
 import re
+import object2
 
-__ALL__ = ["isEmpty","isBlank","repeats","reverse","upper","iconvft","splits","Buffer2"]
+
+
+__ALL__ = ["emptyString","isEmpty","isBlank","repeats","reverse","upper","iconvft","splits","Buffer2"]
 _escape_char = set([".","[","]","(",")","\\","|"])
 _split_pattern_cache = {}
+
+def emptyString():
+    return ""
+
+
+
 def isEmpty(words):
     if words is None:
         return True

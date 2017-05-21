@@ -5,7 +5,6 @@ b2你的python工具集合
 
 
 
-+ __init__.py
 + cache2.py
     + [CacheItem(object)](b2/cache2.py#L9)
         + [update(self)](b2/cache2.py#L22)
@@ -52,12 +51,13 @@ b2你的python工具集合
     + [get_system_info()](b2/console2.py#L395)
     + [get_python_version()](b2/console2.py#L399)
 + ds2.py
-    + [DTNode(dict)](b2/ds2.py#L14)
-    + [DTrie(object)](b2/ds2.py#L21)
-        + [add(self, word,value=None)](b2/ds2.py#L44)
-        + [get(self,word)](b2/ds2.py#L61)
-        + [contain(self, word)](b2/ds2.py#L72)
-        + [to_element(self, element)](b2/ds2.py#L99)
+    + [DTNode(dict)](b2/ds2.py#L15)
+    + [DTrie(object)](b2/ds2.py#L22)
+        + [add(self, word,value=None)](b2/ds2.py#L49)
+        + [get(self,word)](b2/ds2.py#L67)
+        + [contain(self, word)](b2/ds2.py#L80)
+        + [getChildNum(self,word)](b2/ds2.py#L91)
+        + [to_element(self, element)](b2/ds2.py#L120)
 + exceptions2.py
     + [MsgException(Exception)](b2/exceptions2.py#L8)
     + [judge_type(value , types)](b2/exceptions2.py#L29)
@@ -139,6 +139,7 @@ b2你的python工具集合
         + [get_int_value(self, key  ,sectionname = '')](b2/ini2.py#L113)
         + [get_string_value(self , key ,sectionname = '' )](b2/ini2.py#L118)
     + [PyIni(object)](b2/ini2.py#L134)
++ __init__.py
 + json2.py
     + [QueryItem(object)](b2/json2.py#L9)
     + [JPath(object)](b2/json2.py#L20)
@@ -263,20 +264,21 @@ b2你的python工具集合
         + [startswith(self, words)](b2/stop2.py#L67)
         + [is_stop(self, word)](b2/stop2.py#L86)
 + str2.py
-    + [isEmpty(words)](b2/str2.py#L10)
-    + [isBlank(words)](b2/str2.py#L19)
-    + [repeats(sign, n)](b2/str2.py#L22)
-    + [reverse(words)](b2/str2.py#L27)
-    + [upper(words, upper_len)](b2/str2.py#L31)
-    + [splits(words,split_chars,escape=True)](b2/str2.py#L36)
-    + [iconvft(content , code1 = "gbk",code2 = "utf-8",ignore = False)](b2/str2.py#L57)
-    + [Buffer2(object)](b2/str2.py#L62)
-        + [append(self, line)](b2/str2.py#L74)
-        + [find_first(self, value)](b2/str2.py#L89)
-        + [sort(self)](b2/str2.py#L98)
-        + [reverse(self)](b2/str2.py#L101)
-        + [char_at(self, index)](b2/str2.py#L104)
-        + [to_str(self, join_str='')](b2/str2.py#L121)
+    + [emptyString()](b2/str2.py#L14)
+    + [isEmpty(words)](b2/str2.py#L19)
+    + [isBlank(words)](b2/str2.py#L28)
+    + [repeats(sign, n)](b2/str2.py#L31)
+    + [reverse(words)](b2/str2.py#L36)
+    + [upper(words, upper_len)](b2/str2.py#L40)
+    + [splits(words,split_chars,escape=True)](b2/str2.py#L45)
+    + [iconvft(content , code1 = "gbk",code2 = "utf-8",ignore = False)](b2/str2.py#L66)
+    + [Buffer2(object)](b2/str2.py#L71)
+        + [append(self, line)](b2/str2.py#L83)
+        + [find_first(self, value)](b2/str2.py#L98)
+        + [sort(self)](b2/str2.py#L107)
+        + [reverse(self)](b2/str2.py#L110)
+        + [char_at(self, index)](b2/str2.py#L113)
+        + [to_str(self, join_str='')](b2/str2.py#L130)
 + system2.py
     + [set_default_encoding(code='utf-8')](b2/system2.py#L10)
     + [reload_utf8()](b2/system2.py#L14)
