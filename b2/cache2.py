@@ -3,6 +3,7 @@
 
 import time
 from threading import RLock
+import threading
 from collections import OrderedDict
 import exceptions2
 
@@ -16,66 +17,103 @@ class CacheItem(object):
             return:None
         """
         self.value = value
-        self.expired_time = time.time() + expired_time
-        self._lastUsedTime = time.time()
+        self.expired_time = expired_time 
+        self.dirty = 0
+    
+    def __repr__(self):
+        return '{"value":%s, "expired_time":%s, "dirty":%s}' % (self.value,self.expired_time,self.dirty)
 
-    def update(self):
-        self._lastUsedTime = time.time()
+    def __str__(self):
+        return self.__repr__()
 
-    def expired(self):
-        return time.time() > self.expired_time
 
-class CacheDict(OrderedDict):
+
+class CacheDict(threading.Thread):
     """缓存dict结构体
         Test:
-            >>> cache = CacheDict()
+            >>> cache = CacheDict(100)
+            >>> cache["test"] = CacheItem("test",time.time() + 30)
+            >>> "test" in cache
+            >>> cache["test"]
+            >>> time.sleep(31)
+            >>> "test" in cache 
     """
 
-    def __init__(self , max_len , max_age_seconds):
+    def __init__(self,max_len = None,update_rate = 300):
         """缓存结构体
             param:max_len:int:dict max size
-            param:max_age_seconds:float:value expire time max value;
             return:None
         """
         super(CacheDict,self).__init__()
         if not isinstance(max_len,int):
             exceptions2.raiseTypeError(max_len) 
-        if not isinstance(max_age_seconds,(float,int)):
-            exceptions2.raiseTypeError(max_age_seconds)
+        self._cached = OrderedDict() 
+        self._update_rate = update_rate
+        self._last_update = time.time()
         self.max_len = max_len
-        self.max_age_seconds = max_age_seconds
-        self._lock = RLock()
 
+    def _now(self):
+        return time.time()
 
-
+    def run(self):
+        while True:
+            time.sleep(0.1)
+            if (self._now() - self._last_update) > self._update_rate:
+                now = self._now()
+                for key in self._cached.keys():
+                    try:
+                        if self._cached[key].expired_time <= now:
+                            self._cached[key].dirty += 1
+                        if self._cached[key].dirty >= 2:
+                            del self._cached[key]
+                    except KeyError,e:
+                        pass
+                            
+            
     def __contains__(self, key):
-        try:
-            with self._lock:
-                if super(CacheDict,self).__contains__(key):
-                    item = super(CacheDict,self).__getitem__(key)
-                    if item.expired():
-                        del self[key]
-                    else:
-                        return True
-        except KeyError:
-            pass
+        if key in self._cached and self._cached[key].dirty == 0:
+            if self._cached[key].expired_time < self._now():
+                self._cached[key].dirty += 1 
+            else:
+                return True 
         return False
 
     def __getitem__(self, key):
-        with self._lock:
-            item = super(CacheDict,self).__getitem__(key)
-            if item.expired():
-                self.update()
-                return item
-            else:
-                del self[key]
-                raise KeyError(key)
+        if key in self._cached and  self._cached[key].dirty == 0:
+            if self._cached[key].expired_time > self._now():
+                return self._cached[key]
+        raise KeyError(key)
 
     def __setitem__(self ,key ,value):
         if value and isinstance(value , CacheItem):
-            with self._lock:
-                if len(self) >= self.max_len:
-                    self.popitem(last=False)
-                super(CacheDict,self).__setitem__(key , value)
-                return
+            if self.max_len and len(self._cached) >= self.max_len:
+                self.popitem(last=False)
+            self._cached[key] = value
+            return 
         raise TypeError
+
+    def __len__(self):
+        return min(len(self._cached),self.max_len)
+
+    
+    def items(self):
+        return [(key,value) for key,value in self._cached().items() if value.dirty == 0 and value.expired_time > self._now()]
+
+
+    def keys(self):
+        return [key for key,value in self._cached.items() if value.dirty == 0 and value.expired_time > self._now() ]
+
+    def get(self,key):
+        return self[key]
+
+    def put(self,key,value,expired_time = None):
+        self[key] = CacheItem(value,expired_time) 
+    
+    def __missing__(self,key):
+        """implement del  function for cached
+        """
+        if key in self._cached:
+            if self._cached[key].dirty == 0 and self._cached[key].expired_time > self._now():
+                self[key].dirty += 1 
+                return 
+        raise KeyError(key)
