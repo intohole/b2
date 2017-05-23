@@ -2,7 +2,6 @@
 
 
 import time
-from threading import RLock
 import threading
 from collections import OrderedDict
 import exceptions2
@@ -37,6 +36,7 @@ class CacheDict(threading.Thread):
             >>> cache["test"]
             >>> time.sleep(31)
             >>> "test" in cache 
+            >>> cache.close() 
     """
 
     def __init__(self,max_len = None,update_rate = 300):
@@ -51,14 +51,16 @@ class CacheDict(threading.Thread):
         self._update_rate = update_rate
         self._last_update = time.time()
         self.max_len = max_len
+        self._run_flag = True
+        self.start()
 
     def _now(self):
         return time.time()
 
     def run(self):
-        while True:
+        while self._run_flag:
             time.sleep(0.1)
-            if (self._now() - self._last_update) > self._update_rate:
+            if (self._now() - self._last_update) > self._update_rate and self._run_flag:
                 now = self._now()
                 for key in self._cached.keys():
                     try:
@@ -103,6 +105,9 @@ class CacheDict(threading.Thread):
     def keys(self):
         return [key for key,value in self._cached.items() if value.dirty == 0 and value.expired_time > self._now() ]
 
+    def values(self):
+        return [value for key,value in self._cached.items() if value.dirty == 0 and value.expired_time > self._now()]
+    
     def get(self,key):
         return self[key]
 
@@ -117,3 +122,7 @@ class CacheDict(threading.Thread):
                 self[key].dirty += 1 
                 return 
         raise KeyError(key)
+
+    def close(self):
+        self._run_flag = False
+        self._cached.clear()
