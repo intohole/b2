@@ -70,6 +70,7 @@ class CacheDict(threading.Thread):
                             del self._cached[key]
                     except KeyError,e:
                         pass
+                self._last_update = self._now() 
                             
             
     def __contains__(self, key):

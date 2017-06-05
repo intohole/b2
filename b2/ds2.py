@@ -112,10 +112,10 @@ class DTrie(object):
         return self.contain(key)
 
     def __eq__(self, key):
-        return not self.contain(key)
+        return self.contain(key)
 
     def __ne__(self, key):
-        return self.contain(key)
+        return not self.contain(key)
 
     def to_element(self, element):
         return element
