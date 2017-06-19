@@ -96,7 +96,7 @@ class CacheDict(threading.Thread):
         raise TypeError
 
     def __len__(self):
-        return min(len(self._cached),self.max_len)
+        return len(self._cached)
 
     
     def items(self):

@@ -26,14 +26,3 @@ def get_stream_logger(  log_level , log_name = None , format = "[%(levelname)s] 
     stream_handler.setFormatter(fomatter)
     logger.addHandler(stream_handler)
     return logger
-
-
-
-if __name__ == "__main__":
-    log = get_stream_logger("info")
-    print log.level
-    print logging.INFO
-    log.debug("this is debug")
-    log.warn("this is warn") 
-    log.error("this is error")
- 
