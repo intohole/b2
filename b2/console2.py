@@ -1,4 +1,4 @@
-# coding=utf-8
+#coding=utf-8
 
 
 import sys
@@ -26,19 +26,8 @@ class SimpleProgressBar():
 
 
 class ConsoleString(object):
-
-    '''
-    终端颜色字体输出
-    主要运用方式为
-    cmd = ConsleString()
-    cmd.red.black.append_string('hello word!')
-    ConsleString.consle_show(cmd)
-    但是每写一行要清空字符串的ｂｕｆｆｅｒ
-    cmd.clear()
-    ConsleString.consle_clear() #清除终端 clear
-    原理 : echo -e
-    特殊字符的颜色字体
-    '''
+    """consle string color format
+    """
     __strbuffer = []  # 字符串储存　
     __fore_color = False
     __append = False
@@ -115,10 +104,11 @@ class ConsoleString(object):
     def consle_move(line):
         call(['echo', '-e', '\33[%dC' % (line)])
 
-import tty
-import termios
-
 class Control(object):
+    import tty
+    import termios
+
+
     """linux终端下，上下左右键信息类
         摘自https://github.com/bfontaine/term2048/blob/master/term2048/keypress.py
     """
@@ -175,11 +165,16 @@ class BaseColor(dict):
         self['BACK'] = back_color
 
     def __str__(self):
-        return '\033[%(SET)s;%(FORE)s;%(BACK)sm' % self if self['BACK'] else '\033[%(SET)s;%(FORE)sm' % self if self['FORE'] else '\033[%(SET)sm' % self
+        if self['FORE'] is not None and self['BACK'] is not None:
+            return '\033[%(SET)s;%(FORE)s;%(BACK)sm' % self
+        elif self['FORE'] is not None:
+            return  '\033[%(SET)s;%(FORE)sm' % self
+        else:
+            return '\033[%(SET)sm' % self 
 
 class FColor(object):
-
-    def __init__(self, color_set,  fore_color, back_color, base_color):
+    DEFAULT = "\033[0m"
+    def __init__(self, base_color, color_set = None,  fore_color = None, back_color = None):
         self.fore_color = fore_color
         self.color_set = color_set
         self.back_color = back_color
@@ -201,7 +196,7 @@ class FColor(object):
                 'BACK']
             self.__bc[
                 'SET'] = self.color_set if self.color_set != None else self.__bc['SET']
-            return '%s%s%s' % (str(self.__bc), value,str(DEFAULT))
+            return '%s%s%s' % (str(self.__bc), value,str(self.DEFAULT))
 
     def __radd__(self, value):
         if value and isinstance(value, basestring):
@@ -211,180 +206,40 @@ class FColor(object):
         return str(self.__bc)
 
 
-class ForeRed(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, 31, None, bc)
-
-
-class BackRed(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, None, 31, bc)
-
-
-class ForeBlack(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, 30, None, bc)
-
-
-class BackBlack(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, None, 30, bc)
-
-
-class ForeGreen(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, 42, None, bc)
-
-
-class BackGreen(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, None, 42, bc)
-
-
-class ForeYellow(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, 33, None, bc)
-
-
-class BackYellow(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, None, 33, bc)
-
-
-class ForeBlue(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, 34, None, bc)
-
-
-class BackBlue(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, None, 34, bc)
-
-
-class ForeFuchsia(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, 35, None, bc)
-
-
-class BackFuchsia(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, None, 35, bc)
-
-
-class ForeCyan(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, 36, None, bc)
-
-
-class BackCyan(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, None, 36, bc)
-
-
-class ForeWhite(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, 37, None, bc)
-
-
-class BackWhite(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, None, 37, None, bc)
-
-
-class DefaultSet(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, 0, None, None, bc)
-
-
-class HgSet(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, 1, None, None, bc)
-
-
-class UnderscoreSet(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, 4, None, None, bc)
-
-
-class BlinkSet(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, 5, None, None, bc)
-
-
-class UnWhiteSet(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, 7, None, None, bc)
-
-
-class HideSet(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, 8, None, None, bc)
-
-
-class Default(FColor):
-
-    def __init__(self, bc):
-        FColor.__init__(self, 0, '', '', bc)
-
-    def __str__(self):
-        return str(BaseColor(self.color_set, self.fore_color, self.back_color))
 
 
 class ColorText(object):
-
-    '''
-    linux 终端输出有色字体
-    使用方式 ：
-            t = ColorText()
-            print t.ForeRed + t.BackGreen + 'fore red  back green'
-            print  t.ForeRed + t.BackGreen + 'fore red  back green' + t.Default
-            print t.Default #清空输出
-    '''
-
+    
+    """consle colorful string format
+        test:
+            >>> t = ColorText()
+            >>> print t.ForeRed + t.BackGreen + 'fore red  back green'
+            >>> print "this is test"
+    """
     def __init__(self):
-        self.__bc = BaseColor(0, '', '')
-        self.ForeRed = ForeRed(self.__bc)
-        self.BackRed = BackRed(self.__bc)
-        self.ForeBlack = ForeBlack(self.__bc)
-        self.BackBlack = BackBlack(self.__bc)
-        self.ForeGreen = ForeGreen(self.__bc)
-        self.BackGreen = BackGreen(self.__bc)
-        self.ForeFuchsia = ForeFuchsia(self.__bc)
-        self.BackFuchsia = BackFuchsia(self.__bc)
-        self.ForeCyan = ForeCyan(self.__bc)
-        self.BackCyan = BackCyan(self.__bc)
-        self.ForeWhite = ForeWhite(self.__bc)
-        self.BackWhite = BackWhite(self.__bc)
-        self.DefaultSet = DefaultSet(self.__bc)
-        self.HgSet = HgSet(self.__bc)
-        self.UnderscoreSet = UnderscoreSet(self.__bc)
-        self.BlinkSet = BlinkSet(self.__bc)
-        self.UnWhiteSet = UnWhiteSet(self.__bc)
-        self.HideSet = HideSet(self.__bc)
-        self.Default = Default(self.__bc)
-        self.BackGreen = BackGreen(self.__bc)
+        self._bc = BaseColor(0, '', '')
+        self.ForeRed = FColor(self._bc, fore_color = 31) 
+        self.BackRed = FColor(self._bc, back_color = 31) 
+        self.ForeBlack = FColor(self._bc, fore_color = 30) 
+        self.BackBlack = FColor(self._bc, back_color = 30)
+        self.ForeGreen = FColor(self._bc, fore_color = 42)
+        self.BackGreen = FColor(self._bc, back_color = 42)
+        self.ForeYellow = FColor(self._bc, fore_color = 33)
+        self.BackYellow = FColor(self._bc, back_color = 33)
+        self.ForeBlue = FColor(self._bc, fore_color = 34)
+        self.BackBlue = FColor(self._bc, back_color = 34)
+        self.ForeFuchusia = FColor(self._bc, fore_color = 35)
+        self.BackFuchusia = FColor(self._bc, back_color = 35)
+        self.ForeCyan = FColor(self._bc, fore_color = 36)
+        self.BackCyan = FColor(self._bc, fore_color = 36)
+        self.ForeWhite = FColor(self._bc, fore_color = 37)
+        self.ForeWhite = FColor(self._bc, fore_color = 37)
+        self.DefaultSet = FColor(self._bc, color_set = 0)
+        self.HgSet = FColor(self._bc, color_set = 1)
+        self.UnderscoreSet = FColor(self._bc, color_set = 4)
+        self.BlinkSet = FColor(self._bc, color_set = 5)
+        self.HideSet = FColor(self._bc, color_set = 8)
+        self.Default = FColor(self._bc, color_set = 0)
 
     def __getitem__(self, name):
         if name and isinstance(name, str):
@@ -397,7 +252,8 @@ def get_system_info():
 
 
 def get_python_version():
-    '''
-    获得python执行环境
-    '''
+    """
+        test:
+            >>> get_python_version()
+    """
     return '%s.%s.%s.%s.%s' % (sys.version_info.major, sys.version_info.minor, sys.version_info.micro, sys.version_info.serial, sys.version_info.releaselevel)
