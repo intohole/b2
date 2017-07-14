@@ -214,7 +214,9 @@ class ColorText(object):
         test:
             >>> t = ColorText()
             >>> print t.ForeRed + t.BackGreen + 'fore red  back green'
-            >>> print "this is test"
+            >>> print t + "this is test"
+            >>> t.ForeRed + t.BackYellow
+            >>> print t + "fore red and back yellow"
     """
     def __init__(self):
         self._bc = BaseColor(0, '', '')
@@ -240,12 +242,19 @@ class ColorText(object):
         self.BlinkSet = FColor(self._bc, color_set = 5)
         self.HideSet = FColor(self._bc, color_set = 8)
         self.Default = FColor(self._bc, color_set = 0)
-
+    
     def __getitem__(self, name):
         if name and isinstance(name, str):
             return getattr(self, name)
         raise KeyError, 'ColorText hasn\'t attr %s' % name
 
+    def __add__(self, value):
+        if value and isinstance(value, (basestring)):
+           return '%s%s%s' % (str(self._bc), value,str(FColor.DEFAULT))
+
+    def __radd__(self, value):
+        if value and isinstance(value, basestring):
+            return '%s%s' % (value, str(self))
 
 def get_system_info():
     return sys.platform
