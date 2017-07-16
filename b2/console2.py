@@ -178,32 +178,32 @@ class FColor(object):
         self.fore_color = fore_color
         self.color_set = color_set
         self.back_color = back_color
-        self.__bc = base_color
+        self._bc = base_color
 
     def __add__(self, value):
         if value and isinstance(value, FColor):
             if value.fore_color is not None:
-                self.__bc['FORE'] = value.fore_color
+                self._bc['FORE'] = value.fore_color
             if value.back_color is not None:
-                self.__bc['BACK'] = value.back_color
+                self._bc['BACK'] = value.back_color
             if value.color_set is not None:
-                self.__bc['BACK'] = value.color_set
+                self._bc['SET'] = value.color_set
             return self
         elif value and isinstance(value, (basestring)):
-            self.__bc['FORE'] = self.fore_color if self.fore_color != None else self.__bc[
-                'FORE']
-            self.__bc['BACK'] = self.back_color if self.back_color != None else self.__bc[
-                'BACK']
-            self.__bc[
-                'SET'] = self.color_set if self.color_set != None else self.__bc['SET']
-            return '%s%s%s' % (str(self.__bc), value,str(self.DEFAULT))
+#            self._bc['FORE'] = self.fore_color if self.fore_color != None else self._bc[
+#                'FORE']
+#            self._bc['BACK'] = self.back_color if self.back_color != None else self._bc[
+#                'BACK']
+#            self._bc[
+#                'SET'] = self.color_set if self.color_set != None else self._bc['SET']
+            return '%s%s%s' % (str(self._bc), value,str(self.DEFAULT))
 
     def __radd__(self, value):
         if value and isinstance(value, basestring):
             return '%s%s' % (value, str(self))
 
     def __str__(self):
-        return str(self.__bc)
+        return str(self._bc)
 
 
 
@@ -215,27 +215,27 @@ class ColorText(object):
             >>> t = ColorText()
             >>> print t.ForeRed + t.BackGreen + 'fore red  back green'
             >>> print t + "this is test"
-            >>> t.ForeRed + t.BackYellow
+            >>> t + t.BackRed
             >>> print t + "fore red and back yellow"
     """
     def __init__(self):
         self._bc = BaseColor(0, '', '')
         self.ForeRed = FColor(self._bc, fore_color = 31) 
-        self.BackRed = FColor(self._bc, back_color = 31) 
+        self.BackRed = FColor(self._bc, back_color = 41) 
         self.ForeBlack = FColor(self._bc, fore_color = 30) 
-        self.BackBlack = FColor(self._bc, back_color = 30)
-        self.ForeGreen = FColor(self._bc, fore_color = 42)
+        self.BackBlack = FColor(self._bc, back_color = 40)
+        self.ForeGreen = FColor(self._bc, fore_color = 32)
         self.BackGreen = FColor(self._bc, back_color = 42)
         self.ForeYellow = FColor(self._bc, fore_color = 33)
-        self.BackYellow = FColor(self._bc, back_color = 33)
+        self.BackYellow = FColor(self._bc, back_color = 43)
         self.ForeBlue = FColor(self._bc, fore_color = 34)
-        self.BackBlue = FColor(self._bc, back_color = 34)
+        self.BackBlue = FColor(self._bc, back_color = 44)
         self.ForeFuchusia = FColor(self._bc, fore_color = 35)
-        self.BackFuchusia = FColor(self._bc, back_color = 35)
+        self.BackFuchusia = FColor(self._bc, back_color = 45)
         self.ForeCyan = FColor(self._bc, fore_color = 36)
-        self.BackCyan = FColor(self._bc, fore_color = 36)
+        self.BackCyan = FColor(self._bc, back_color = 46)
         self.ForeWhite = FColor(self._bc, fore_color = 37)
-        self.ForeWhite = FColor(self._bc, fore_color = 37)
+        self.ForeWhite = FColor(self._bc, back_color = 47)
         self.DefaultSet = FColor(self._bc, color_set = 0)
         self.HgSet = FColor(self._bc, color_set = 1)
         self.UnderscoreSet = FColor(self._bc, color_set = 4)
@@ -249,8 +249,18 @@ class ColorText(object):
         raise KeyError, 'ColorText hasn\'t attr %s' % name
 
     def __add__(self, value):
-        if value and isinstance(value, (basestring)):
-           return '%s%s%s' % (str(self._bc), value,str(FColor.DEFAULT))
+        if value is None:
+            raise ValueError("can't add none type")
+        if isinstance(value, (basestring)):
+            return '%s%s%s' % (str(self._bc), value,str(FColor.DEFAULT))
+        elif isinstance(value,(FColor)):
+            if value.fore_color is not None:
+                self._bc['FORE'] = value.fore_color
+            if value.back_color is not None:
+                self._bc['BACK'] = value.back_color
+            if value.color_set is not None:
+                self._bc['SET'] = value.color_set
+    
 
     def __radd__(self, value):
         if value and isinstance(value, basestring):
