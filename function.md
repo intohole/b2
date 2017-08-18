@@ -31,8 +31,8 @@ b2你的python工具集合
     + [BaseColor(dict)](b2/console2.py#L160)
     + [FColor(object)](b2/console2.py#L175)
     + [ColorText(object)](b2/console2.py#L211)
-    + [get_system_info()](b2/console2.py#L259)
-    + [get_python_version()](b2/console2.py#L263)
+    + [get_system_info()](b2/console2.py#L269)
+    + [get_python_version()](b2/console2.py#L273)
 + ds2.py
     + [DTNode(dict)](b2/ds2.py#L15)
     + [DTrie(object)](b2/ds2.py#L22)
@@ -134,8 +134,9 @@ b2你的python工具集合
 + math2.py
     + [log2(num)](b2/math2.py#L8)
     + [log10(num)](b2/math2.py#L11)
-    + [entropy(props)](b2/math2.py#L20)
-    + [ln(num)](b2/math2.py#L27)
+    + [entropy(props)](b2/math2.py#L19)
+    + [ln(num)](b2/math2.py#L26)
+    + [bitfield(n)](b2/math2.py#L28)
 + mongodb2.py
     + [DBObject(dict)](b2/mongodb2.py#L6)
         + [put(self,key,val)](b2/mongodb2.py#L11)
