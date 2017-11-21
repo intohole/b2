@@ -34,6 +34,7 @@ def _judge_le_value(value , le_value):
     if value <= le_value:
         raise ValueError , 'value must be less or eaqual %s' % le_value
 
+
 def _judge_ge_value(value , ge_value = 0):
     if type(value) == type(ge_value) and value < ge_value:
         raise ValueError , 'value must be greate or eaqual %s' % ge_value
@@ -51,7 +52,7 @@ def judge_null(value):
     if value is None:
         raise ValueError, 'value is null!'
     if hasattr(value , "__len__"):
-        _judge_le_value(len(value) , 0)
+        _judge_le_value(value , 0)
 
 
 def judge_str(content, l=0, types=(basestring)):
