@@ -30,6 +30,18 @@ def judge_type(value , types):
     if isinstance(value, types) is False:
         raise TypeError, "value is not right type , type must be [%s]" % ( ",".join( _t.__name__ for _t in types)) 
 
+def judge_value_types(value,types):
+    """判断传过来的类型，都是types类型（包括继承）
+        param:value:[object]:需要判断的数据
+        param:types:class或者class list/tuple:判断类型
+        return:None:None
+        exception:TypeError
+    """
+    judge_null(value)
+    judge_null(types)
+    [judge_type(v,types) for v in value]
+
+
 def _judge_le_value(value , le_value):
     if value <= le_value:
         raise ValueError , 'value must be less or eaqual %s' % le_value

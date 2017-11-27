@@ -3,6 +3,7 @@
 
 import json
 import re
+import exceptions2
 
 __ALL__ = ["QueryItem" , "JPath"]
 
@@ -17,6 +18,10 @@ class QueryItem(object):
     
     def __str__(self):
         return "root_path={root_path} tag={tag} sub_tag={sub_tag} operator={operator} value={value}".format(tag = self.tag , sub_tag=self.sub_tag , operator = self.operator , value = self.value , root_path = self.root_path )
+
+
+
+
 class JPath(object):
 
     _parser_regx = re.compile(ur"""^(
@@ -35,8 +40,7 @@ class JPath(object):
         self.query_objs = self._extract_query_item(query) if query else None
     
     def _obj_2_json(self , obj):
-        if obj is None:
-            raise ValueError
+        exceptions2.judge_null(obj)
         if isinstance(obj , basestring):
             return json.loads(obj )
         elif isinstance(obj , dict):
@@ -45,8 +49,7 @@ class JPath(object):
             raise TypeError
 
     def _extract_query_item(self , query):
-        if query is None:
-            raise ValueError("query must be not None !") 
+        exceptions2.judge_null(query)
         if isinstance(query , basestring):
             return self._parse_query(query)
         elif isinstance(query ,list):
