@@ -25,4 +25,4 @@ def sort_list_object( l , attr = None , desc = True):
     judge_type(l , (list))
     judge_null(attr)
     judge_type(attr, (str))
-    return sorted(l , lambda x : getattr(x , attr) ,  reverse = desc) 
+    return  sorted(l,reverse = desc) if attr is None  sorted(l , key = lambda x : getattr(x , attr) ,  reverse = desc)
