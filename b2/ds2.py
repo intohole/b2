@@ -119,24 +119,3 @@ class DTrie(object):
 
     def to_element(self, element):
         return element
-
-
-
-class Huffman(object):
-    from collections import defaultdict
-
-    def __init__(self):
-        self._tree = None
-        self._attr = defaultdict(int)
-
-    def append(self,value):
-        if value:
-            for c in value:
-                self._attr[c] += 1
-
-
-    def get(self,value):
-        pass
-
-   def _restruct(self):
-       pass
