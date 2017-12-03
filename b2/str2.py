@@ -15,7 +15,6 @@ def emptyString():
     return ""
 
 
-
 def isEmpty(words):
     if words is None:
         return True
@@ -24,6 +23,17 @@ def isEmpty(words):
             return True
         return False
     exceptions2.raiseTypeError(words)        
+
+
+
+def replaceAll( word , patterns):
+    if isinstance(patterns , basestring):
+        return word.replace(patterns)
+    if isinstance(patterns , (dict)):
+        for pattern in patterns.items():
+            word = word.replace(pattern[0],pattern[1])
+        return word
+    raise TypeError
 
 def isBlank(words):
     return True if isEmpty(words) else len(words.strip()) == 0

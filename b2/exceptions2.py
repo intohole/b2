@@ -14,7 +14,7 @@ class MsgException(Exception):
     def __str__(self):
         return msg 
 
-def _judge_bigger(self, value, min_num):
+def _judge_bigger(value, min_num):
     if value < min_num:
         raise ValueError, 'value must be bigger than %s' % min_num
 
@@ -28,7 +28,8 @@ def _judge_attr(value , attr_name):
 
 def judge_type(value , types):
     if isinstance(value, types) is False:
-        raise TypeError, "value is not right type , type must be [%s]" % ( ",".join( _t.__name__ for _t in types)) 
+        types_string = ",".join( _t.__name__ for _t in types)  if isinstance(types,(tuple,list)) else types.__name__
+        raise TypeError, "value is not right type , type must be [%s]" % types_string 
 
 def judge_value_types(value,types):
     """判断传过来的类型，都是types类型（包括继承）
@@ -96,28 +97,29 @@ def judge_num(num, min_num = None, max_num = None):
 
 
 
-def judge_smaller(self, value, max_num):
-    if max_num and value > max_num:
-        raise ValueError, 'value must be smaller than %s' % max_num
+def judge_smaller(value, max_num):
+    judge_null(value)
+    judge_null(max_num)
+    if value > max_num:
+        raise ValueError("value must be smaller than %s" % max_num)
 
 
 
 def judge_list(value):
     judge_null(value)
-    judge_type(value , 'type isn\'t list or tuple' , (list , tuple))
+    judge_type(value, (list , tuple))
 
 
 def judge_callable(value):
     judge_null(value)
-    if callable(value) is False:
-        raise ValueError , 'value must be callable'
+    if not callable(value):
+        raise ValueError("value must be callable")
 
 def judge_min_len(value , l):
     judge_null(value) 
     judge_num(l , 0)
     _judge_attr(value , "__len__")
     judge_num(len(value) , min_num = l)
-
 
 
 def raiseTypeError(value):
