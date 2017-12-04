@@ -177,6 +177,10 @@ class AutoID(object):
     def add(self,key):
         self.__getitem__(key)
 
+    def extend(self,keys):
+        for key in keys:
+            self.add(key)
+
     def clear(self):
         self.__mutex.acquire()
         self.__map_id.clear()
